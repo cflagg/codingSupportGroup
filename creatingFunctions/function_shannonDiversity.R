@@ -1,27 +1,46 @@
-## This code calculates the Shannon-Wiener diversity index (H') for a dataframe with the first column labeled as "Treatment/Plot ID", and subsequent columns representing the abundance (in counts) of each species present in a given treatment.  
-## Column entries for a given species may be zero if that species was not found in a given plot/treatment.
-## To obtain a dataframe suitable for the "shannon" function below, use the following syntax:
-## example.data = read.csv("Shannon_Wiener_example.csv", header=T, row.names="Treatment")
-## "output" needs to be a csv file, entered in quotations: e.g. "test_output.csv"
+##  This code calculates the Shannon-Wiener diversity index (H') for a dataframe with the first column labeled as "Treatment / plotID", and subsequent columns representing the abundance (in counts) of each species present in a given treatment. Column entries for a given species may be zero if that species was not found in a given plot / treatment.
 
-shannon = function(data, output) {
-	S = ncol(data) ## Total number of plant species observed across all plots/treatments
-	R = nrow(data) ## Total number of treatments or plots for which species data were collected
-	Treatment = row.names(data)
-	H = 0 ## Prepare empty vector for containing single H' calculated for a given treatment
-	Hprime = 0 ## Prepare empty vector for containing all H' calculated for all i rows of data
+##  Required function inputs are:
+# inputFileName - name of the .csv containing the data to be analyzed. Must reside in active working directory.
 
-for (i in 1:R){
-	Tot.obs = sum(data[i,])
 
-	for (j in 1:S){
-		if (data[i,j] > 0) H[j] = ((data[i,j])/Tot.obs)*log((data[i,j])/Tot.obs)
-		else H[j] = 0
-		}
-
-	Hprime[i] = -sum(H)
-	}
+shannon = function(inputFileName) {
 	
-	shan = cbind(Treatment, Hprime)
-	write.csv(shan, output)
+  # Use the inputFileName value provided by the user to read the data into a dataframe, with the first column used to designate the row names
+  data = read.csv(inputFileName, header=T, row.names=1)
+  
+  # Create a dataframe to hold the calculated Shannon diversity indices for each treatment/plot, and add plotIDs to it
+  shannon = data.frame(matrix(data=NA, nrow=nrow(data), ncol=2))
+  cnames = c("plotID","Hprime")
+  colnames(shannon) = cnames
+  shannon$plotID = rownames(data)
+  
+  
+# Use a 'for' loop to calculate Hprime for each treatment / plot. 
+for (i in 1:nrow(data)){
+	
+  # Create empty vector for containing scaled proportional abundances for each species
+  H = 0
+  
+  # Calculate total number of counts for all species within the treatment / plot
+  Tot.obs = sum(data[i,])
+  
+  # Use a nested 'for' loop to calculate scaled proportional abundances for each species within a treatment / plot.
+	for (j in 1:ncol(data)){
+		if (data[i,j] > 0){
+      H[j] = ((data[i,j])/Tot.obs)*log((data[i,j])/Tot.obs)
+		} else {H[j] = 0}
+		
+	# End 'for loop for columns within row
+	}
+
+	# Add sum of scaled proportional abundances to calculate Hprime, and store in 'shannon' dataframe created above.
+  shannon$Hprime[i] = -sum(H)
+	
+# End 'for' loop for rows
+}
+	
+	write.csv(shannon, "shannonOutput.csv", row.names=FALSE)
+
+# End function
 }
