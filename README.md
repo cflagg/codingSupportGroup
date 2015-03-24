@@ -10,8 +10,8 @@
 ## Schedule
 Date | Topic | Presenter
 --- | --- | ---
-3/20/15 | Intro to Functions | Courtney
-3/27/15 |canceled for practice talk | Lee & Elena
+3/20/15 | creatingFunctions | Courtney
+3/27/15 |NRCS practice talk | Lee & Elena
 4/3/15 | |
 4/10/15 | |
 4/17/15 | |
