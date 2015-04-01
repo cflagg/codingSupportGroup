@@ -8,17 +8,17 @@
 * Learning new techniques, reviewing important conventions, developing useful tools, and exposure to different coding styles is the *spirit* of the group. 
 
 ## Schedule
-Date | Topic | Presenter
---- | --- | ---
-3/20/15 | creatingFunctions | Courtney
-3/27/15 |NRCS practice talk | Lee & Elena
-4/3/15 |loops | All, bring examples
-4/10/15 |avoiding loops | 
-4/17/15 | |
-4/24/15 | |
-5/1/15 | |
-5/8/15 | |
-5/22/15 | |
+Date | Topic | Presenter | Folder
+--- | --- | --- | ---
+3/20/15 | creatingFunctions | Courtney | creatingFunctions
+3/27/15 |NRCS practice talk | Lee & Elena | NA
+4/3/15 |loops | All, bring examples | creatingFunctions
+4/10/15 |avoiding loops | |
+4/17/15 | | |
+4/24/15 | | |
+5/1/15 | | |
+5/8/15 | | |
+5/22/15 | | |
 
 
 ## Long-term Goals
