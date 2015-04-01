@@ -12,8 +12,8 @@ Date | Topic | Presenter
 --- | --- | ---
 3/20/15 | creatingFunctions | Courtney
 3/27/15 |NRCS practice talk | Lee & Elena
-4/3/15 | |
-4/10/15 | |
+4/3/15 |loops | All, bring examples
+4/10/15 |avoiding loops | 
 4/17/15 | |
 4/24/15 | |
 5/1/15 | |
