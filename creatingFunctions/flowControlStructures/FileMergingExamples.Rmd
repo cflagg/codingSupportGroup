@@ -1,0 +1,109 @@
+---
+title: "ingestFileStacker"
+author: "Cody Flagg"
+date: "Friday, January 30, 2015"
+output: html_document
+---
+
+## File Merging Functions
+
+This script contains several examples that outline how to merge multiple files, with the same internal structure (i.e. columns), that are in the same working directory.  
+
+```{r}
+library(plyr)
+#library(dplyr) # for tbl_df()
+#library(knitr)
+#library(pander)
+library(stringr)
+
+# Set working directory and file path ... relative path will work if Git folders are in "Documents"
+setwd("../Documents/GitHub/organismalIPT/spatialData") # alternative: file.path(getwd(),directory2)
+pathToFiles <- getwd()
+
+# Create directory to hold new output from script - named "QA_Files" here
+#dir.create(file.path(pathToFiles, "QA_Files"),showWarnings = FALSE)
+
+#set this to the prefix for the sheets in your module; make specific to file name batch
+myPrefix <- 'plotSpatialData_'
+mySuffix <- '.csv'
+
+# load and inspect files
+fileList <- list.files(pathToFiles, full.names=TRUE) # list all the files, full.names=TRUE is necessary for ldplay/lapply to work below
+# solution from: http://stackoverflow.com/questions/13441204/using-lapply-and-read-csv-on-multiple-files-in-r
+fileGrab1 <- fileList[grep(myPrefix,fileList)] # subset to just the ones in your module, using prefix
+fileGrab2 <- fileGrab1[grep(mySuffix,fileGrab1)]
+
+# This is here because there is a weird file in the above directory
+fileGrab3 <- fileGrab2[-2] # leave out file without elevation records
+```
+
+## Merge files - 3 approaches
+```{r}
+# Three approaches: plyr and data.table are much faster than looping.
+
+# Solution 1a: for loops with if/else nested inside (the for loop picks up "empty" rows at the tail of each file, inflating the number of rows; I think this is an Excel problem)
+# loop through list of files defined from above, rbind() them together
+for (file in fileGrab3){
+  if (!exists("dataset")){ # if an object named dataset does not exist, create it
+    dataset <- read.csv(file, header = TRUE, sep = ",",stringsAsFactors = FALSE) # assign the first csv to "dataset"
+  }
+
+  else { # if dataset does exist, rbind() the rest of the files in the list
+    temp.dataset <- read.csv(file, header=TRUE, sep=",",stringsAsFactors = FALSE) # temporary object
+    dataset = rbind(dataset, temp.dataset)
+    rm(temp.dataset)
+    
+  }
+}
+
+nrow(dataset) # check the number of rows
+
+# Solution 1b: more efficient for loop, define a blank object that loop can "fill" (i.e. "dataset1" here, "dataset" in Solution 1a) rather than calling it inside the loop.
+# Creating the object inside a loop runs the risk of duplicating data/rows
+dataset1 = NULL # blank df to "fill"
+for (file in fileGrab3){
+  t <- read.csv(file, header = TRUE, sep = ",",stringsAsFactors = FALSE) # read the csv, assign to t
+  dataset1 = rbind(t,dataset1) # bind it to the blank df
+  }
+
+nrow(dataset1) # check the number of rows
+
+
+# Solution 2: plyr
+# For each file in the list "fileGrab3", read the csv file to a temporary variable "t", row bind subsequent files to variable "t1", return t1 as final result
+dataset2 = ldply(fileGrab3, function(x){
+            t <- read.csv(x, header=TRUE, sep=",",stringsAsFactors = FALSE) # read the csv
+            t1 <- rbind(t) # rbind it to a temporary object
+            return(t1)
+}
+)
+
+nrow(dataset2) # check the number of rows
+ 
+# Solution 3: data.table::rbindlist & fread
+# data.table has a reasonable built in function for this; pass list apply all elements in "fileGrab3", read them with fread, row bind them with rbindlist
+require(data.table)
+dataset3  = rbindlist(lapply( fileGrab3, fread ))
+
+nrow(dataset3) # check the number of rows
+
+```
+
+## Write to a single new file
+```{r}
+# indiciate which columns to keep e.g. only add plotID, site Type, etc. 
+dataset2b = dataset2[,c("domainID","plotID","plotType", "subtype", "plotSize")]
+
+setwd("N:/common/TOS/FOPSDataEntry/2015/plotIDs")
+write.csv(dataset2b, file = paste0("plotIDs_2015_v2_03272015.csv")) # write the file
+
+```
+
+## Write to multiple files, split up by domainID
+```{r}
+fileSuffix = as.character("domainID")
+d_ply(dataset2b,.(domainID), function(input) 
+  write.csv(input, file = paste0("D",unique(input$domainID),"_",fileSuffix, ".csv", sep="")))
+```
+
+

@@ -1,0 +1,63 @@
+---
+title: "pointCheckerFunction_siteCharacterizationData"
+author: "Cody Flagg"
+date: "Friday, April 03, 2015"
+output: html_document
+---
+
+```{r}
+library(plyr)
+
+# Set working directory and file path
+setwd('C:\\Users\\cflagg\\Documents\\GitHub\\neonPlantSampling\\vst_datacheck\\testdata\\ARCADIS_data')
+pathToFiles<-c('C:\\Users\\cflagg\\Documents\\GitHub\\neonPlantSampling\\vst_datacheck\\testdata\\ARCADIS_data') #test data here for mapping/tagging, should only need vst_perindividual_Dxx csvs
+
+# Create directory to hold script output - QA files
+dir.create(file.path(pathToFiles, "QA_Files"),showWarnings = FALSE)
+
+#set this to the prefix for the sheets in your module; make specific to file name batch
+myPrefix<-'vst_peri'
+
+# load and inspect files
+fileList <- list.files(pathToFiles, full.names=TRUE) # list all the files, full.names=TRUE is necessary for ldplay/lapply to work below
+# solution from: http://stackoverflow.com/questions/13441204/using-lapply-and-read-csv-on-multiple-files-in-r
+fileGrab1 <- fileList[grep(myPrefix,fileList)] # subset to just the ones in your module, using prefix
+azimuthFile = read.csv(fileList[grep('L_pointID',fileList)], sep = ",", stringsAsFactors=FALSE) # grab azimuths 
+
+# separate the checks into different lists - could just use a simple  vector of inputs e.g. distributedID = c(21,23,25,39,49), but this seems more flexible
+pointIDList.distributed = azimuthFile[azimuthFile$plotSize == 400,]
+pointIDList.tower = azimuthFile[azimuthFile$plotSize == 1600,]
+azCh = azimuthFile[1:14,] # smaller chunk of azimuth set
+
+# what to name site/domain id's in output files
+site.prefix = "Domain"
+fileFeed = fileGrab1 # this is the object that 'holds' the files
+```
+
+
+```{r}
+pointChecker.func <- function(input, ply = llply){
+  ply(input, function(x){
+    t <- read.csv(x, header=T, sep = ",",stringsAsFactors=FALSE) # "x" = the file name here, read it into memory, assign it to object "t"
+    out <- t
+    out$Type <- "Tower" # this line originally checked what size a plot was based on a separate lookup table
+    out$pointIDQF <- ifelse(out$Type == "Distributed", 
+       ifelse((out$pointID %in% pointIDList.distributed$pointID),1,ifelse(is.na(out$pointID),1,-9999)), # conditions if distributed, use is.na(field) to assign value, not field == "NA" else this won't work
+       ifelse((out$pointID %in% pointIDList.tower$pointID),1,ifelse(is.na(out$pointID),1,-9999)))
+    # match and append azimuth values, these columns are temporary
+    out$aAzimuth.ch <- azCh$aAzimuth[match(out$pointID, azCh$pointID, nomatch = NA)]
+    out$bAzimuth.ch <- azCh$bAzimuth[match(out$pointID, azCh$pointID, nomatch = NA)]
+    # check if stemAzimuth is in that range
+    out$azimuthQF <- ifelse(out$aAzimuth.ch == 270, 
+       ifelse(out$stemAzimuth >= 270 & out$stemAzimuth <= 360 | out$stemAzimuth >= 0 & out$stemAzimuth <= 90,1,-9999),
+       ifelse(out$stemAzimuth >= out$aAzimuth.ch  & out$stemAzimuth <= out$bAzimuth.ch,1,-9999))
+    out[c("aAzimuth.ch", "bAzimuth.ch","Field1")] <- list(NULL) # clean-up, remove the extra columns
+      out$siteID <- substrLeft(t$plotID,1,4)
+  return(out)
+})
+}
+```
+
+```{r}
+pointCheck.output = pointChecker.func(fileFeed, ldply)
+```
