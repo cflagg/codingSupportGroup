@@ -3,8 +3,8 @@
 
 rad = function(degrees) {
 	radians = (degrees*pi)/180
-	return(radians) 	
-	}
+  return(radians)
+  }
 
 deg = function(radians) {
 	degrees = (radians*180)/pi
