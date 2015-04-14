@@ -1,0 +1,191 @@
+---
+title: "photoPaths_2015"
+author: "Cody Flagg"
+date: "Thursday, April 09, 2015"
+output: pdf_document
+---
+
+## Setup: Import Data from XLS workbooks and Load Libraries
+```{r setup}
+# set working dir
+setwd("C:/Users/cflagg/Documents/FSU_Projects_cflagg/FOPS Tools/photosynthetic_pathway_data_USDA")
+
+# load libraries
+library(XLConnect)
+library(plyr)
+library(dplyr)
+library(stringr)
+library(splitstackshape)
+
+# load a list of files in the directory
+fileGrab <- list.files(getwd(), full.names=TRUE) # list all the files, full.names=TRUE is necessary for ldplay/lapply to work below
+
+# I added a prefix to the files to make it easier
+prefix <- 'pp_'
+
+# only grab files with the prefix
+xlsGrab <- fileGrab[grep(prefix,fileGrab)] # subset to just the ones in your module, using prefix
+
+```
+
+## Read and Combine - Part 1
+### Species-level pathway information 
+```{r read1}
+# read in .xlsx files
+species.pp <- loadWorkbook(xlsGrab[2])
+# read workbooks 
+species.pp1 = readWorksheet(species.pp, sheet = 1, header = TRUE)
+species.pp2 = readWorksheet(species.pp, sheet = 2, header = TRUE)
+# combine into a single dataframe
+species.pp.all = rbind.fill(species.pp1,species.pp2)
+# rename columns
+colnames(species.pp.all) <- c("taxonID", "scientificName","commonName","family","pathway","refType","reference")
+# dump the last blank column
+species.pp.all <- species.pp.all[,-8]
+```
+
+## Clean-up Data
+### Test clean-up on first few rows
+* should copy scientificName to another column, then split column into genus and species (make it more query-able)
+* also have to remove weird symbols from commonName (if commonName left 2 char = ">>", move string to new column "synonym")
+* there are x's in scientificName that denote "certainty" for the pathway (certainty = a new column)
+```{r test clean1}
+test1 = head(species.pp.all)
+
+# add a column for synonyms
+test1$synonym <- " " 
+
+# TOOLS: 
+# str_sub to locate part of string
+# str_split to separate string
+
+# Separate out symbols from commonName; if it >> symbols, put it in the synonym column
+test2 <- test1
+test2$synonym <- ifelse(str_sub(test2$commonName, 1,2) == ">>", 
+                        (test2$synonym <- str_sub(test2$commonName,3,nchar(test2$commonName))) , 
+                        (test2$synonym = " "))
+test2
+
+# make commonName blank if  there is a synonym (since this is not the actual common name)
+test2$commonName <- ifelse(test2$synonym != " ", " ", test2$commonName)
+test2
+
+# mark the genusCertainPath column if there is an x in the scientificName
+test2$genusCertainPathway <- ifelse(str_sub(test2$scientificName,1,1) == "x", "genus inferred", " ") 
+test2
+
+# drop the x from the scientificName
+test2$scientificName <- ifelse(str_sub(test2$scientificName,1,1) == "x" , (test2$scientificName <- str_sub(test2$scientificName,2,nchar(test2$scientificName))),test2$scientificName)
+test2
+
+# split into genus and species; then var. or spp. -- str_split() returns a list, so we convert to data.frame with ldply()
+# DOESN'T WORK - see dplyr() solution http://stackoverflow.com/questions/29188801/using-ldply-with-unequal-lengths-from-strsplit
+# ldply(str_split(test2$scientificName, " ", n = 2))
+
+# or use a better package
+t3 = cSplit(test2, "scientificName", "[ ]+", fixed = FALSE)
+
+# cSplit turns the new vectors into factors - change to characters
+t3[] <- lapply(t3, as.character)
+
+# replace NA's with blanks, else the concatentated name includes NA
+t3[is.na(t3)] <- ""
+
+# paste the spp. or var. into a new column
+t3$spp <- paste0(t3[["scientificName_3"]],t3[["scientificName_4"]],t3[["scientificName_5"]])
+
+# dump three columns
+t3 <- subset(t3, select = -c(11,12,13))
+
+# rename specific columns
+setnames(t3, 9:10, c("genus","species"))
+
+t3
+```
+
+
+
+### Execute full clean-up run
+```{r clean1}
+# add a column for synonyms
+species.pp.all$synonym <- " " 
+
+# Separate out symbols from commonName; if it >> symbols, put it in the synonym column
+species.pp.all2 <- species.pp.all
+
+species.pp.all2$synonym <- ifelse(str_sub(species.pp.all2$commonName, 1,2) == ">>", 
+                        (species.pp.all2$synonym <- str_sub(species.pp.all2$commonName,3,nchar(species.pp.all2$commonName))) , 
+                        (species.pp.all2$synonym = " "))
+
+# make commonName blank if  there is a synonym (since this is not the actual common name)
+species.pp.all2$commonName <- ifelse(species.pp.all2$synonym != " ", " ", species.pp.all2$commonName)
+
+# mark the genusCertainPath column if there is an x in the scientificName
+species.pp.all2$genusCertainPathway <- ifelse(str_sub(species.pp.all2$scientificName,1,1) == "x", "genus inferred", " ") 
+
+###### THIS PART DROPS THE FIRST CHARACTER
+# drop the x from the scientificName, if the first character has an x, replace it with nothing...if this was non-case sensitive it would mess up genuses that begin with an "X", but they are all upper-case...why is it messing up things with a z?
+species.pp.all2$scientificName <- ifelse(str_sub(species.pp.all2$scientificName,1,1) == "x" , 
+                                         str_sub(species.pp.all2$scientificName,2,nchar(species.pp.all2$scientificName)), str_sub(species.pp.all2$scientificName,0,nchar(species.pp.all2$scientificName)))
+
+species.pp.all2$scientificName <- str_trim(species.pp.all2$scientificName, "left")
+
+tail(species.pp.all2)
+
+## Restart here if necessary
+# split the names up by spaces
+species.pp.all3 = cSplit(species.pp.all2, "scientificName", sep = " ", fixed = TRUE)
+# cSplit returns a data.table, which changes how you can index rows and columns...
+species.pp.all3 <- as.data.frame(species.pp.all3)
+
+# preserve this column
+species.pp.all3$scientificName <- species.pp.all2$scientificName
+
+# head(species.pp.all3)
+# tail(species.pp.all2)
+# tail(species.pp.all3)
+
+# cSplit turns the new vectors into factors - change to characters
+species.pp.all3[] <- lapply(species.pp.all3, as.character)
+
+# replace NA's with blanks, else the concatentated name includes NA
+species.pp.all3[is.na(species.pp.all3)] <- ""
+
+# paste the spp. or var. into a new column
+# species.pp.all3$spp <- " " 
+# species.pp.all3$spp <- do.call(paste, c(species.pp.all3[,c(11:ncol(species.pp.all3))]))
+
+# DOES NOT WORK, need to use do.call() to call paste for each column?
+# paste here only replaces the characters with the numbers 11:31
+# species.pp.all3$spp2 <- " " 
+# species.pp.all3$spp2 <- paste0(species.pp.all3[,c(11:ncol(species.pp.all3))])
+
+
+
+
+################ STOP HERE ################
+# dump extra columns
+http://stackoverflow.com/questions/5992082/how-to-remove-all-whitespace-from-a-string
+species.pp.all4 <- subset(species.pp.all3, select = c(1:10,32))
+
+# trim the trailing whitespace on the right-side, uses stringr
+species.pp.all4$synonym<-str_trim(species.pp.all3$synonym, "left")
+
+
+# rename specific columns
+setnames(species.pp.all4, c(9:10), c("genus","species"))
+# 
+# head(species.pp.all4)
+# tail(species.pp.all4)
+# 
+# species.pp.all4[70:80,]
+
+# file = paste0(unique(input$siteID),"_",fileSuffix2, ".csv", sep="")
+write.csv(species.pp.all4, file = "photo_pathways_clean.csv")
+```
+
+
+
+
+
+
