@@ -108,7 +108,17 @@ write.csv(species.pp.all4, file = "photo_pathways_clean.csv")
 ```
 
 
+## Only grab graminoids
 
+```{r}
+# read in the file from the wd
+gram <- read.csv(fileGrab[2], header=T)
 
+# Check the spelling
+summary(gram$family)
 
+# using %in% rather than == will leave out NAs
+gram.only <- gram[gram$family %in% c("Poaceae", "Cyperaceae", "Juncaceae"),]
 
+write.csv(gram.only, file = "photo_pathways_graminoidsOnly.csv")
+```
