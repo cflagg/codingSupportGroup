@@ -34,6 +34,23 @@ library(knitr)
 
 ![text](http://nicercode.github.io/2014-02-13-UNSW/lessons/40-repeating/full_apply_suite.png "Apply to plyr mappings")
 
+### Why vectorize (i.e. plyr, apply) your code over looping? 
+
+The code is cleaner (once you’re familiar with the concept). The code can be easier to code and read, and less error prone because:
+
+(a) you don’t have to deal with subsetting
+(b) you don’t have to deal with saving your results
+
+2. Apply functions can be faster than for loops, sometimes dramatically
+
+### plyr vs. base-R apply functions
+
+1. plyr has a common syntax — easier to remember
+2. plyr requires less code since it takes care of the input and output format
+3. plyr can easily be run in parallel — faster
+
+[link](http://seananderson.ca/courses/12-plyr/plyr_2012.pdf)
+
 ## 2. Data Wrangling - merging multiple files in a directory with: 
   * `for loops`
   * `plyr`
