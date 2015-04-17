@@ -1,0 +1,93 @@
+---
+title: "dplyr_practice"
+output: html_document
+---
+
+```{r}
+
+library(dplyr)
+
+setwd("C:/Users/kjones/Documents/GitHub/codingSupportGroup/dataWrangling/plyr_session") 
+```
+
+```{r}
+##unsophisticated, simplified method to rbind, not practical for combining many files
+d01<-read.csv('vst_perindividual_D01.csv')
+d02<-read.csv('vst_perindividual_D02.csv')
+d03<-read.csv('vst_perindividual_D03.csv')
+
+# predict rows in merged dataset
+(nrow(d01))+(nrow(d02))+(nrow(d03))
+
+dAll<-rbind(d01, d02, d03)
+
+#check
+dim(dAll)
+
+```
+
+
+```{r}
+#Or merge using the plyr method
+#better for many files
+
+pathtocsvs<-getwd()
+
+myPrefix<-'vst_perind'
+
+fileList<-list.files(pathtocsvs)
+
+vstfiles<-fileList[grepl(myPrefix, fileList)]
+
+# For each file in the list "filelist", read the .csv file to a temporary variable "t", row bind subsequent files to variable "t1", return t1 as final result #Stolen from chuck 5 of cf rmd#
+dAll2 = ldply(vstfiles, function(x){
+            t <- read.csv(x, header=TRUE, sep=",",stringsAsFactors = FALSE) # read the csv
+            t1 <- rbind(t) # rbind it to a temporary object
+            return(t1)
+}
+)
+
+#check it
+dim(dAll2)
+```
+
+
+```{r}
+#create tbl for futher manipulation - required for dplyr
+vst <- tbl_df(dAll)
+
+#take a look
+colnames(vst)
+
+#remove dataframe
+rm(dAll)
+
+```
+
+#select
+```{r}
+vstSum<-select(vst, )
+
+#Check it
+dim(vstSum)
+colnames(vstSum)
+
+```
+
+#filter
+```{r}
+vstfil<-filter(vst, )
+
+```
+
+#mutate
+```{r}
+
+```
+
+#summarize
+```{r}
+
+```
+
+
