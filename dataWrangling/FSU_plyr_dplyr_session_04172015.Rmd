@@ -28,7 +28,11 @@ library(knitr)
 
 ##  1. The Split-Apply-Combine (SAC) Approach
 
-![text](http://image.slidesharecdn.com/datamanipulationusingracm2014-141025211943-conversion-gate01/95/data-manipulation-using-r-dplyr-20-638.jpg?cb=1414290170 "logo text")
+![text](http://image.slidesharecdn.com/datamanipulationusingracm2014-141025211943-conversion-gate01/95/data-manipulation-using-r-dplyr-20-638.jpg?cb=1414290170 "SAC Approach")
+
+### plyr() grammar
+
+![text](http://nicercode.github.io/2014-02-13-UNSW/lessons/40-repeating/full_apply_suite.png "Apply to plyr mappings")
 
 ## 2. Data Wrangling - merging multiple files in a directory with: 
   * `for loops`
@@ -166,6 +170,8 @@ rm(dataset, dataset1, dataset2, dataset3)
   * A contractor example
   
 ### Load data  
+
+* grabbing new data files for quality assurance analysis
 ```{r}
 #set this to the prefix for the sheets in your module; make specific to file name batch
 myPrefix<-'vst_peri'
@@ -185,6 +191,16 @@ substrLeft <- function(x,m,n){
   substr(x, m, n)
 }
 ```
+
+## Error Checking Function
+
+* This function tests a few things:
+  1. Whether a pointID for a particular row is correct, given the type of plot (distributed, tower)
+  2. Whether that pointID has the correct azimuth range 
+* The function using matching functions to "align" data from a data frame that is outside of the function ("pointIDList...", "azCh$aAzimuth, azCh$bazimuth").
+* The tests are carried out using a series of nested ifelse() functions
+* Data matched to the outside data frame are appended to the data frame _within_ the function, evaluated, and then removed (see the last line in the code)
+
 
 ```{r}
 # E) Point ID and Azimuth checking function
@@ -226,7 +242,7 @@ pointCheck.output = pointChecker.func(fileGrab1, ldply)
 
 ```{r}
 # summary table - summarize the errors by siteID
-kable(ddply(pointCheck.output, .(siteID), summarise, 
+kable(ddply(pointCheck.output, .(siteID), summarise, # kable nicely formats output into a table
                             pointID.error = sum(na.omit(pointIDQF) == -9999),
                             azimuth.error = sum(na.omit(azimuthQF) == -9999)))
 ```
@@ -237,9 +253,9 @@ kable(ddply(pointCheck.output, .(siteID), summarise,
 kable(pointIDList.tower)
 
 # the first 6 flagged rows report...
-kable(head(pointCheck.output %>% # put it in a pipe!
-  filter(pointIDQF == -9999) %>% 
-  select(plotID,pointID,pointIDQF)))
+kable(head(pointCheck.output %>% # put it in a pipe! dplyr functionality 
+  filter(pointIDQF == -9999) %>%  # filter subsets rows
+  select(plotID,pointID,pointIDQF))) # select subsets columns
 
 # "60" as a pointID in a tower plot
 ```
