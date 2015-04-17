@@ -1,0 +1,283 @@
+---
+title: "FSU_plyr_dplyr_session"
+author: "Cody Flagg"
+date: "Thursday, April 16, 2015"
+output: html_document
+---
+
+
+# Outline
+
+1. The Split-Apply-Combine (SAC) Approach 
+2. Data Wrangling with plyr - merging multiple files in a directory 
+  * The `for loop` method 
+  * The `plyr` method 
+3. Data Wrangling with plyr - splitting a data frame into multiple files 
+4. Data Quality Assurance (QA) with plyr 
+  * A contractor ~~debacle~~ example 
+
+### Libraries 
+```{r warning=FALSE, message=FALSE}
+# libraries used
+# if you don't have these, run: install.packages(c("plyr","dplyr","stringer","knitr")) 
+library(plyr)
+library(dplyr)
+library(stringr)
+library(knitr)
+```
+
+##  1. The Split-Apply-Combine (SAC) Approach
+
+![text](http://image.slidesharecdn.com/datamanipulationusingracm2014-141025211943-conversion-gate01/95/data-manipulation-using-r-dplyr-20-638.jpg?cb=1414290170 "SAC Approach")
+
+### plyr() grammar
+
+![text](http://nicercode.github.io/2014-02-13-UNSW/lessons/40-repeating/full_apply_suite.png "Apply to plyr mappings")
+
+### Why vectorize (i.e. plyr, apply) your code over looping? 
+
+The code is cleaner (once you’re familiar with the concept). The code can be easier to code and read, and less error prone because:
+
+(a) you don’t have to deal with subsetting
+(b) you don’t have to deal with saving your results
+
+2. Apply functions can be faster than for loops, sometimes dramatically
+
+### plyr vs. base-R apply functions
+
+1. plyr has a common syntax — easier to remember
+2. plyr requires less code since it takes care of the input and output format
+3. plyr can easily be run in parallel — faster
+
+[link](http://seananderson.ca/courses/12-plyr/plyr_2012.pdf)
+
+## 2. Data Wrangling - merging multiple files in a directory with: 
+  * `for loops`
+  * `plyr`
+  
+```{r}
+# Set working directory and file path ... relative path will work if Git folders are in "Documents" folder
+setwd("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/dataWrangling/plyr_session") 
+pathToFiles <- getwd()
+
+#set this to the prefix for the sheets in your module; make specific to file name batch
+myPrefix <- 'plotSpatialData_' # used to direct grep() to the right files, necessary if your working directory has lots of files
+# mySuffix <- '.csv' # another potential variable if your directory is particularly 'busy'
+
+# load files
+fileList <- list.files(pathToFiles, full.names=TRUE) # list all the files, full.names=TRUE is necessary for ldplay/lapply to work below
+fileGrab <- fileList[grep(myPrefix,fileList)] # subset to just the ones in your module, using prefix; not absolutely necessary with this folder
+```
+
+### Merge files with for loops
+
+* *Solution 1a* : `for loop` with if/else flow control
+
+```{r}
+# Solution 1a: for loops with if/else nested inside
+# loop through list of files defined from above, rbind() them together
+for (file in fileGrab){
+  if (!exists("dataset")){ # if an object named dataset does not exist, create it
+    dataset <- read.csv(file, header = TRUE, sep = ",",stringsAsFactors = FALSE) # assign the first csv to "dataset"
+  }
+
+  else { # if dataset does exist, rbind() the rest of the files in the list
+    temp.dataset <- read.csv(file, header=TRUE, sep=",",stringsAsFactors = FALSE) # temporary object
+    dataset = rbind(dataset, temp.dataset) # final object for output
+    rm(temp.dataset) # clear up workspace to free memory
+  }
+}
+```
+
+* Number of rows `r nrow(dataset)`
+
+* *Solution 1b*: a cleaner `for loop` - no if/else flow control
+
+```{r}
+# Solution 1b: more efficient for loop; define a blank object outside the loop that is "filled" (i.e. "dataset1" here, "dataset" in Solution 1a), rather than calling it inside the loop.
+# Creating the object inside a loop runs the risk of duplicating data/rows
+dataset1 = NULL # blank df to "fill"
+for (file in fileGrab){
+  t <- read.csv(file, header = TRUE, sep = ",",stringsAsFactors = FALSE) # read the csv, assign to t
+  dataset1 = rbind(t,dataset1) # bind it to the blank df
+  }
+
+nrow(dataset1) # check the number of rows
+```
+
+* *Solution 2*: the `plyr` method; 
+
+```{r}
+# For each file in the list "fileGrab", read the .csv file to a temporary variable "t", row bind subsequent files to variable "t1", return t1 as final result
+dataset2 = ldply(fileGrab, function(x){
+            t <- read.csv(x, header=TRUE, sep=",",stringsAsFactors = FALSE) # read the csv
+            t1 <- rbind(t) # rbind it to a temporary object
+            return(t1)
+}
+)
+
+nrow(dataset2) # check the number of rows
+```
+
+* *Solution 2a*: if you need to work with Excel (.xls/.xlsx) files [hidden, not evaluated]
+
+```{r results='hide'}
+# install.packages("XLConnect")
+# # read in .xlsx files, combine into a single file
+# plotList.NEON = ldply(fileGrab, function(input){
+#           t <- loadWorkbook(input) # load the xls file first i.e. the workbook
+#           t2 <- readWorksheet(t, sheet = 1, header = TRUE) # read individual worksheets
+#           t3 <- rbind(data.frame(t2)) # rbind as a data.frame
+# })
+```
+
+
+* *Solution 3*: use data.table and lapply [hidden, not evaluated]
+```{r results='hide'}
+# data.table has a reasonable built in function for this; pass the list, apply to all elements in "fileGrab", read them with fread, row bind them with rbindlist
+# require(data.table)
+# dataset2b  = rbindlist(lapply(fileGrab, fread))
+# 
+# nrow(dataset2b) # check the number of rows
+```
+
+## 3. Data Wrangling with plyr - splitting a data frame into multiple files
+
+* Using a for loop
+```{r}
+# indiciate which columns to keep e.g. only add plotID, site Type, etc. 
+dataset3 = dataset2[,c("domainID","siteID","plotID","plotType", "subtype", "plotSize")]
+
+for (i in unique(dataset3$domainID)){
+  fileName <- paste(i, "_plots_loop.csv")
+  write.csv(dataset3[dataset3$domainID == i,], file = fileName)
+  }
+```
+
+* The `plyr` method
+
+```{r}
+# d_ply indicates we call the function on the data frame and "discard" the results i.e. this won't return anything
+# can also use dlply() for a similar result, but plyr will also return a list (of the domainIDs) as an object. 
+d_ply(dataset3,.(domainID), function(input) 
+  write.csv(input, file = paste(unique(input$domainID),"_plots_plyr.csv")))
+```
+
+* While the total "typeage" is roughly the same between the `for loop` and `plyr` methods, you do not have to worry about weird results from explicit indexing with square brackets in `plyr` or the indexing involved with nested `for loops`. The simple, straightforward syntax allows you to more quickly think about a problem to formulate a solution. 
+* A quick example, if we want to create a unique file for each domain plus plot type combination: 
+
+```{r}
+# simply add plotType as another grouping variable, make sure to paste it in the file name
+d_ply(dataset3,.(domainID, plotType), function(input) 
+  write.csv(input, file = paste(unique(input$domainID),"_",unique(input$plotType),"_plots_plyr.csv")))
+```
+
+* How would you do this with a `for loop`?
+
+
+* clean-up your workspace
+
+```{r}
+# free up some RAM
+rm(dataset, dataset1, dataset2, dataset3)
+```
+
+
+## 4. Data QA with plyr
+  * A contractor example
+  
+### Load data  
+
+* grabbing new data files for quality assurance analysis
+```{r}
+#set this to the prefix for the sheets in your module; make specific to file name batch
+myPrefix<-'vst_peri'
+
+# load and inspect files
+fileGrab1 <- fileList[grep("vst_peri",fileList)] # subset to just the ones in relevant module; this was originally a list of files
+azimuthFile = read.csv(fileList[grep('L_pointID',fileList)], sep = ",", stringsAsFactors=FALSE) # grab azimuths 
+
+# separate the checks into different lists - could just use a simple  vector of inputs e.g. distributedID = c(21,23,25,39,49), but this seems more flexible
+pointIDList.distributed = azimuthFile[azimuthFile$plotSize == 400,]
+pointIDList.tower = azimuthFile[azimuthFile$plotSize == 1600,]
+azCh = azimuthFile[1:14,] # smaller chunk of azimuth set
+
+############ Helper function - Site Name Appender - FROM FILE FIELD ################### avoid this with stringr::str_sub
+# extract function from the left of string
+substrLeft <- function(x,m,n){
+  substr(x, m, n)
+}
+```
+
+## Error Checking Function
+
+* This function tests a few things:
+  1. Whether a pointID for a particular row is correct, given the type of plot (distributed, tower)
+  2. Whether that pointID has the correct azimuth range 
+* The function using matching functions to "align" data from a data frame that is outside of the function ("pointIDList...", "azCh$aAzimuth, azCh$bazimuth").
+* The tests are carried out using a series of nested ifelse() functions
+* Data matched to the outside data frame are appended to the data frame _within_ the function, evaluated, and then removed (see the last line in the code)
+
+
+```{r}
+# E) Point ID and Azimuth checking function
+# this just needs to point to the pointIDlist.tower data.frame, these are all 40 x 40 tower plots at the moment (1/14/2015)
+# REMOVE out$Type line for data from FOPS
+pointChecker.func <- function(input, ply = llply){
+  ply(input, function(x){
+    t <- read.csv(x, header=T, sep = ",",stringsAsFactors=FALSE) # "x" = the file name here, read it into memory, assign it to object "t"
+    out <- t # a double-assignment so previous data frames are not overwritten, may be unnecessary
+    out$Type <- "Tower" ####### contractor didn't add this field, so I did. They were only doing tower plots ####### 
+    # check: if "distributed", use is.na(field) to assign value; do not use: field == "NA" else this won't work)
+    out$pointIDQF <- ifelse(out$Type == "Distributed", # is it a distributed plot?
+       ifelse((out$pointID %in% pointIDList.distributed$pointID),1, # if yes, compare to this list
+              ifelse(is.na(out$pointID),1,-9999)), 
+       ifelse((out$pointID %in% pointIDList.tower$pointID),1, # if no, compare pointID to this list
+              ifelse(is.na(out$pointID),1,-9999))) 
+    # match and append azimuth values, these are temporary columns to match against
+    out$aAzimuth.ch <- azCh$aAzimuth[match(out$pointID, azCh$pointID, nomatch = NA)]
+    out$bAzimuth.ch <- azCh$bAzimuth[match(out$pointID, azCh$pointID, nomatch = NA)]
+    # check if stemAzimuth is in that range - 
+    # this convoluted code "closes the circle" since we cannot evaluate an incorrect azimuth of say "362"
+    out$azimuthQF <- ifelse(out$aAzimuth.ch == 270, # does azimuth == 270?
+       # if yes, the values should be between 270 and 360 OR between 0 and 90
+       ifelse(out$stemAzimuth >= 270 & out$stemAzimuth <= 360 | out$stemAzimuth >= 0 & out$stemAzimuth <= 90,1,-9999),
+       # if no, stem azimuth values should be between these two values and less the next two values
+       ifelse(out$stemAzimuth >= out$aAzimuth.ch  & out$stemAzimuth <= out$bAzimuth.ch,1,-9999))
+    out[c("aAzimuth.ch", "bAzimuth.ch","Field1")] <- list(NULL) # clean-up, remove the extra columns
+      out$siteID <- substrLeft(t$plotID,1,4)
+  return(out)
+})
+}
+
+# execute and store output - ldply here so all of the results are in one data frame
+pointCheck.output = pointChecker.func(fileGrab1, ldply)
+```
+
+
+### Error Checking Summary Output
+
+```{r}
+# summary table - summarize the errors by siteID
+kable(ddply(pointCheck.output, .(siteID), summarise, # kable nicely formats output into a table
+                            pointID.error = sum(na.omit(pointIDQF) == -9999),
+                            azimuth.error = sum(na.omit(azimuthQF) == -9999)))
+```
+
+### What was flagged? pointID errors
+```{r}
+# these are the only values that pointID should be for TOWER plots:
+kable(pointIDList.tower)
+
+# the first 6 flagged rows report...
+kable(head(pointCheck.output %>% # put it in a pipe! dplyr functionality 
+  filter(pointIDQF == -9999) %>%  # filter subsets rows
+  select(plotID,pointID,pointIDQF))) # select subsets columns
+
+# "60" as a pointID in a tower plot
+```
+
+
+
+
+

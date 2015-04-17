@@ -1,0 +1,124 @@
+---
+title: "photoPaths_2015"
+author: "Cody Flagg"
+date: "Thursday, April 09, 2015"
+output: pdf_document
+---
+
+# Summary
+Craig Freeman at the USDA is putting together a "database" of photosynthetic pathways for plants in the USDA Plants list. There are currently 86,000 species listed in it, however the majority (>80%) have unknown pathways as of right now. Nicole Stanton, a field tech with D06, shared the list with me. There are weird symbols and inappropriate DB practices (i.e. violations of first normal form) that make the list less useful/query-able. I have cleaned it up with this script, and made it easier to search. 
+
+
+## Setup: Import Data from XLS workbooks and Load Libraries
+```{r setup}
+# set working dir
+setwd("C:/Users/cflagg/Documents/FSU_Projects_cflagg/FOPS Tools/photosynthetic_pathway_data_USDA")
+
+# load libraries
+library(XLConnect)
+library(plyr)
+library(dplyr)
+library(stringr)
+library(splitstackshape)
+
+# load a list of files in the directory
+fileGrab <- list.files(getwd(), full.names=TRUE) # list all the files, full.names=TRUE is necessary for ldplay/lapply to work below
+
+# I added a prefix to the files to make it easier
+prefix <- 'pp_'
+
+# only grab files with the prefix
+xlsGrab <- fileGrab[grep(prefix,fileGrab)] # subset to just the ones in your module, using prefix
+
+```
+
+## Read and Combine - Part 1
+### Species-level pathway information 
+```{r read1}
+# read in .xlsx files
+species.pp <- loadWorkbook(xlsGrab[2])
+# read workbooks 
+species.pp1 = readWorksheet(species.pp, sheet = 1, header = TRUE)
+species.pp2 = readWorksheet(species.pp, sheet = 2, header = TRUE)
+# combine into a single dataframe
+species.pp.all = rbind.fill(species.pp1,species.pp2)
+# rename columns
+colnames(species.pp.all) <- c("taxonID", "scientificName","commonName","family","pathway","refType","reference")
+# dump the last blank column
+species.pp.all <- species.pp.all[,-8]
+```
+
+## Clean-up Data
+* should copy scientificName to another column, then split column into genus and species (make it more query-able)
+* also have to remove weird symbols from commonName (if commonName left 2 char = ">>", move string to new column "synonym")
+* there are x's in scientificName that denote "certainty" for the pathway (certainty = a new column)
+* forget about making spp./var. a 
+
+### Execute full clean-up run
+```{r clean1}
+# add a column for synonyms
+species.pp.all$synonym <- " " 
+
+# Separate out symbols from commonName; if it >> symbols, put it in the synonym column
+species.pp.all2 <- species.pp.all
+
+species.pp.all2$synonym <- ifelse(str_sub(species.pp.all2$commonName, 1,2) == ">>", 
+                        (species.pp.all2$synonym <- str_sub(species.pp.all2$commonName,3,nchar(species.pp.all2$commonName))) , 
+                        (species.pp.all2$synonym = " "))
+
+# make commonName blank if  there is a synonym (since this is not the actual common name)
+species.pp.all2$commonName <- ifelse(species.pp.all2$synonym != " ", " ", species.pp.all2$commonName)
+
+# mark the genusCertainPath column if there is an x in the scientificName
+species.pp.all2$genusCertainPathway <- ifelse(str_sub(species.pp.all2$scientificName,1,1) == "x", "genus inferred", " ") 
+
+###### THIS PART DROPS THE FIRST CHARACTER
+# drop the x from the scientificName
+species.pp.all2$scientificName <- ifelse(str_sub(species.pp.all2$scientificName,1,1) == "x" , 
+                                         str_sub(species.pp.all2$scientificName,2,nchar(species.pp.all2$scientificName)), str_sub(species.pp.all2$scientificName,0,nchar(species.pp.all2$scientificName)))
+
+species.pp.all2$scientificName <- str_trim(species.pp.all2$scientificName, "left")
+
+# split the names up by spaces
+species.pp.all3 = cSplit(species.pp.all2, "scientificName", sep = " ", fixed = TRUE)
+# cSplit returns a data.table, which changes how you can index rows and columns...
+species.pp.all3 <- as.data.frame(species.pp.all3)
+
+# preserve this column
+species.pp.all3$scientificName <- species.pp.all2$scientificName
+
+# cSplit turns the new vectors into factors - change to characters
+species.pp.all3[] <- lapply(species.pp.all3, as.character)
+
+# replace NA's with blanks, else the concatentated name includes NA
+species.pp.all3[is.na(species.pp.all3)] <- ""
+
+# dump extra columns
+http://stackoverflow.com/questions/5992082/how-to-remove-all-whitespace-from-a-string
+species.pp.all4 <- subset(species.pp.all3, select = c(1:10,32))
+
+# trim the trailing whitespace on the right-side, uses stringr
+species.pp.all4$synonym<-str_trim(species.pp.all3$synonym, "left")
+
+# rename specific columns
+setnames(species.pp.all4, c(9:10), c("genus","species"))
+
+# write to a new file
+write.csv(species.pp.all4, file = "photo_pathways_clean.csv")
+```
+
+
+## Only grab graminoids
+
+```{r}
+# read in the file from the wd
+gram <- read.csv(fileGrab[2], header=T)
+
+# Check the spelling
+summary(gram$family)
+
+# using %in% rather than == will leave out NAs
+gram.only <- gram[gram$family %in% c("Poaceae", "Cyperaceae", "Juncaceae"),]
+
+write.csv(gram.only, file = "photo_pathways_graminoidsOnly.csv")
+```

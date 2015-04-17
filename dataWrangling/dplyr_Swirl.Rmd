@@ -1,0 +1,174 @@
+---
+title: "dplyr_Swirl"
+author: ""
+date: ""
+output: html_document
+---
+
+```{r}
+install.packages("swirl")
+
+library(swirl)
+install_from_swirl("Getting and Cleaning Data")
+swirl()
+
+#press Esc key to exit swirl#
+# | When you are at the R prompt (>):
+# | -- Typing skip() allows you to skip the current question.
+# | -- Typing play() lets you experiment with R on your own; swirl will
+# | ignore what you do...
+# | -- UNTIL you type nxt() which will regain swirl's attention.
+# | -- Typing bye() causes swirl to exit. Your progress will be saved.
+# | -- Typing main() returns you to swirl's main menu.
+# | -- Typing info() displays these options again.
+
+
+```
+
+
+
+```{r}
+## dplyr package
+library(dplyr)
+packageVersion("dplyr")
+
+#load data into a data frame table(tbl_df)
+cran<-tbl_df(mydf)
+
+#remove original dataframe
+rm("mydf")
+
+#print data frame tbl
+cran
+
+#From intro to dplyr "The dplyr philosophy is to have small functions that each do one thing well." Specifically, dplyr supplies five 'verbs' that cover all fundamental data manipulation tasks: select(), filter(), arrange(), mutate(), and summarize()
+
+#first argument is a data frame
+#subsequent arguements describe what to do with it. you can refer to columns in the data frame directly with using the $ operator
+#result is a NEW dataframe
+```
+
+##About the select() funtion
+```{r}
+#to get info about function
+?select
+
+#to subset some columns of dataframe
+select(cran, ip_id, package, country)
+
+#to select all columns in a range, from first (leftmost) to specified last (rightmost) column
+select(cran, r_arch:country)
+# or in reverse order
+select(cran, country:r_arch)
+
+#select individual columns to omit
+select(cran, -time)
+#select a range of columns to omit
+select(cran, -(X:size))
+
+```
+
+##About the filter() funtion
+```{r}
+#filter() is used to subset rows
+#subset all rows where package = 'swirl'
+filter(cran, package =="swirl")
+
+#filter on multiple criteria
+filter(cran, r_version == '3.1.1', country == 'US')
+
+
+##extract a subset of rows
+
+filter(cran, r_version <= "3.0.2", country == "IN")
+#r_version is less than or equal to 3.0.2
+
+# pipe delimited = and/or
+filter(cran, country =="US" | country == "IN")
+
+# fetch all rows for which size is strictly greater than (>) 100500 AND r_os equals "linux-gnu"
+filter(cran, size > 100500, r_os =="linux-gnu")
+
+# only the rows for which the r_version is not missing
+filter(cran, !is.na(r_version))
+
+```
+
+##About the arrange()
+```{r}
+#arranges rows according to specified order
+
+# take a subset of cran. select() all columns from size through ip_id and store the result in cran2.
+cran2<-select(cran, size:ip_id)
+
+#order the ROWS of cran2 so that ip_id is in ascending order (from small to large)
+arrange(cran2, ip_id)
+
+#but in descending order, change the second argument to desc(ip_id), where desc() stands for
+'descending'
+arrange(cran2, desc(ip_id))
+
+#arrange the data according to the values of multiple variables, arrange first by package then by ip_ip
+arrange(cran2, package, ip_id)
+
+#Arrange cran2 by the following three variables, in this order: country (ascending), r_version (descending), and ip_id (ascending).
+arrange(cran2, country, desc(r_version), ip_id)
+
+```
+
+
+##About mutate() function
+```{r}
+
+#Use select() to grab 3 columns -- ip_id, package, and size (in that order) -- and store the result in a new variable called cran3
+cran3 <- select(cran, ip_id, package, size)
+
+cran3
+
+# the mutate() function is used to create a new variable based on the value of one or more variables already in a dataset
+
+# add a column called size_mb that contains the download size in megabytes
+mutate(cran3, size_mb = size / 2^20)
+# add another column for the size_gb
+mutate(cran3, size_gb = size_mb / 2^10)
+# do it all at once
+mutate(cran3, size_mb = size / 2^20, size_gb = size_mb / 2^10)
+
+# new column corrected size
+mutate (cran3, correct_size = size + 1000)
+
+```
+
+##About summarize() function
+```{r}
+#the average download size
+summarize(cran, avg_bytes=mean(size))
+
+sumarize(df, var1=mean(var1, na.rm=TRUE), var2 = max(var2), var3 = median(var3) )
+
+```
+
+
+##About rename() function
+```{r}
+
+df<-rename(df, newname = oldname)
+
+```
+
+
+##About group_by() function
+```{r}
+df<-group_by(df, categorical_variable)
+```
+
+##Pipeline operator
+```{r}
+## chain a series of operations together using'%>%' without repeating df call
+
+df<- %>% mutate(month = as.POSIXlt(date)$mon+1) %>% group_by(month) %>% summarize (var1=mean(var1, na.rm=TRUE), var2 = max(var2), var3 = median(var3))
+
+## allows you to skip the step of assigning temporary variables
+
+
+```
