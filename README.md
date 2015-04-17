@@ -14,7 +14,7 @@ Date | Topic | Presenter | Folder
 3/27/15 |NRCS practice talk | Lee & Elena | NA
 4/3/15 |loops | All, bring examples | creatingFunctions
 4/10/15 |pheno paper | |
-4/17/15 | plyr dplyr| |
+4/17/15 | plyr dplyr|Cody & Katie | dataWrangling
 4/24/15 | | |
 5/1/15 | | |
 5/8/15 | | |
