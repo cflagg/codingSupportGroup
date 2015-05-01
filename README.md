@@ -13,10 +13,10 @@ Date | Topic | Presenter | Folder
 3/20/15 | creatingFunctions | Courtney | creatingFunctions
 3/27/15 |NRCS practice talk | Lee & Elena | NA
 4/3/15 |loops | All, bring examples | creatingFunctions
-4/10/15 |avoiding loops | |
-4/17/15 | | |
+4/10/15 |pheno paper | |
+4/17/15 | plyr |Cody | dataWrangling
 4/24/15 | | |
-5/1/15 | | |
+5/1/15 | dplyr|Katie |dataWrangling
 5/8/15 | | |
 5/22/15 | | |
 
