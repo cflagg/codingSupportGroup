@@ -8,6 +8,7 @@ library(plyr)
 library(dplyr)
 
 setwd("C:/Users/kjones/Documents/GitHub/codingSupportGroup/dataWrangling/plyr_session") 
+setwd("../codingSupportGroup/dataWrangling/plyr_session") 
 ```
 
 ```{r}
@@ -47,7 +48,7 @@ myPrefix<-'vst_perind'
 
 fileList<-list.files(pathtocsvs)
 
-vstfiles<-fileList[grepl(myPrefix, fileList)]
+vstfiles<-fileList[grepl(myPrefix,fileList) | grepl]
 
 # For each file in the list "filelist", read the .csv file to a temporary variable "t", row bind subsequent files to variable "t1", return t1 as final result #Stolen from chuck 5 of cf rmd#
 dAll2 = ldply(vstfiles, function(x){
@@ -76,49 +77,56 @@ rm(dAll)
 
 ```
 
-#select
+#select - for subsetting and ordering columns
 ```{r}
-vstSel<-select(vst, plotID )
+vstSel<-select(vst, !uid)
 
 #Check it
 dim(vstSel)
 colnames(vstSel)
+str(vstSel)
 
 ```
 
-#filter
+#filter - for subsetting rows
 ```{r}
-vstfil<-filter(vst, pointID == '41')
+vstfil<-filter(vst, pointID <= 30 | (pointID == '41' & plotID=='HARV_043'))
+#subset 
 
 dim(vstfil)
 head(vstfil)
 
 ```
 
-#mutate
+#mutate - create new column with calculation
 ```{r}
-vstmut<-mutate(vst, )
-
+vstmut<-mutate(vst, uid1000=uid*1000, date10=date+10, uid2=uid1000/500)
+head(vstmut)
 
 ```
 
-#summarize
+#summarize - summarize columns by row values
 ```{r}
+vstSum<-summarize(vst, avg_date=mean(date, na.rm=TRUE), max_date=max(date, na.rm=TRUE), min_date=min(date, na.rm=TRUE ))
+
 
 ```
 
 
 #rename
 ```{r}
+vst<-rename(vst, chicken = subplotID)
 
 ```
 
 
 #group_by
 ```{r}
-
+vstGrp<-order_by(vst, subplotID)
 ```
 
 
 
 # %>% pipe
+
+
