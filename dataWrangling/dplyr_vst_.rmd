@@ -16,8 +16,8 @@ d01<-read.csv('vst_perindividual_D01.csv')
 d02<-read.csv('vst_perindividual_D02.csv')
 d03<-read.csv('vst_perindividual_D03.csv')
 
-d03Num<-read.csv('colNumber_vst_perindividual_D03.csv')
-d03Order<-read.csv('colOrdervst_perindividual_D03.csv')
+d03Num<-read.csv('vst_perindividual_D03Number.csv')
+d03Order<-read.csv('vst_perindividual_D03Order.csv')
 
 # predict rows in merged dataset
 (nrow(d01))+(nrow(d02))+(nrow(d03))
@@ -59,6 +59,8 @@ dAll2 = ldply(vstfiles, function(x){
 
 #check it
 dim(dAll2)
+
+tail(dAll2)
 ```
 
 
@@ -86,12 +88,17 @@ colnames(vstSel)
 
 #filter
 ```{r}
-vstfil<-filter(vst, )
+vstfil<-filter(vst, pointID == '41')
+
+dim(vstfil)
+head(vstfil)
 
 ```
 
 #mutate
 ```{r}
+vstmut<-mutate(vst, )
+
 
 ```
 
@@ -101,3 +108,17 @@ vstfil<-filter(vst, )
 ```
 
 
+#rename
+```{r}
+
+```
+
+
+#group_by
+```{r}
+
+```
+
+
+
+# %>% pipe
