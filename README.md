@@ -15,9 +15,9 @@ Date | Topic | Presenter | Folder
 4/3/15 |loops | All, bring examples | creatingFunctions
 4/10/15 |pheno paper | |
 4/17/15 | plyr |Cody | dataWrangling
-4/24/15 | dplyr|Katie |dataWrangling
-5/1/15 | | |
-5/8/15 | | |
+4/24/15 | | |
+5/1/15 | dplyr|Katie |dataWrangling
+5/8/15 | plyr part 2 | Cody | dataWrangling
 5/22/15 | | |
 
 

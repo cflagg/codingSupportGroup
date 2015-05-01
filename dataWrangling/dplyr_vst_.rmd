@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r}
-
+library(plyr)
 library(dplyr)
 
 setwd("C:/Users/kjones/Documents/GitHub/codingSupportGroup/dataWrangling/plyr_session") 
@@ -16,10 +16,20 @@ d01<-read.csv('vst_perindividual_D01.csv')
 d02<-read.csv('vst_perindividual_D02.csv')
 d03<-read.csv('vst_perindividual_D03.csv')
 
+d03Num<-read.csv('vst_perindividual_D03Number.csv')
+d03Order<-read.csv('vst_perindividual_D03Order.csv')
+
 # predict rows in merged dataset
 (nrow(d01))+(nrow(d02))+(nrow(d03))
 
+ncol(d01)
+ncol(d02)
+ncol(d03)
+
 dAll<-rbind(d01, d02, d03)
+
+head(dAll)
+tail(dAll)
 
 #check
 dim(dAll)
@@ -33,7 +43,7 @@ dim(dAll)
 
 pathtocsvs<-getwd()
 
-myPrefix<-'vst_perind'
+myPrefix<-'vst_perind' 
 
 fileList<-list.files(pathtocsvs)
 
@@ -49,6 +59,8 @@ dAll2 = ldply(vstfiles, function(x){
 
 #check it
 dim(dAll2)
+
+tail(dAll2)
 ```
 
 
@@ -66,22 +78,27 @@ rm(dAll)
 
 #select
 ```{r}
-vstSum<-select(vst, )
+vstSel<-select(vst, plotID )
 
 #Check it
-dim(vstSum)
-colnames(vstSum)
+dim(vstSel)
+colnames(vstSel)
 
 ```
 
 #filter
 ```{r}
-vstfil<-filter(vst, )
+vstfil<-filter(vst, pointID == '41')
+
+dim(vstfil)
+head(vstfil)
 
 ```
 
 #mutate
 ```{r}
+vstmut<-mutate(vst, )
+
 
 ```
 
@@ -91,3 +108,17 @@ vstfil<-filter(vst, )
 ```
 
 
+#rename
+```{r}
+
+```
+
+
+#group_by
+```{r}
+
+```
+
+
+
+# %>% pipe
