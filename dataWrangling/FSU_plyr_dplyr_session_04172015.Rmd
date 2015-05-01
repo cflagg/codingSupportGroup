@@ -36,7 +36,7 @@ library(knitr)
   
 ```{r}
 # Set working directory and file path ... relative path will work if Git folders are in "Documents" folder
-setwd("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/dataWrangling/plyr_session") 
+setwd("C:/Users/kjones/Documents/GitHub/codingSupportGroup/dataWrangling/plyr_session") 
 pathToFiles <- getwd()
 
 #set this to the prefix for the sheets in your module; make specific to file name batch
@@ -177,6 +177,7 @@ azimuthFile = read.csv(fileList[grep('L_pointID',fileList)], sep = ",", stringsA
 # separate the checks into different lists - could just use a simple  vector of inputs e.g. distributedID = c(21,23,25,39,49), but this seems more flexible
 pointIDList.distributed = azimuthFile[azimuthFile$plotSize == 400,]
 pointIDList.tower = azimuthFile[azimuthFile$plotSize == 1600,]
+
 azCh = azimuthFile[1:14,] # smaller chunk of azimuth set
 
 ############ Helper function - Site Name Appender - FROM FILE FIELD ################### avoid this with stringr::str_sub
