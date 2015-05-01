@@ -38,8 +38,8 @@ library(knitr)
 
 The code is cleaner (once youâ€™re familiar with the concept). The code can be easier to code and read, and less error prone because:
 
-(a) you donâ€™t have to deal with subsetting
-(b) you donâ€™t have to deal with saving your results
+(a) you do no€™t have to deal with subsetting
+(b) you do no€™t have to deal with saving your results
 
 2. Apply functions can be faster than for loops, sometimes dramatically
 
@@ -278,6 +278,18 @@ kable(head(pointCheck.output %>% # put it in a pipe! dplyr functionality
 ```
 
 
+```{r}
 
+test1 <- pointCheck.output %>% # put it in a pipe! dplyr functionality 
+  filter(pointIDQF == -9999) %>%  # filter subsets rows
+  select(plotID,pointID,pointIDQF)
+
+
+
+s<-pointCheck.output %>% filter(plotID=='BART_053' & grepl('Tow', Type) & pointID %in% Type)
+
+
+
+```
 
 

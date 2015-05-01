@@ -1,0 +1,112 @@
+---
+title: "FSU_plyr_session2_05012015"
+author: "Cody Flagg"
+date: "Thursday, April 30, 2015"
+output: html_document
+---
+
+# Outline 
+1. Split-Apply-Combine Approach and Looping/Vectorized Methods Recap
+2. Common uses of plyr
+3. More Possibilities:
+  * FSU Tools
+  * Advanced Data Analysis
+  * Massive data munging (.parallel, failwith() etc.)
+
+### Libraries 
+```{r warning=FALSE, message=FALSE}
+# libraries used
+# if you don't have these, run: install.packages(c("plyr","dplyr","stringer","knitr")) 
+library(plyr)
+library(dplyr)
+library(stringr)
+library(knitr)
+```
+
+##  1. The Split-Apply-Combine (SAC) Approach
+
+![text](http://image.slidesharecdn.com/datamanipulationusingracm2014-141025211943-conversion-gate01/95/data-manipulation-using-r-dplyr-20-638.jpg?cb=1414290170 "SAC Approach")
+
+### plyr() grammar
+
+![text](http://nicercode.github.io/2014-02-13-UNSW/lessons/40-repeating/full_apply_suite.png "Apply to plyr mappings")
+
+### Why vectorize (i.e. plyr, apply) your code over looping? 
+
+The code is cleaner (once you'€™re familiar with the concept). The code can be easier to code and read, and less error prone because:
+
+(a) you do no€™t have to deal with subsetting
+(b) you do no€™t have to deal with saving your results
+
+2. Apply functions can be faster than for loops, sometimes dramatically
+
+### plyr vs. base-R apply functions
+
+1. plyr has a common syntax, making it€” easier to remember
+2. plyr requires less code since it takes care of the input and output format
+3. plyr can easily be run in parallel a€” faster
+
+[link](http://seananderson.ca/courses/12-plyr/plyr_2012.pdf)
+
+## 2. More Uses of plyr
+
+* We will use the ChickWeight dataset to explore other plyr arguments.
+* ChickWeight tracks the effects of 4 diets on chicken weight through time
+* Below, we use plyr to summarise a data frame in different ways. The non-R analog for this would be using a pivot table to analyze patterns in a spreadsheet. 
+
+
+### Data Summary
+
+* Use these to generate summaries of your data by some grouping
+* Can be used to build nice tables (wrap the table into kable())
+* Another potential use case is for error checking. Make your function detect cell by cell errors
+
+```{r}
+data(ChickWeight)
+# Base R method - aggregate
+aggregate(weight ~ Diet + Time, data = ChickWeight, mean)
+
+# # plyr method - looks a bit more verbose...
+ddply(ChickWeight, .(Time,Diet), summarise, avgWeight = mean(weight))
+
+# add another column - standard deviation of weight ~ time + diet
+with(ChickWeight, 
+     aggregate(weight ~ Diet + Time, 
+               FUN = function(x) c(avgWeight = mean(x), sdWeight = sd(x))))
+#      
+
+ddply(ChickWeight, .(Time,Diet), summarise, avgWeight = mean(weight), sdWeight = sd(weight))
+
+# plyr adds a few additional functions 
+# # Let's add on the same columns to the _original_ data frame (using head() to print first 20 rows)
+# # transform _preserves_ data from the original data frame while adding the new columns - useful for comparing data 
+ddply(ChickWeight, .(Time,Diet),transform, 
+      avgWeight = mean(weight), 
+      sdWeight = sd(weight)) 
+
+# # what if we want to compare our new columns to the old columns e.g. 
+# # the difference between a chick's weight and the average weight? 
+# # 'mutate', another plyr argument, is functionally similar to 'transform' but will allow you to 
+# # call or reference columns as they are created
+ddply(ChickWeight, .(Time,Diet),mutate, # notice it is now 'mutate'
+      avgWeight = mean(weight), # average weight per chick
+      sdWeight = sd(weight), # stdev
+      diffWeight = weight - avgWeight) # the difference in weights
+
+# now try this same code, but use transform to see the output
+
+# A few other (weird) plyr functions
+# par(mfrow=c(3,2))
+# r_ply(6, hist(rnorm(100)))
+
+```
+
+```{r}
+# mapply function, similar to m_ply in plyr
+mapply(rep, 1:4, 4:1) # use repeat for the following: in list c(1,2,3,4), print it c(4,3,2,1) times
+```
+
+### 
+
+
+
