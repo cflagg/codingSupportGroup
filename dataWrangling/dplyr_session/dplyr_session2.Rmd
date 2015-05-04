@@ -1,0 +1,19 @@
+---
+title: "dplyr_session2"
+author: "Cody Flagg"
+date: "Monday, May 04, 2015"
+output: html_document
+---
+
+# Outline
+
+1. rename() : rename columns in a data frame
+2. arrange() : order rows
+3. Piping/Chaining %>% : connect manipulations into a single call
+4. SQL functions
+    - Connecting to databases (http://cran.r-project.org/web/packages/dplyr/vignettes/databases.html)
+    - Manipulating data from DBs 
+5. Two-table joins : multi-table data manipulation (http://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
+6. Data Cleaning (http://stackoverflow.com/questions/23642811/replace-parts-of-a-variable-using-numeric-indices-in-dplyr-do-i-need-to-create?rq=1)
+
+## 
