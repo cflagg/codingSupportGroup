@@ -5,15 +5,71 @@ date: "Monday, May 04, 2015"
 output: html_document
 ---
 
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+library(dplyr)
+library(stringr)
+library(ggplot2)
+```
+
 # Outline
 
 1. rename() : rename columns in a data frame
 2. arrange() : order rows
+2. group_by() : summary statistics by groups you define, like ddply(data, grp, transform)
 3. Piping/Chaining %>% : connect manipulations into a single call
+  - http://www.sharpsightlabs.com/dplyr-intro-data-manipulation-with-r/
+  - https://rpubs.com/justmarkham/dplyr-tutorial
+  - https://rpubs.com/mkapur/ModelingProject
+
+## Future Topics
 4. SQL functions
     - Connecting to databases (http://cran.r-project.org/web/packages/dplyr/vignettes/databases.html)
     - Manipulating data from DBs 
 5. Two-table joins : multi-table data manipulation (http://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
 6. Data Cleaning (http://stackoverflow.com/questions/23642811/replace-parts-of-a-variable-using-numeric-indices-in-dplyr-do-i-need-to-create?rq=1)
 
-## 
+## 1. rename() - rename columns
+
+```{r}
+# Let's play with the iris dataset for a bit, RA Fisher first analyzed these data in 1936
+# first print the names of the columns
+names(iris)
+# The periods in each column name are kind of annoying, let's fix that
+rename(iris, petLength = Petal.Length, 
+  petWidth = Petal.Width, 
+  sepWidth = Sepal.Width, 
+  sepLength = Sepal.Length) -> iris2 # turn the assignment arround, remember this for piping later
+
+# rename and select have special functions for finding columns
+select(iris, contains("Sepal")) %>% head
+
+# another example - notice that it is not case sensitive
+select(iris, ends_with("width")) %>% head
+
+# what if you have lots of columns, named/numbered something?
+# create a silly example
+df1 = data.frame(x1 = rnorm(5), x2 = runif(5), x3 = rpois(5, 2), type = sample(letters, 5))
+# now select a few columns
+select(df1, num_range("x", 1:2))
+```
+
+
+## 2. arrange() - re-order rows by column
+
+```{r}
+# arrange(dataframe, column1, column2, ...)
+arrange(iris2, desc(Species), sepLength)
+```
+
+## 3. group_by() - equivalent to plyr::ddply()
+```{r}
+# iris2 %>% mutate(sepalRatio = sepWidth/sepLength) -> iris2
+
+# group the data by column "Species" - summarise by mean sepal length 
+group_by(iris2, Species) %>% summarise(mean(sepLength), mean(petLength))
+
+group_by(iris2, Species) %>% ggplot(aes(sepLength,petLength)) + geom_point() + geom_smooth()
+
+
+
+```
