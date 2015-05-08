@@ -58,18 +58,21 @@ select(df1, num_range("x", 1:2))
 
 ```{r}
 # arrange(dataframe, column1, column2, ...)
-arrange(iris2, desc(Species), sepLength)
+head(arrange(iris2, desc(Species), sepLength))
 ```
 
 ## 3. group_by() - equivalent to plyr::ddply()
 ```{r}
-# iris2 %>% mutate(sepalRatio = sepWidth/sepLength) -> iris2
+iris2 %>% mutate(sepalRatio = sepWidth/sepLength, # a simple ratio
+                 avgSepLen = mean(sepLength)) -> iris2 # can use mutate to do column-wise operations too
 
-# group the data by column "Species" - summarise by mean sepal length 
+# group the data by column "Species" - summarise by mean sepal and petal lengths
 group_by(iris2, Species) %>% summarise(mean(sepLength), mean(petLength))
 
-group_by(iris2, Species) %>% ggplot(aes(sepLength,petLength)) + geom_point() + geom_smooth()
+# can we use a pipe to plot?
+group_by(iris2, Species) %>% ggplot(aes(sepLength,petLength)) + geom_point() + geom_smooth() + facet_wrap(~Species)
 
-
+# what about modelling? - not sure how to use this yet...
+iris2 %>% group_by(Species) %>% do(model = lm(sepLength ~ petLength, data = .))
 
 ```
