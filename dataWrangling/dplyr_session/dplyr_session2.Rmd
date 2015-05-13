@@ -2,7 +2,7 @@
 title: "dplyr_session2"
 author: "Cody Flagg"
 date: "Monday, May 04, 2015"
-output: html_document
+output: pdf_document
 ---
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
@@ -78,6 +78,7 @@ arrange(iris2, desc(Species), sepLength) %>% head
 
 ## 3. group_by() - equivalent to plyr::ddply()
 ```{r}
+library(plyr)
 # mutate iris2, replace iris2 with mutated data
 iris2 %>% mutate(sepalRatio = sepWidth/sepLength, # a simple ratio
                  avgSepLen = mean(sepLength)) -> iris2 # can use mutate to do column-wise operations too
