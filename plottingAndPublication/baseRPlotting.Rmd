@@ -1,20 +1,22 @@
 ---
 title: "Plotting with R {base} commands"
 author: "Courtney Meier"
-date: "27 May 2015"
+date: "27th May 2015"
 output: html_document
 ---
 
 ### Overview
 Here, I use vegetation structure data NEON collected at OSBS as part of the 2010 Pathfinder campaign to demonstrate basic plotting functionality included as part of the 'base' R package. These data were collected from all woody-stemmed individuals ≥ 1 m height within a 20m x 120m plot within the OSBS Tower airshed.
 
-###  Read in the vegetation structure dataset and examine the structure of the dataset:
+### 2D plotting with custom symbols
+
+####  Read in the vegetation structure dataset and examine the structure of the dataset:
 ```{r}
 vs = read.csv("inputVstPathfinder2010.csv", header=TRUE)
 str(vs)
 ```
 
-### Making the plot
+#### Making the plot
 Create subsets of the original dataframe that can be used to plot each of the following groups:
 
 * Live Long-leaf Pine (_Pinus palustris_; Pipa)
@@ -41,7 +43,7 @@ lines(E, N, lty=2)
 ```
 
 
-### Adding data to the existing plot
+#### Adding data to the existing plot
 Next, we add symbols for individual trees, with symbol color specific to species or groups of species, and symbol size corresponding to the average canopy diameter measured for each of the trees. The `add=TRUE` argument puts the symbols on the existing plot, rather than drawing a new one.
 
 For more sophisticated application of alpha (transparency) values to "fg" or "bg" colors, see [https://www.rforge.net/doc/packages/snippets/col.html]
@@ -57,7 +59,7 @@ symbols(pipa.l$easting, pipa.l$northing, circles=pipa.l$canopyrad.m, inches=FALS
 ```
 
 
-Add a legend to the plot:
+####  Add a legend to the plot:
 ```{r}
 plot(E, N, pch=13, xlim=c(403830,403945), ylim=c(3285045,3285125), xlab="Easting (UTM)", ylab="Northing (UTM)", main="D3 Ordway-Swisher vegetation structure measurements:\nAverage canopy diameter")
 lines(E, N, lty=2)
@@ -76,13 +78,29 @@ legend("topleft", pch=21,
 ```
 
 
+### 3D scatterplot with library(scatterplot3d)
+Here, we create a 3D scatterplot using the same vegetation structure dataset as above, with Easting and Northing for 'x' and 'y' variables, and with height as the 'z' variable. We color points similarly as above according to live and dead _Pinus palustris_, live and dead _Quercus laevis_, and 'Other.'
 
+####  Create and plot the 3D scatterplot object
+We won't create an empty plot this time, so we'll add live Pipa points first, as these trees have the greatest height values. Additional groups of points are subsequently added. We add a legend at the end.
+```{r}
+library(scatterplot3d)
 
+s3d = scatterplot3d(pipa.l$easting, pipa.l$northing, pipa.l$height.m, type="h", main="Tree and shrub height within OSBS Tower airshed", xlab="Easting (m)", ylab="Northing (m)", zlab="Tree height (m)", pch=21, color="#005826", box=F, angle=70, scale.y=2.3, xlim=c(403830,403950), ylim=c(3285040,3285120))
 
-```{r, echo=FALSE}
+s3d$points3d(pipa.d$easting, pipa.d$northing, pipa.d$height.m, type="h", pch=19, col="#41614F")
+s3d$points3d(qula.d$easting, qula.d$northing, qula.d$height.m, type="h", pch=19, col="#945232")
+s3d$points3d(qula.l$easting, qula.l$northing, qula.l$height.m, type="h", pch=21, col="#f26522")
+s3d$points3d(other$easting, other$northing, other$height.m, type="h", pch=19)
+
+legend(s3d$xyz.convert(403920,3285050,15), pch=21, 
+       col=c("#005826", "#005826", "#f26522", "#f26522", "#000000"),
+       pt.bg=c("#FFFFFF", "#005826", "#FFFFFF", "#945232", "gray60"),
+       legend=c("Pipa (live)", "Pipa (dead)", "Qula (live)", "Qula (dead)", "Other"),
+       cex=0.8)
 
 ```
 
-Note that the `echo = FALSE` parameter prevents printing of the R code that generated the plot.
 
 
+Note that the `{r, echo = FALSE}` parameter prevents printing of R code, and only output is printed in the knitted document.
