@@ -46,23 +46,33 @@ Next, we add symbols for individual trees, with symbol color specific to species
 
 For more sophisticated application of alpha (transparency) values to "fg" or "bg" colors, see [https://www.rforge.net/doc/packages/snippets/col.html]
 ```{r}
-# 'plot' and 'lines' commands re-create the previous plot
 plot(E, N, pch=13, xlim=c(403830,403945), ylim=c(3285045,3285125), xlab="Easting (UTM)", ylab="Northing (UTM)", main="D3 Ordway-Swisher vegetation structure measurements:\nAverage canopy diameter")
 lines(E, N, lty=2)
 
-# Add the symbols corresponding to measured trees
+symbols(other$easting, other$northing, circles=other$canopyrad.m, inches=FALSE, add=TRUE, fg="#000000", bg="gray60")
+symbols(qula.d$easting, qula.d$northing, circles=qula.d$canopyrad.m, inches=FALSE, add=TRUE, fg="#f26522", bg="#945232")
+symbols(qula.l$easting, qula.l$northing, circles=qula.l$canopyrad.m, inches=FALSE, add=TRUE, fg="#f26522")
+symbols(pipa.d$easting, pipa.d$northing, circles=pipa.d$canopyrad.m, inches=FALSE, add=TRUE, fg="#005826", bg="#41614F")
+symbols(pipa.l$easting, pipa.l$northing, circles=pipa.l$canopyrad.m, inches=FALSE, add=TRUE, fg="#005826")
+```
+
+
+Add a legend to the plot:
+```{r}
+plot(E, N, pch=13, xlim=c(403830,403945), ylim=c(3285045,3285125), xlab="Easting (UTM)", ylab="Northing (UTM)", main="D3 Ordway-Swisher vegetation structure measurements:\nAverage canopy diameter")
+lines(E, N, lty=2)
+
 symbols(other$easting, other$northing, circles=other$canopyrad.m, inches=FALSE, add=TRUE, fg="#000000", bg="gray60")
 symbols(qula.d$easting, qula.d$northing, circles=qula.d$canopyrad.m, inches=FALSE, add=TRUE, fg="#f26522", bg="#945232")
 symbols(qula.l$easting, qula.l$northing, circles=qula.l$canopyrad.m, inches=FALSE, add=TRUE, fg="#f26522")
 symbols(pipa.d$easting, pipa.d$northing, circles=pipa.d$canopyrad.m, inches=FALSE, add=TRUE, fg="#005826", bg="#41614F")
 symbols(pipa.l$easting, pipa.l$northing, circles=pipa.l$canopyrad.m, inches=FALSE, add=TRUE, fg="#005826")
 
-# Add a legend to the plot
 legend("topleft", pch=21, 
-       c("Pipa (live)"), 
-       col=c("#005826"), 
-       pt.bg=c("#FFFFFF"), 
-       title="Species", cex=0.6)
+       c("Pipa (live)", "Pipa (dead)", "Qula (live)", "Qula (dead)", "Other"), 
+       col=c("#005826", "#005826", "#f26522", "#f26522", "#000000"), 
+       pt.bg=c("#FFFFFF", "#005826", "#FFFFFF", "#945232", "gray60"), 
+       title="Species", cex=0.8)
 ```
 
 
