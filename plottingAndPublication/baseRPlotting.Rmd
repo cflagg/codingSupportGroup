@@ -1,0 +1,78 @@
+---
+title: "Plotting with R {base} commands"
+author: "Courtney Meier"
+date: "27 May 2015"
+output: html_document
+---
+
+### Overview
+Here, I use vegetation structure data NEON collected at OSBS as part of the 2010 Pathfinder campaign to demonstrate basic plotting functionality included as part of the 'base' R package. These data were collected from all woody-stemmed individuals ≥ 1 m height within a 20m x 120m plot within the OSBS Tower airshed.
+
+###  Read in the vegetation structure dataset and examine the structure of the dataset:
+```{r}
+vs = read.csv("inputVstPathfinder2010.csv", header=TRUE)
+str(vs)
+```
+
+### Making the plot
+Create subsets of the original dataframe that can be used to plot each of the following groups:
+
+* Live Long-leaf Pine (_Pinus palustris_; Pipa)
+* Dead Pipa
+* Live Turkey Oak (_Quercus laevis_; Qula)
+* Dead Qula, and
+* 'Other' species, mostly small stature shrubs
+
+Data are subsetted below using the `which()` command (this was done in 2010!), but this subsetting could be much more cleanly accomplished with the `dplyr` package.
+```{r}
+pipa.l = vs[which(vs$species=='Pipa' & !vs$status=='Dead'),]
+pipa.d = vs[which(vs$species=='Pipa' & vs$status=='Dead'),]
+qula.l = vs[which(vs$species=='Qula' & !vs$status=='Dead'),]
+qula.d = vs[which(vs$species=='Qula' & vs$status=='Dead'),]
+other = vs[!vs$species %in% c("Pipa","Qula"),]
+```
+
+Create a plot containing GPS coordinates (in UTM) collected along the plot center-line. Easting and Northing values come from high-res GPS data collected on-site, and processed in Pathfinder Office. The `lines()` command draws lines connecting the plotted points.
+```{r}
+E = c(403835.04, 403876.8, 403919.41, 403963.86)
+N = c(3285052.24, 3285080.38, 3285104.02, 3285129.41)
+plot(E, N, pch=13, xlim=c(403830,403945), ylim=c(3285045,3285125), xlab="Easting (UTM)", ylab="Northing (UTM)", main="D3 Ordway-Swisher vegetation structure measurements: Average canopy diameter")
+lines(E, N, lty=2)
+```
+
+
+### Adding data to the existing plot
+Next, we add symbols for individual trees, with symbol color specific to species or groups of species, and symbol size corresponding to the average canopy diameter measured for each of the trees. The `add=TRUE` argument puts the symbols on the existing plot, rather than drawing a new one.
+
+For more sophisticated application of alpha (transparency) values to "fg" or "bg" colors, see [https://www.rforge.net/doc/packages/snippets/col.html]
+```{r}
+# 'plot' and 'lines' commands re-create the previous plot
+plot(E, N, pch=13, xlim=c(403830,403945), ylim=c(3285045,3285125), xlab="Easting (UTM)", ylab="Northing (UTM)", main="D3 Ordway-Swisher vegetation structure measurements:\nAverage canopy diameter")
+lines(E, N, lty=2)
+
+# Add the symbols corresponding to measured trees
+symbols(other$easting, other$northing, circles=other$canopyrad.m, inches=FALSE, add=TRUE, fg="#000000", bg="gray60")
+symbols(qula.d$easting, qula.d$northing, circles=qula.d$canopyrad.m, inches=FALSE, add=TRUE, fg="#f26522", bg="#945232")
+symbols(qula.l$easting, qula.l$northing, circles=qula.l$canopyrad.m, inches=FALSE, add=TRUE, fg="#f26522")
+symbols(pipa.d$easting, pipa.d$northing, circles=pipa.d$canopyrad.m, inches=FALSE, add=TRUE, fg="#005826", bg="#41614F")
+symbols(pipa.l$easting, pipa.l$northing, circles=pipa.l$canopyrad.m, inches=FALSE, add=TRUE, fg="#005826")
+
+# Add a legend to the plot
+legend("topleft", pch=21, 
+       c("Pipa (live)"), 
+       col=c("#005826"), 
+       pt.bg=c("#FFFFFF"), 
+       title="Species", cex=0.6)
+```
+
+
+
+
+
+```{r, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter prevents printing of the R code that generated the plot.
+
+
