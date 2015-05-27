@@ -4,7 +4,7 @@ author: "Cody Flagg"
 date: "Wednesday, May 27, 2015"
 output:
   html_document:
-    theme: journal
+    theme: spacelab
     number_sections: yes
     toc: yes
 ---
