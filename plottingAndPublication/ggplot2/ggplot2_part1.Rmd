@@ -1,0 +1,54 @@
+---
+title: "ggplot2 - part I"
+author: "Cody Flagg"
+date: "Wednesday, May 27, 2015"
+output:
+  html_document:
+    theme: journal
+    number_sections: yes
+    toc: yes
+---
+
+
+```{r echo=FALSE, results='hide',eval=FALSE}
+# notes
+#   	Syntax - graphing as a language
+# 		Construction - write a sentence, build a plot
+# 			qplot()
+# 			ggplot()
+# 		Options
+# 			Kill the gray grid
+# 			Part I - different types of graphs
+# 			Part II - different graph options (regression lines, lowess, etc.)
+# 		Make it a function (Part II)
+
+```
+
+
+# ggplot2 Outline
+1. Logic
+2. Syntax
+3. Basics - qplot()
+4. Additional Options - ggplot()
+
+# Logic
+
+```{r}
+# install.packages("ggplot2") # run this if you don't have ggplot2 installed
+library(ggplot2) # then run this to activate the package
+
+plot( mpg ~ wt, data = mtcars)
+
+# make a more complicated, ugly ass example using base plotting
+# install.packages("quantreg")
+qplot(mpg, wt, data = mtcars, geom = c("point", "quantile"))
+
+# then throw dplyr pipes in, they won't work with base plot functions
+
+```
+
+# Syntax
+
+# Basics - qplot()
+
+# Additional Options - ggplot(), 
