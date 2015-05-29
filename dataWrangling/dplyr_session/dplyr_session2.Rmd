@@ -2,7 +2,7 @@
 title: "dplyr_session2"
 author: "Cody Flagg"
 date: "Monday, May 04, 2015"
-output: html_document
+output: pdf_document
 ---
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
@@ -24,6 +24,8 @@ library(ggplot2)
 ## Future Topics
 4. SQL functions
     - Connecting to databases (http://cran.r-project.org/web/packages/dplyr/vignettes/databases.html)
+    https://github.com/datacarpentry/R-dplyr-ecology/blob/gh-pages/03-data-analysis.Rmd
+    https://github.com/justmarkham/dplyr-tutorial/blob/master/dplyr-tutorial.Rmd
     - Manipulating data from DBs 
 5. Two-table joins : multi-table data manipulation (http://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
 6. Data Cleaning (http://stackoverflow.com/questions/23642811/replace-parts-of-a-variable-using-numeric-indices-in-dplyr-do-i-need-to-create?rq=1)
@@ -33,24 +35,33 @@ library(ggplot2)
 ```{r}
 # Let's play with the iris dataset for a bit, RA Fisher first analyzed these data in 1936
 # first print the names of the columns
+
+data(iris)
+iris
+
+# list the column names first, so you know what you're working with
 names(iris)
 # The periods in each column name are kind of annoying, let's fix that
 rename(iris, petLength = Petal.Length, 
   petWidth = Petal.Width, 
   sepWidth = Sepal.Width, 
-  sepLength = Sepal.Length) -> iris2 # turn the assignment arround, remember this for piping later
+  sepLength = Sepal.Length) -> iris2 # turn the assignment around, remember this for piping later
 
-# rename and select have special functions for finding columns
-select(iris, contains("Sepal")) %>% head
+# rename and select have special arguments for finding columns
+select(iris, matches("sepal", ignore.case = FALSE)) %>% head # case sensitive
+select(iris, matches("sepal")) %>% head # not case sensitive
 
 # another example - notice that it is not case sensitive
-select(iris, ends_with("width")) %>% head
+select(iris, contains("l.l")) %>% head 
+
+# similar to a regex function i.e. stringr::sub_str()
+select(iris, ends_with("th")) %>% head # the regex starts at the end of a string; if end of string doesn't explicitly begin with "th" they are skipped 
 
 # what if you have lots of columns, named/numbered something?
 # create a silly example
-df1 = data.frame(x1 = rnorm(5), x2 = runif(5), x3 = rpois(5, 2), type = sample(letters, 5))
+df1 = data.frame(x05 = rnorm(5), x06= runif(5), x07 = rpois(5, 2), type = sample(letters, 5))
 # now select a few columns
-select(df1, num_range("x", 1:2))
+select(df1, num_range("x", 5:6, width=2)) # the width argument specifies that the string is at least 2 characters wide (i.e. "01" vs. "1")
 ```
 
 
@@ -59,20 +70,51 @@ select(df1, num_range("x", 1:2))
 ```{r}
 # arrange(dataframe, column1, column2, ...)
 head(arrange(iris2, desc(Species), sepLength))
+
+# the piping way: 
+arrange(iris2, desc(Species), sepLength) %>% head
+
 ```
 
 ## 3. group_by() - equivalent to plyr::ddply()
 ```{r}
+library(plyr)
+# mutate iris2, replace iris2 with mutated data
 iris2 %>% mutate(sepalRatio = sepWidth/sepLength, # a simple ratio
                  avgSepLen = mean(sepLength)) -> iris2 # can use mutate to do column-wise operations too
 
+# transumute only outputs new columns
+transmute(iris2, sepalRatio = sepWidth/sepLength)
+
 # group the data by column "Species" - summarise by mean sepal and petal lengths
-group_by(iris2, Species) %>% summarise(mean(sepLength), mean(petLength))
+iris2 %>% group_by(Species) %>% summarise(mean(sepLength), mean(petLength))
 
-# can we use a pipe to plot?
-group_by(iris2, Species) %>% ggplot(aes(sepLength,petLength)) + geom_point() + geom_smooth() + facet_wrap(~Species)
+# how you would do this in plyr; I think it makes more sense to use a single function call
+# syntax: ddply(dataframe, groups, special function, function calls)
+head(ddply(iris2, .(Species), summarize, 
+      avgSepLen = mean(sepLength)))
 
-# what about modelling? - not sure how to use this yet...
-iris2 %>% group_by(Species) %>% do(model = lm(sepLength ~ petLength, data = .))
+# transform adds column(s) all at once
+head(ddply(iris2, .(Species), transform, 
+      avgSepLen = mean(sepLength)))
+
+# mutate lets you adds column(s) sequentially, so they can be referenced internally within the function
+head(ddply(iris2, .(Species), mutate, 
+      avgSepLen = mean(sepLength), ratko = avgSepLen*10)) # ratko references the previous column: avgSepLen
+
+# can we use a pipe to plot? Si se puede, a few examples below: 
+# plot the groups on the same panel, using color to identify groups
+iris2 %>% group_by(Species) %>% ggplot(aes(sepLength,petLength, color = Species)) + geom_point() + geom_smooth() 
+
+# facet_wrap the different groups onto different panels
+iris2 %>% group_by(Species) %>% ggplot(aes(sepLength,petLength, color = Species)) + geom_point() + geom_smooth() + facet_wrap(~Species)
+
+# sfsmisc as an alternative for plotting?
+
+# what about modelling; Can we fit a linear model to each group, then examine the summary data? - not sure how to use this yet...
+iris2 %>% group_by(Species) %>% do(model = lm(sepLength ~ petLength, data = .)) -> iris.mods
+
+# look at the structure - HOW DO I GET TO YOU?
+str(iris.mods[1,2])
 
 ```

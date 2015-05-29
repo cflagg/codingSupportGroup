@@ -1,0 +1,27 @@
+---
+title: "dplyr_session3_SQL"
+author: "Cody Flagg"
+date: "Friday, May 08, 2015"
+output: html_document
+---
+
+# Outline
+
+http://cran.r-project.org/web/packages/dplyr/vignettes/databases.html
+
+4. SQL functions
+    - Connecting to databases (http://cran.r-project.org/web/packages/dplyr/vignettes/databases.html)
+    https://github.com/datacarpentry/R-dplyr-ecology/blob/gh-pages/03-data-analysis.Rmd
+    https://github.com/justmarkham/dplyr-tutorial/blob/master/dplyr-tutorial.Rmd
+    - Manipulating data from DBs 
+5. Two-table joins : multi-table data manipulation (http://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
+6. Data Cleaning (http://stackoverflow.com/questions/23642811/replace-parts-of-a-variable-using-numeric-indices-in-dplyr-do-i-need-to-create?rq=1)
+
+# filter rows by column criteria with grepl; grepl evaluates and returns logical results, grep returns index of "true"
+df1 <- data.frame(sampleID = c("CPER_001", "CPER_003", "HARV_001"), test = c("yes","yes","no")
+df1 %>% filter(grepl("CPER", sampleID))
+filter(df1, grepl("HAR",sampleID) | grepl("yes", test))
+
+# regular grep example
+grep("CPER", x = df1$sampleID)
+df1[grep("CPER", x = df1$sampleID),]

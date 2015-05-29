@@ -1,0 +1,212 @@
+---
+title: "Graphing with ggplot2: a brief overview"
+author: "Cody Flagg"
+date: "Wednesday, May 27, 2015"
+output:
+  html_document:
+    theme: spacelab
+    number_sections: yes
+    toc: yes
+---
+
+**Goal:** A brief overview of the philosophy behind ggplot, and a demonstration of its utility and power. 
+
+```{r echo=FALSE, results='hide',eval=FALSE}
+# notes
+#   	Syntax - graphing as a language
+# 		Construction - write a sentence, build a plot
+# 			qplot()
+# 			ggplot()
+# 		Options
+# 			Kill the gray grid
+# 			Part I - different types of graphs (specified by geom_'type')
+# 			Part II - different graph options (regression lines, facets, etc.)
+#     Being lazy is good: cheatsheets, R cookbook
+# 		Make it a function (Part II): http://bactra.org/weblog/1064.html
+#     Abstraction >> Refactoring
+#     TDD: http://chimera.labs.oreilly.com/books/1234000000754/ch04.html
+#     Minimalism in your coding life
+
+```
+
+# ggplot2 Outline
+1. Grammar of Graphics
+2. Syntax
+3. Basics - qplot()
+4. 2010 Pathfinder Data with ggplot
+
+# Grammar of Graphics
+
+##Theory and Philosophy
+
+![text](http://www.science-craft.com/wp-content/uploads/2014/06/ggplot-2.png"Grammar of Graphics")
+
+** Well, Duh! **
+
+** The point here is the formalization of graphing, the clarity that formalities bring coaxs art. ** 
+
+### Grammar of Graphics: Finding Meaning in the Hadley-verse
+
+* "An __abstraction__ which makes thinking, reasoning, and communicating (graphics) easier."
+* R as a Language > use R to build coherent structures (sentences = single lines, paragraphs = functions, essays = workflow)
+    * Not just using tools/functions as a _means to an end_, but an _end in itself_: the code, the grammar matters as much as the output.   
+* But also...__be lazy__. Lazy is smart. Thinking less about little, uninteresting problems allows for more abstraction and complexity in problem solving. 
+* Finally...web resources to jumpstart!
+    * (ggplot2 cheatsheet) http://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
+    * (R Cookbook) http://www.cookbook-r.com/Graphs/
+
+# Syntax in the Hadley-verse: ggplot2
+
+* __Functionally__ : build every graph with the same few components:
+    * `data`
+    * geometries (or `geom`, visual marks that represent data) 
+        * Map variables to `aesthetic` (or `aes`) properties in the `geom`: size, color, x, y
+    * `coordinate system` 
+* __Additions__ more options are added via additional function calls, referred to as __layers__, rather than being embedded in one long call
+* __Similarities__ : the "Hadley-verse" of dplyr, plyr, tidyr, reshape2 packages 
+    * e.g. "function(.data, .group, .arguments, ...)"
+    * Why is this important?
+      * Connectivity (pipe your problems)
+      * Reducing cluttered thought
+      * Cleaner workflow = better work
+
+
+# Basics
+
+```{r message=FALSE,warning=FALSE}
+# install.packages("ggplot2") # run this if you don't have ggplot2 installed
+library(ggplot2) # then run this to activate the package
+library(dplyr)
+
+# base R plotting
+plot(mpg ~ wt, data = mtcars)
+
+# quick and simple plotting function; not for finely tuning figures
+# why use qplot? It's a one line function that requires no additional layering
+qplot(mpg, wt, data = mtcars, geom = c("point", "smooth"))
+
+# Graduating to full controls - using ggplot()
+# adding a smoothing layer for a regression, point layer, and controlling the thematic background layer
+ggplot(mtcars, aes(mpg,wt)) + geom_smooth(method="lm") + geom_point() + theme_classic()
+```
+
+## Revisiting 2010 Pathfinder Data
+
+* dplyr the target species and status
+
+```{r}
+vs <- read.csv("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/plottingAndPublication/inputVstPathfinder2010.csv", header=TRUE)
+
+# create target vectors to capture everything in one call
+# or do it in one
+vs2 <- filter(vs, species %in% c("Qula", "Pipa"), status %in% c("Alive", "Dead"))
+vs2_other <- filter(vs, !(species %in% c("Qula", "Pipa"))) # species that are "not in" list "Qula", "Pipa"
+
+# a functionable alternative?
+# Set search term arguments
+# target_sp = c("Pipa", "Qula")
+# target_st = c("Dead","Alive")
+# 
+# iterate over filters and pipes
+# vs2 <- filter(vs, species %in% target_sp, status %in% target_st)
+#'%ni%' <- Negate('%in%') # We are the knights who say "Ni!" - a "not in" logical operator (not a base R function)
+# vs2_other <- filter(vs, species %ni% target_sp) # filter "It!"
+```
+
+## Figure 1 from VST plotting
+```{r}
+E = c(403835.04, 403876.8, 403919.41, 403963.86)
+N = c(3285052.24, 3285080.38, 3285104.02, 3285129.41)
+
+# build the base graphic, assign it to a callable object
+g1  <- ggplot(vs2, aes(x=easting, y = northing, color = species))  # define the primary elements of your graph
+# g1 # uncomment this and run; think of this as the beginning of a "canvas" for later...
+
+# now declare the geometry and the axis limits
+g2  <- g1 + geom_point(aes(size = canopyrad.m)) + coord_cartesian(xlim=c(403830,403945), ylim=c(3285045,3285125)) # add new properties to the object
+g2 # call again
+
+# Now tweak the graphical properties
+g2<- g2 + theme_classic() # kill the gray background and grid, one liner
+g2
+```
+
+
+### Add the transect from GPS data
+
+```{r}
+# how about a "one-liner": 
+trans <- data.frame(easting = E,northing = N) # turn the transect line into a data frame
+
+g2 + geom_line(aes(easting,northing),data=trans, colour = "black") + 
+  geom_point(aes(easting,northing), data=trans, color = "darkgreen", size = 5, shape = 13)# now add it
+```
+
+
+## Why Build A Canvas?
+
+* Back to Grammar: Abstraction >> simple Refactoring
+    * __Abstraction__: a way of managing complexity. Identify a reoccurring activity, turn it into a function, method, class, or _language_, and give it a name. 
+    * _Be Lazy_: Let machines do boring stuff (computation); let people do cool stuff (thinking, analysis, design).
+    * __Refactoring__: Reduce repetitive code activities by creating a function. 
+* Applied to ggplot:
+    * Use the same base plot (our canvas), modify without repeating the same code. 
+
+```{r}
+g2.facet <- g1 + geom_point(aes(size = canopyrad.m)) + facet_wrap(~species)
+g2.facet
+```
+
+### Visualize Different Patterns - 3D plots
+
+* 3D not an option in ggplot, why?
+    * Hadley's Philosophy: nothing quotable...but its absence speaks volumes. 
+    * But also, from his thesis: "While it is possible to investigate high-d objects with only static graphics,     it is much easier to do so interactively."
+* Alternatives in ggplot: facet_wrap
+* Where are the dead trees, and what species are they?
+
+```{r}
+g3.facet <- g1 + geom_point(aes(size = height.m)) + facet_wrap(~status+species)
+g3.facet
+```
+
+**Contrast with 3D plot**
+
+```{r message=FALSE,warning=FALSE}
+library(scatterplot3d)
+
+pipa.l = vs[which(vs$species=='Pipa' & !vs$status=='Dead'),]
+pipa.d = vs[which(vs$species=='Pipa' & vs$status=='Dead'),]
+qula.l = vs[which(vs$species=='Qula' & !vs$status=='Dead'),]
+qula.d = vs[which(vs$species=='Qula' & vs$status=='Dead'),]
+other = vs[!vs$species %in% c("Pipa","Qula"),]
+
+s3d = scatterplot3d(pipa.l$easting, pipa.l$northing, pipa.l$height.m, type="h", main="Tree and shrub height within OSBS Tower airshed", xlab="Easting (m)", ylab="Northing (m)", zlab="Tree height (m)", pch=21, color="#005826", box=F, angle=70, scale.y=2.3, xlim=c(403830,403950), ylim=c(3285040,3285120))
+
+s3d$points3d(pipa.d$easting, pipa.d$northing, pipa.d$height.m, type="h", pch=19, col="#41614F")
+s3d$points3d(qula.d$easting, qula.d$northing, qula.d$height.m, type="h", pch=19, col="#945232")
+s3d$points3d(qula.l$easting, qula.l$northing, qula.l$height.m, type="h", pch=21, col="#f26522")
+s3d$points3d(other$easting, other$northing, other$height.m, type="h", pch=19)
+
+legend(s3d$xyz.convert(403920,3285050,15), pch=21, 
+       col=c("#005826", "#005826", "#f26522", "#f26522", "#000000"),
+       pt.bg=c("#FFFFFF", "#005826", "#FFFFFF", "#945232", "gray60"),
+       legend=c("Pipa (live)", "Pipa (dead)", "Qula (live)", "Qula (dead)", "Other"),
+       cex=0.8)
+
+```
+
+### Piecing Together Hadley-verse Packages
+
+* dplyr -> ggplot (subset and plot)
+* In a galaxy far far away... tidyr -> reshape2 -> dplyr -> ggplot
+
+```{r}
+# in one go - one dataset call
+vs  %>% 
+  filter(species %in% c("Qula", "Pipa"), status %in% c("Alive", "Dead"))  %>% 
+  ggplot(aes(x=easting, y = northing, color = species)) + 
+  facet_wrap(~status+species) + 
+  geom_point(aes(size = height.m))
+```
+
