@@ -18,37 +18,188 @@ output:
 # 			ggplot()
 # 		Options
 # 			Kill the gray grid
-# 			Part I - different types of graphs
-# 			Part II - different graph options (regression lines, lowess, etc.)
-# 		Make it a function (Part II)
+# 			Part I - different types of graphs (specified by geom_'type')
+# 			Part II - different graph options (regression lines, facets, etc.)
+#     Being lazy is good: cheatsheets, R cookbook
+# 		Make it a function (Part II): http://bactra.org/weblog/1064.html
+#     Abstraction >> Refactoring
+#     TDD: http://chimera.labs.oreilly.com/books/1234000000754/ch04.html
+#     Minimalism in your coding life
 
 ```
 
-
 # ggplot2 Outline
-1. Logic
+1. Grammar of Graphics
 2. Syntax
 3. Basics - qplot()
 4. Additional Options - ggplot()
 
-# Logic
+# Grammar of Graphics
 
-```{r}
+##__Theory and Philosophy__
+
+![text](http://www.science-craft.com/wp-content/uploads/2014/06/ggplot-2.png"Grammar of Graphics")
+
+![text](http://image.slidesharecdn.com/grammarofgraphicsfinal-120918054625-phpapp01/95/the-grammar-of-graphics-for-isko-uk-72-728.jpg?cb=1347947561 "A graphical object")
+
+### Meaning
+
+* "An abstraction which makes thinking, reasoning, and communicating (graphics) easier."
+* R is a Language > use R to build coherent structures (sentences = single lines, paragraphs = functions, essays = workflow)
+  * Not just using tools/functions as a means to an end, but an end in itself: the code and the grammar matters as much as the output.  
+* Hadley: future of data analysis is only more EDA, not more `script and check` programming.
+
+* But also...be lazy. Thinking less about common details allows for more abstraction and complexity.
+* And also...use web resources!
+    * (ggplot2 cheatsheet) http://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
+    * (R Cookbook) http://www.cookbook-r.com/Graphs/
+
+# Syntax
+
+
+* __Functionally__ : build every graph with the same few components:
+  * `data`
+  * geometries (or `geom`, visual marks that represent data) 
+      * Map variables to `aesthetic` (or `aes`) properties in the `geom`: size, color, x, y
+  * coordinate system 
+* __Similarities__ : the "Hadley-verse" of dplyr, plyr, tidyr, reshape2 packages 
+  * e.g. "function(.data, .group, .arguments, ...)"
+  * Why is this important?
+    * Connectivity
+* __Foundation__ : ggplot(.data, aes(x,y,group,colour))
+  * "aes" = "aesthetic"
+  * group & color/colour can be used 
+* __Additional__ options are added via additional function calls, referred to as __layers__, rather than being embedded in one long call
+
+
+
+# Basics - qplot()
+
+```{r message=FALSE,warning=FALSE}
 # install.packages("ggplot2") # run this if you don't have ggplot2 installed
 library(ggplot2) # then run this to activate the package
+library(dplyr)
 
-plot( mpg ~ wt, data = mtcars)
+plot(mpg ~ wt, data = mtcars)
 
-# make a more complicated, ugly ass example using base plotting
-# install.packages("quantreg")
-qplot(mpg, wt, data = mtcars, geom = c("point", "quantile"))
+# quick and simple plotting function; not for finely tuning figures
+qplot(mpg, wt, data = mtcars, geom = c("point", "smooth"))
+
+# Graduating to full controls - using ggplot()
+ggplot(mtcars, aes(mpg,wt)) + geom_smooth(method="lm") + geom_point() + theme_bw()
 
 # then throw dplyr pipes in, they won't work with base plot functions
 
 ```
 
-# Syntax
+## Using Courtney's Data
+* dplyr the target species and status
+```{r}
+vs <- read.csv("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/plottingAndPublication/inputVstPathfinder2010.csv", header=TRUE)
 
-# Basics - qplot()
+# create target vectors to capture everything in one call
+# or do it in one
+vs2 <- filter(vs, species %in% c("Qula", "Pipa"), status %in% c("Alive", "Dead"))
+vs2_other <- filter(vs, !(species %in% c("Qula", "Pipa"))) # species that are "not in" list "Qula", "Pipa"
 
-# Additional Options - ggplot(), 
+# a functionable alternative?
+# Set search term arguments
+# target_sp = c("Pipa", "Qula")
+# target_st = c("Dead","Alive")
+# 
+# iterate over filters and pipes
+# vs2 <- filter(vs, species %in% target_sp, status %in% target_st)
+#'%ni%' <- Negate('%in%') # We are the knights who say "Ni!" - a "not in" logical operator (not a base R function)
+# vs2_other <- filter(vs, species %ni% target_sp) # filter "It!"
+```
+
+## Figure 1 from VST plotting
+```{r}
+E = c(403835.04, 403876.8, 403919.41, 403963.86)
+N = c(3285052.24, 3285080.38, 3285104.02, 3285129.41)
+
+# build the base graphic, assign it to a callable object
+g1  <- ggplot(vs2, aes(x=easting, y = northing, color = species))  # define the primary elements of your graph
+# g1 # uncomment this and run; think of this as the beginning of a "canvas" for later...
+
+# now declare the geometry and the axis limits
+g2  <- g1 + geom_point(aes(size = canopyrad.m)) + coord_cartesian(xlim=c(403830,403945), ylim=c(3285045,3285125)) # add new properties to the object
+g2 # call again
+
+# Now tweak the graphical properties
+g2<- g2 + theme_classic() # kill the gray background and grid, one liner
+g2
+```
+
+
+### Add the transect from GPS data
+```{r}
+# the git'r done attitude,a bit clunky in this regard, ey?
+g2 + geom_segment(aes(x =E[1] , xend = E[2],y = N[1] , yend = N[2]), colour = "black") +
+  geom_segment(aes(x =E[2] , xend = E[3],y = N[2] , yend = N[3]), colour = "black") +
+  geom_segment(aes(x =E[3] , xend = E[4],y = N[3] , yend = N[4]), color = "black") 
+```
+
+__A slightly better approach__
+
+```{r}
+# how about a "one-liner": 
+trans <- data.frame(easting = E,northing = N)
+g2 + geom_line(aes(easting,northing),data=trans, colour = "black")
+```
+
+
+## Why Build A Canvas?
+
+* Back to Grammar: Abstraction >> simple Refactoring
+    * __Abstraction__: a way of managing complexity. Identify a reoccurring activity, turn it into a function, method, class, or _language_, and give it a name. 
+    * _Be Lazy_: Let machines do boring stuff (computation); let people do cool stuff (thinking, analysis, design).
+    * __Refactoring__: Reduce repetitive code activities by creating a function. 
+* Applied to ggplot:
+    * Use the same base plot (our canvas), modify without repeating the same code. 
+
+```{r}
+g2.facet <- g1 + geom_point(aes(size = canopyrad.m)) + facet_wrap(~species)
+g2.facet
+```
+
+### Visualize Different Patterns - 3D plots
+
+* 3D not an option in ggplot, why?
+    * Hadley's Philosophy: nothing quotable...but its absence speaks volumes. 
+    * But also, from his thesis: "While it is possible to investigate high-d objects with only static graphics,     it is much easier to do so interactively."
+* Alternatives in ggplot: facet_wrap
+* Where are the dead trees, and what species are they?
+
+```{r}
+g3.facet <- g1 + geom_point(aes(size = height.m)) + facet_wrap(~status+species)
+g3.facet
+```
+
+**Contrast with 3D plot**
+
+```{r message=FALSE,warning=FALSE}
+library(scatterplot3d)
+
+pipa.l = vs[which(vs$species=='Pipa' & !vs$status=='Dead'),]
+pipa.d = vs[which(vs$species=='Pipa' & vs$status=='Dead'),]
+qula.l = vs[which(vs$species=='Qula' & !vs$status=='Dead'),]
+qula.d = vs[which(vs$species=='Qula' & vs$status=='Dead'),]
+other = vs[!vs$species %in% c("Pipa","Qula"),]
+
+s3d = scatterplot3d(pipa.l$easting, pipa.l$northing, pipa.l$height.m, type="h", main="Tree and shrub height within OSBS Tower airshed", xlab="Easting (m)", ylab="Northing (m)", zlab="Tree height (m)", pch=21, color="#005826", box=F, angle=70, scale.y=2.3, xlim=c(403830,403950), ylim=c(3285040,3285120))
+
+s3d$points3d(pipa.d$easting, pipa.d$northing, pipa.d$height.m, type="h", pch=19, col="#41614F")
+s3d$points3d(qula.d$easting, qula.d$northing, qula.d$height.m, type="h", pch=19, col="#945232")
+s3d$points3d(qula.l$easting, qula.l$northing, qula.l$height.m, type="h", pch=21, col="#f26522")
+s3d$points3d(other$easting, other$northing, other$height.m, type="h", pch=19)
+
+legend(s3d$xyz.convert(403920,3285050,15), pch=21, 
+       col=c("#005826", "#005826", "#f26522", "#f26522", "#000000"),
+       pt.bg=c("#FFFFFF", "#005826", "#FFFFFF", "#945232", "gray60"),
+       legend=c("Pipa (live)", "Pipa (dead)", "Qula (live)", "Qula (dead)", "Other"),
+       cex=0.8)
+
+```
+
+

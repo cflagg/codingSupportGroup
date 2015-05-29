@@ -12,7 +12,7 @@ Here, I use vegetation structure data NEON collected at OSBS as part of the 2010
 
 ####  Read in the vegetation structure dataset and examine the structure of the dataset:
 ```{r}
-vs = read.csv("inputVstPathfinder2010.csv", header=TRUE)
+vs = read.csv("../Documents/GitHub/codingSupportGroup/plottingAndPublication/inputVstPathfinder2010.csv", header=TRUE)
 str(vs)
 ```
 
