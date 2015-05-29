@@ -43,8 +43,6 @@ output:
 
 ** Well, Duh! **
 
-![text](http://image.slidesharecdn.com/grammarofgraphicsfinal-120918054625-phpapp01/95/the-grammar-of-graphics-for-isko-uk-72-728.jpg?cb=1347947561 "A graphical object")
-
 ** The point here is the formalization of graphing, the clarity that formalities bring coaxs art. ** 
 
 ### Grammar of Graphics: Finding Meaning in the Hadley-verse
