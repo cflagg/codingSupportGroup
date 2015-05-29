@@ -1,5 +1,5 @@
 ---
-title: "ggplot2 - part I"
+title: "Graphing with ggplot2: a brief overview"
 author: "Cody Flagg"
 date: "Wednesday, May 27, 2015"
 output:
@@ -9,6 +9,7 @@ output:
     toc: yes
 ---
 
+**Goal:** A brief overview of the philosophy behind ggplot, and a demonstration of its utility and power. 
 
 ```{r echo=FALSE, results='hide',eval=FALSE}
 # notes
@@ -32,68 +33,69 @@ output:
 1. Grammar of Graphics
 2. Syntax
 3. Basics - qplot()
-4. Additional Options - ggplot()
+4. 2010 Pathfinder Data with ggplot
 
 # Grammar of Graphics
 
-##__Theory and Philosophy__
+##Theory and Philosophy
 
 ![text](http://www.science-craft.com/wp-content/uploads/2014/06/ggplot-2.png"Grammar of Graphics")
 
+** Well, Duh! **
+
 ![text](http://image.slidesharecdn.com/grammarofgraphicsfinal-120918054625-phpapp01/95/the-grammar-of-graphics-for-isko-uk-72-728.jpg?cb=1347947561 "A graphical object")
 
-### Meaning
+** The point here is the formalization of graphing, the clarity that formalities bring coaxs art. ** 
 
-* "An abstraction which makes thinking, reasoning, and communicating (graphics) easier."
-* R is a Language > use R to build coherent structures (sentences = single lines, paragraphs = functions, essays = workflow)
-  * Not just using tools/functions as a means to an end, but an end in itself: the code and the grammar matters as much as the output.  
-* Hadley: future of data analysis is only more EDA, not more `script and check` programming.
+### Grammar of Graphics: Finding Meaning in the Hadley-verse
 
-* But also...be lazy. Thinking less about common details allows for more abstraction and complexity.
-* And also...use web resources!
+* "An __abstraction__ which makes thinking, reasoning, and communicating (graphics) easier."
+* R as a Language > use R to build coherent structures (sentences = single lines, paragraphs = functions, essays = workflow)
+    * Not just using tools/functions as a _means to an end_, but an _end in itself_: the code, the grammar matters as much as the output.   
+* But also...__be lazy__. Lazy is smart. Thinking less about little, uninteresting problems allows for more abstraction and complexity in problem solving. 
+* Finally...web resources to jumpstart!
     * (ggplot2 cheatsheet) http://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
     * (R Cookbook) http://www.cookbook-r.com/Graphs/
 
-# Syntax
-
+# Syntax in the Hadley-verse: ggplot2
 
 * __Functionally__ : build every graph with the same few components:
-  * `data`
-  * geometries (or `geom`, visual marks that represent data) 
-      * Map variables to `aesthetic` (or `aes`) properties in the `geom`: size, color, x, y
-  * coordinate system 
+    * `data`
+    * geometries (or `geom`, visual marks that represent data) 
+        * Map variables to `aesthetic` (or `aes`) properties in the `geom`: size, color, x, y
+    * `coordinate system` 
+* __Additions__ more options are added via additional function calls, referred to as __layers__, rather than being embedded in one long call
 * __Similarities__ : the "Hadley-verse" of dplyr, plyr, tidyr, reshape2 packages 
-  * e.g. "function(.data, .group, .arguments, ...)"
-  * Why is this important?
-    * Connectivity
-* __Foundation__ : ggplot(.data, aes(x,y,group,colour))
-  * "aes" = "aesthetic"
-  * group & color/colour can be used 
-* __Additional__ options are added via additional function calls, referred to as __layers__, rather than being embedded in one long call
+    * e.g. "function(.data, .group, .arguments, ...)"
+    * Why is this important?
+      * Connectivity (pipe your problems)
+      * Reducing cluttered thought
+      * Cleaner workflow = better work
 
 
-
-# Basics - qplot()
+# Basics
 
 ```{r message=FALSE,warning=FALSE}
 # install.packages("ggplot2") # run this if you don't have ggplot2 installed
 library(ggplot2) # then run this to activate the package
 library(dplyr)
 
+# base R plotting
 plot(mpg ~ wt, data = mtcars)
 
 # quick and simple plotting function; not for finely tuning figures
+# why use qplot? It's a one line function that requires no additional layering
 qplot(mpg, wt, data = mtcars, geom = c("point", "smooth"))
 
 # Graduating to full controls - using ggplot()
-ggplot(mtcars, aes(mpg,wt)) + geom_smooth(method="lm") + geom_point() + theme_bw()
-
-# then throw dplyr pipes in, they won't work with base plot functions
-
+# adding a smoothing layer for a regression, point layer, and controlling the thematic background layer
+ggplot(mtcars, aes(mpg,wt)) + geom_smooth(method="lm") + geom_point() + theme_classic()
 ```
 
-## Using Courtney's Data
+## Revisiting 2010 Pathfinder Data
+
 * dplyr the target species and status
+
 ```{r}
 vs <- read.csv("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/plottingAndPublication/inputVstPathfinder2010.csv", header=TRUE)
 
@@ -133,19 +135,13 @@ g2
 
 
 ### Add the transect from GPS data
-```{r}
-# the git'r done attitude,a bit clunky in this regard, ey?
-g2 + geom_segment(aes(x =E[1] , xend = E[2],y = N[1] , yend = N[2]), colour = "black") +
-  geom_segment(aes(x =E[2] , xend = E[3],y = N[2] , yend = N[3]), colour = "black") +
-  geom_segment(aes(x =E[3] , xend = E[4],y = N[3] , yend = N[4]), color = "black") 
-```
-
-__A slightly better approach__
 
 ```{r}
 # how about a "one-liner": 
-trans <- data.frame(easting = E,northing = N)
-g2 + geom_line(aes(easting,northing),data=trans, colour = "black")
+trans <- data.frame(easting = E,northing = N) # turn the transect line into a data frame
+
+g2 + geom_line(aes(easting,northing),data=trans, colour = "black") + 
+  geom_point(aes(easting,northing), data=trans, color = "darkgreen", size = 5, shape = 13)# now add it
 ```
 
 
@@ -202,4 +198,17 @@ legend(s3d$xyz.convert(403920,3285050,15), pch=21,
 
 ```
 
+### Piecing Together Hadley-verse Packages
+
+* dplyr -> ggplot (subset and plot)
+* In a galaxy far far away... tidyr -> reshape2 -> dplyr -> ggplot
+
+```{r}
+# in one go - one dataset call
+vs  %>% 
+  filter(species %in% c("Qula", "Pipa"), status %in% c("Alive", "Dead"))  %>% 
+  ggplot(aes(x=easting, y = northing, color = species)) + 
+  facet_wrap(~status+species) + 
+  geom_point(aes(size = height.m))
+```
 
