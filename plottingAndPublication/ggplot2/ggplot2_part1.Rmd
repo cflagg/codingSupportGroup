@@ -123,7 +123,7 @@ g1  <- ggplot(vs2, aes(x=easting, y = northing, color = species))  # define the 
 # g1 # uncomment this and run; think of this as the beginning of a "canvas" for later...
 
 # now declare the geometry and the axis limits
-g2  <- g1 + geom_point(aes(size = canopyrad.m)) + coord_cartesian(xlim=c(403830,403945), ylim=c(3285045,3285125)) # add new properties to the object
+g2  <- g1 + geom_point(aes(size = canopyrad.m)) + coord_cartesian(xlim=c(403830,403945), ylim=c(3285045,3285125))  # add new properties to the object
 g2 # call again
 
 # Now tweak the graphical properties
@@ -139,7 +139,7 @@ g2
 trans <- data.frame(easting = E,northing = N) # turn the transect line into a data frame
 
 g2 + geom_line(aes(easting,northing),data=trans, colour = "black") + 
-  geom_point(aes(easting,northing), data=trans, color = "darkgreen", size = 5, shape = 13)# now add it
+  geom_point(aes(easting,northing), data=trans, color = "darkgreen", size = 5, shape = 13) now add it
 ```
 
 
