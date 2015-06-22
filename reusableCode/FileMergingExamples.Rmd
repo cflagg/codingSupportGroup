@@ -16,6 +16,8 @@ library(plyr)
 #library(pander)
 library(stringr)
 
+
+
 # Set working directory and file path ... relative path will work if Git folders are in "Documents"
 setwd("../Documents/GitHub/organismalIPT/spatialData") # alternative: file.path(getwd(),directory2)
 pathToFiles <- getwd()
