@@ -1,0 +1,60 @@
+---
+title: "ingestFileStacker"
+author: "Cody Flagg"
+date: "Friday, January 30, 2015"
+output: html_document
+---
+
+## Only useful if compiling plotIDs from plotSpatialData_BatchXX files
+
+```{r}
+library(plyr)
+library(stringr)
+
+# Set working directory and file path ... relative path will work if Git folders are in "Documents"
+setwd("../Documents/GitHub/organismalIPT/spatialData") # alternative: file.path(getwd(),directory2)
+pathToFiles <- getwd()
+
+# Create directory to hold new output from script - named "QA_Files" here
+#dir.create(file.path(pathToFiles, "QA_Files"),showWarnings = FALSE)
+
+#set this to the prefix for the sheets in your module; make specific to file name batch
+myPrefix <- 'plotSpatialData_'
+mySuffix <- '.csv'
+
+# load and inspect files
+fileList <- list.files(pathToFiles, full.names=TRUE) # list all the files, full.names=TRUE is necessary for ldplay/lapply to work below
+# solution from: http://stackoverflow.com/questions/13441204/using-lapply-and-read-csv-on-multiple-files-in-r
+fileGrab1 <- fileList[grep(myPrefix,fileList)] # subset to just the ones in your module, using prefix
+fileGrab2 <- fileGrab1[grep(mySuffix,fileGrab1)]
+
+# fileGrab3 <- fileGrab2[-2] # leave out file without elevation records
+```
+
+```{r}
+# the file list here should point to "fileGrab1" for this specific script
+multiCombine <- function(input, ply = llply){
+  ply(input, function(x){
+    t <- read.csv(x, header=TRUE, sep=",",stringsAsFactors = FALSE) # read the csv
+    t1 <- rbind(t) # rbind it to a temporary variable
+    return(t1) # return the full variable
+}
+)
+}
+
+# example use - combine the list of files (hence "l") into a dataframe (hence "d")
+combined.df = multiCombine(fileGrab2, ply = ldply)
+
+```
+
+```{r}
+# check unique sites for updates
+sort(unique(combined.df$siteID))
+```
+
+
+```{r}
+# write the output file
+write.csv(combined.df, file = "N:/Science/FSU/FOPSDataEntry/2015/plotID_siteID_tables/plotIDs_2015_09052015.csv")
+```
+

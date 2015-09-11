@@ -45,25 +45,26 @@ for (domain in unique(domainList)){
   # connect to the related Access DB
   db_file <- dbList[grep(paste(domain,"_vst_dataIngest",sep=""), dbList)] # the name of the DB file
   dd <- paste("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=", db_file, sep="") # the syntax for ODBC access
+  print(db_file)
   db_channel <-  odbcDriverConnect(dd) # open a channel to the DB
   plant_list <- sqlQuery(db_channel, paste("select * from USDA_plantList_2015")) # query the table and store it
   plant_list$ID <- seq(1,nrow(plant_list)) # add ID values sequentially
   # now join the plant_list with the vst_files that have taxonID
-  for (files in unique(vst_files)){
-    vst_dat <- read.csv(files,header=T,stringsAsFactors = FALSE) # read in the files sequentially
-    # don't attempt the join if there is not a taxonID field in the file 
-    if ("taxonID" %in% colnames(vst_dat)){
-      # join vst file with Access DB plant list
-      dat <- left_join(vst_dat, plant_list, by = c("taxonID" = "ID"))
-      # trim columns - select() works off of column integers, not names
-      colNums <- match(colnames(vst_dat),names(vst_dat)) # determine numeric positions of columns
-      out_dat <- select(dat, colNums, taxonID.y) # include the character-taxonID e.g. "taxonID.y"
-      # print file
-      name_out <- str_split_fixed(files,"/",6)[6] # grab the name of the file, e.g. the 6th element in the list
-      write.csv(out_dat, file = paste(name_out, "_corrected.csv", sep=""))
-    }
-    # if there is no taxonID field, skip the file
-  }
+#   for (files in unique(vst_files)){
+#     vst_dat <- read.csv(files,header=T,stringsAsFactors = FALSE) # read in the files sequentially
+#     # don't attempt the join if there is not a taxonID field in the file 
+#     if ("taxonID" %in% colnames(vst_dat)){
+#       # join vst file with Access DB plant list
+#       dat <- left_join(vst_dat, plant_list, by = c("taxonID" = "ID"))
+#       # trim columns - select() works off of column integers, not names
+#       colNums <- match(colnames(vst_dat),names(vst_dat)) # determine numeric positions of columns
+#       out_dat <- select(dat, colNums, taxonID.y) # include the character-taxonID e.g. "taxonID.y"
+#       # print file
+#       name_out <- str_split_fixed(files,"/",6)[6] # grab the name of the file, e.g. the 6th element in this list
+#       write.csv(out_dat, file = paste(name_out, "_corrected.csv", sep=""))
+#     }
+#     # if there is no taxonID field, skip the file
+#   }
   # odbcClose() - close the Access DB connections before starting the next batch
   odbcCloseAll()
 }
