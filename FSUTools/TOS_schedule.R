@@ -7,6 +7,7 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 library(ggplot2)
+library(lazyeval)
 
 # source() this file in the checker
 
@@ -25,13 +26,15 @@ xlsGrab <- files[grep(prefix,files)] # subset to just the ones in your module, u
 # create empty vector for output, apparently this is inefficient: 
 # https://stat.ethz.ch/pipermail/r-help/2006-June/107734.html
 # http://stackoverflow.com/questions/22054269/using-for-loop-and-rbind-to-iterate-over-multiple-files
-output <- NULL 
+
 
 # create a function to pull all of the worksheets together into a single data frame
 scheduler <- function(input){
     # loading excel workbook
     #output <- data.frame()
     #browser()
+    # create an empty object to fill
+    output <- NULL
     t <- loadWorkbook(input)
     # variable to pass sheet names
     sheets_list <- getSheets(t)
@@ -61,13 +64,13 @@ sched$siteID <- str_sub(sched$Site,-4,-1)
 sched2 <- apply(sched[,c(1:16)], 2, function(x) ifelse(grepl(pattern ="[a-zA-z]", x=x), TRUE, FALSE))
 
 # rejoin with sched, leave out siteID and date
-sched3 <- cbind(sched[c("siteID","date")], sched2)
+sched <- cbind(sched[c("siteID","date")], sched2)
 
-# create a real date
-sched3$rDate <- paste(str_sub(sched3$date, 5,6),"/",str_sub(sched3$date, -2,-1),"/",str_sub(sched3$date,1,4),sep="")
+# create a real date ('rDate')
+sched$rDate <- paste(str_sub(sched3$date, 5,6),"/",str_sub(sched3$date, -2,-1),"/",str_sub(sched3$date,1,4),sep="")
 
 # turn it into a date format that R recognizes, tell it what the input form is with 'format = '
-sched3$rDate <- as.Date(sched3$rDate,format = '%m/%d/%Y')
+sched$rDate <- as.Date(sched3$rDate,format = '%m/%d/%Y')
 # solution adapted from:
 # http://stackoverflow.com/questions/27968853/making-a-presence-absence-timeline-in-r-for-multiple-y-objects
 
@@ -77,23 +80,42 @@ sched3$rDate <- as.Date(sched3$rDate,format = '%m/%d/%Y')
 # now we need a gantt chart...
 
 #################################################################################################################################
+################################################# PLOTTING FUNCTION #############################################################
 #################################################################################################################################
 # test out on Veg.Structure
-prot <- ""
-sched4 <- sched3 %>% select(rDate, siteID, Veg..Characterization)
+sched_vis <- function(data, prot){
+  
+    # re-order the siteID levels   
+    # site_levels <- data$siteID[order(data$siteID)]
+    #  data$siteID <- factor(data$siteID, levels = site_levels)
+    
+    # dplyr requires useage of standard evaluation functions_() in order to work inside of other functions such as this
+    # the structure and handling of the dplyr verbs are thus slightly different, starting with the interp() function, which is used to pass 
+    # the string variable 'prot' from above
+    criteria <- interp(~ prot == TRUE, prot = as.name(prot))
+    data <- data %>% select_("rDate", "siteID", prot)
+    
+    # arrange dates into ascending order, so the lag is calculated correctly  --- MUST DO THIS ---
+    data <- arrange_(data, "siteID", "rDate")
+    
+    # THIS WORKS - consecutive = less than or equal to a 14 day gap between sampling dates
+    data <- data %>% select_("siteID", "rDate", prot) %>% group_by_("siteID", prot) %>% mutate(consecutive=c(diff(rDate),15)<=14)
+    
+    # THIS WORKS -- filter() limits the graph to just sites that have had the sampling, else the plot becomes cluttered
+    # filter_ needs the statement to be crafted as per above for object 'criteria'
+    data %>% filter_(criteria) %>% ggplot(aes(rDate, siteID)) + 
+      geom_line(aes(alpha=consecutive, group=siteID),size=2,color="blue")+ geom_point(aes(group=siteID),size=3.5, color = c("red"))  + theme_bw() +
+      scale_alpha_manual(values=c(0, 1), breaks=c(FALSE, TRUE), guide='none') + ggtitle(prot)
+}
 
-# arrange dates into ascending order, so the lag is calculated correctly  --- MUST DO THIS ---
-sched4 <- arrange(sched4, rDate)
+sched_vis(sched, "Veg..Characterization")
 
-# THIS WORKS - consecutive = less than or equal to a 14 day gap between sampling dates
-sched4b <- sched4 %>% select(siteID, rDate, Veg..Characterization) %>% group_by(siteID, Veg..Characterization) %>% mutate(consecutive=c(diff(rDate),15)<=14)
-
-# THIS WORKS -- filter() limits the graph to just sites that have had the sampling, else the plot becomes cluttered
-sched4b %>% filter(Veg..Characterization == TRUE) %>% ggplot(aes(rDate, siteID)) + 
-  geom_line(aes(alpha=consecutive, group=siteID),size=2,color="blue")+ geom_point(aes(group=siteID),size=3.5, color = c("red"))  + theme_bw() +
-  scale_alpha_manual(values=c(0, 1), breaks=c(FALSE, TRUE), guide='none')
+sched_vis(sched, "Veg.Structure")
 #################################################################################################################################
 #################################################################################################################################
+
+
+#################################################### VESTIGIAL ####################################################
 
 
 ## Min/Max VC sampling dates for KJ ## 
@@ -123,26 +145,26 @@ sched4b %>% filter(Veg..Characterization == TRUE) %>% ggplot(aes(rDate, siteID))
 # sched4c <- sched4 %>% select(siteID,rDate,Veg.Structure)
 
 
-# what happens when they are ordered correctly? --- THIS WORKS --- this is less than or equal to am 8 day sampling gap
-sched4 %>% group_by(siteID,Veg.Structure)  %>% mutate(consecutive=c(diff(rDate),9)<=8) %>% 
-  filter(siteID == "JERC",Veg.Structure==TRUE) %>% ggplot(aes(rDate,siteID)) + geom_point(aes(group=siteID),size=3) + 
-  geom_line(aes(alpha=consecutive,group=siteID))
-
-# just points, no lines
-sched4 %>% filter(Veg.Structure == TRUE) %>% ggplot(aes(rDate, siteID)) + 
-  geom_point(aes(group=siteID),size=2, color = c("red")) + theme_bw() 
-
-# how to understand consecutive dating of sampling dates, for visualization purposes:
-# if the lagged difference in dates is less than or equal to a value, then give it the value TRUE
-
-# group_by, mutate, diff, consecutive test
-m  <- data.frame(a = c(1,3,5,7,12,14), b = c(rep("a",3),rep("b",3))) # supply the data
-# need to concatenate, c(), with diff() because it returns a vector of n-1, thus adding another value to complete the vector
-m %>% group_by(b) %>% mutate(consecutive=c(diff(a),1)<=2)
-
-# other potentially useful bind functions
-# rbind.fill
-
-# rbindList
-
-# smartbind
+# # what happens when they are ordered correctly? --- THIS WORKS --- this is less than or equal to am 8 day sampling gap
+# sched4 %>% group_by(siteID,Veg.Structure)  %>% mutate(consecutive=c(diff(rDate),9)<=8) %>% 
+#   filter(siteID == "JERC",Veg.Structure==TRUE) %>% ggplot(aes(rDate,siteID)) + geom_point(aes(group=siteID),size=3) + 
+#   geom_line(aes(alpha=consecutive,group=siteID))
+# 
+# # just points, no lines
+# sched4 %>% filter(Veg.Structure == TRUE) %>% ggplot(aes(rDate, siteID)) + 
+#   geom_point(aes(group=siteID),size=2, color = c("red")) + theme_bw() 
+# 
+# # how to understand consecutive dating of sampling dates, for visualization purposes:
+# # if the lagged difference in dates is less than or equal to a value, then give it the value TRUE
+# 
+# # group_by, mutate, diff, consecutive test
+# m  <- data.frame(a = c(1,3,5,7,12,14), b = c(rep("a",3),rep("b",3))) # supply the data
+# # need to concatenate, c(), with diff() because it returns a vector of n-1, thus adding another value to complete the vector
+# m %>% group_by(b) %>% mutate(consecutive=c(diff(a),1)<=2)
+# 
+# # other potentially useful bind functions
+# # rbind.fill
+# 
+# # rbindList
+# 
+# # smartbind
