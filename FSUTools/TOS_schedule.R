@@ -92,6 +92,7 @@ sched_vis <- function(data, prot){
     # dplyr requires useage of standard evaluation functions_() in order to work inside of other functions such as this
     # the structure and handling of the dplyr verbs are thus slightly different, starting with the interp() function, which is used to pass 
     # the string variable 'prot' from above
+    # source: http://stackoverflow.com/questions/26492280/non-standard-evaluation-nse-in-dplyrs-filter-pulling-data-from-mysql
     criteria <- interp(~ prot == TRUE, prot = as.name(prot))
     data <- data %>% select_("rDate", "siteID", prot)
     
