@@ -67,10 +67,10 @@ sched2 <- apply(sched[,c(1:16)], 2, function(x) ifelse(grepl(pattern ="[a-zA-z]"
 sched <- cbind(sched[c("siteID","date")], sched2)
 
 # create a real date ('rDate')
-sched$rDate <- paste(str_sub(sched3$date, 5,6),"/",str_sub(sched3$date, -2,-1),"/",str_sub(sched3$date,1,4),sep="")
+sched$rDate <- paste(str_sub(sched$date, 5,6),"/",str_sub(sched$date, -2,-1),"/",str_sub(sched$date,1,4),sep="")
 
 # turn it into a date format that R recognizes, tell it what the input form is with 'format = '
-sched$rDate <- as.Date(sched3$rDate,format = '%m/%d/%Y')
+sched$rDate <- as.Date(sched$rDate,format = '%m/%d/%Y')
 # solution adapted from:
 # http://stackoverflow.com/questions/27968853/making-a-presence-absence-timeline-in-r-for-multiple-y-objects
 
@@ -83,7 +83,7 @@ sched$rDate <- as.Date(sched3$rDate,format = '%m/%d/%Y')
 ################################################# PLOTTING FUNCTION #############################################################
 #################################################################################################################################
 # test out on Veg.Structure
-sched_vis <- function(data, prot){
+sched_vis <- function(data, prot, gap = 15){
   
     # re-order the siteID levels   
     # site_levels <- data$siteID[order(data$siteID)]
@@ -100,7 +100,7 @@ sched_vis <- function(data, prot){
     data <- arrange_(data, "siteID", "rDate")
     
     # THIS WORKS - consecutive = less than or equal to a 14 day gap between sampling dates
-    data <- data %>% select_("siteID", "rDate", prot) %>% group_by_("siteID", prot) %>% mutate(consecutive=c(diff(rDate),15)<=14)
+    data <- data %>% select_("siteID", "rDate", prot) %>% group_by_("siteID", prot) %>% mutate(consecutive=c(diff(rDate),gap)<=(gap-1))
     
     # THIS WORKS -- filter() limits the graph to just sites that have had the sampling, else the plot becomes cluttered
     # filter_ needs the statement to be crafted as per above for object 'criteria'
@@ -110,8 +110,8 @@ sched_vis <- function(data, prot){
 }
 
 sched_vis(sched, "Veg..Characterization")
-
-sched_vis(sched, "Veg.Structure")
+names(sched)
+sched_vis(sched, "Mosquitos")
 #################################################################################################################################
 #################################################################################################################################
 
