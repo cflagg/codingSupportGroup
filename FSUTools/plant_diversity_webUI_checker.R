@@ -36,6 +36,11 @@ multipleCombine <- function(input, ply = llply){
 t1 <- data.frame()
 sav <- multipleCombine(file_list, ply = ldply)
 
+sav %>% ddply(.(domainID), summarize, nc = length(plotID))
+
+# D10 seems to have a lot of plot entries compared to other domains
+sav %>% filter(domainID == "D10")
+
 sav %>% filter(siteID %in% c("TREE", "UNDE")) %>% arrange(plotID) -> D5_plots
 
 write.csv(D5_plots, file = "C:/Users/cflagg/Documents/Test/D5_diversity_plots_review.csv")
