@@ -15,7 +15,7 @@ library(dplyr) # for select
 # set working directory and grep files
 wd <- getwd()
 
-wd <- paste(wd,"/vst_fixs", sep="")
+wd <- paste("C:/Users/cflagg/Documents/Test/vst_fixes", sep="")
 
 fileList <- list.files(wd, full.names=TRUE) # 
 
@@ -28,7 +28,6 @@ dbList <- fileList[grep(".accdb", fileList)]
 
 
 # for each unique domain ... grab vst files, then grab plant list
-
 domainList <- na.exclude(unique(str_match(csvList, "D[0-9]{2}"))) # find unique domains in list
 
 # only grep files that have the domain
@@ -37,7 +36,7 @@ domainList <- na.exclude(unique(str_match(csvList, "D[0-9]{2}"))) # find unique 
 
 # execute join for each unique domainID
 for (domain in unique(domainList)){
-  # browser()
+  browser()
   # load files
   dom_files <- csvList[grep(domain, csvList)] # all csv files
   vst_files <- dom_files[grep("vst_",dom_files)] # only input vst files
@@ -49,23 +48,23 @@ for (domain in unique(domainList)){
   db_channel <-  odbcDriverConnect(dd) # open a channel to the DB
   plant_list <- sqlQuery(db_channel, paste("select * from USDA_plantList_2015")) # query the table and store it
   plant_list$ID <- seq(1,nrow(plant_list)) # add ID values sequentially
-  # now join the plant_list with the vst_files that have taxonID
-#   for (files in unique(vst_files)){
-#     vst_dat <- read.csv(files,header=T,stringsAsFactors = FALSE) # read in the files sequentially
-#     # don't attempt the join if there is not a taxonID field in the file 
-#     if ("taxonID" %in% colnames(vst_dat)){
-#       # join vst file with Access DB plant list
-#       dat <- left_join(vst_dat, plant_list, by = c("taxonID" = "ID"))
-#       # trim columns - select() works off of column integers, not names
-#       colNums <- match(colnames(vst_dat),names(vst_dat)) # determine numeric positions of columns
-#       out_dat <- select(dat, colNums, taxonID.y) # include the character-taxonID e.g. "taxonID.y"
-#       # print file
-#       name_out <- str_split_fixed(files,"/",6)[6] # grab the name of the file, e.g. the 6th element in this list
-#       write.csv(out_dat, file = paste(name_out, "_corrected.csv", sep=""))
-#     }
-#     # if there is no taxonID field, skip the file
-#   }
-  # odbcClose() - close the Access DB connections before starting the next batch
+  #now join the plant_list with the vst_files that have taxonID
+  for (files in unique(vst_files)){
+    vst_dat <- read.csv(files,header=T,stringsAsFactors = FALSE) # read in the files sequentially
+    # don't attempt the join if there is not a taxonID field in the file 
+    if ("taxonID" %in% colnames(vst_dat)){
+      # join vst file with Access DB plant list
+      dat <- left_join(vst_dat, plant_list, by = c("taxonID" = "ID"))
+      # trim columns - select() works off of column integers, not names
+      colNums <- match(colnames(vst_dat),names(vst_dat)) # determine numeric positions of columns
+      out_dat <- select(dat, colNums, taxonID.y) # include the character-taxonID e.g. "taxonID.y"
+      # print file
+      name_out <- str_split_fixed(files,"/",7)[7] # grab the name of the file, e.g. the 6th element in this list
+      write.csv(out_dat, file = paste(name_out,"_corrected.csv", sep="")) ########################################## this needs to be adjusted to name_out, else the file name is incorrect
+    }
+    # if there is no taxonID field, skip the file
+  }
+  #odbcClose() - close the Access DB connections before starting the next batch
   odbcCloseAll()
 }
 
