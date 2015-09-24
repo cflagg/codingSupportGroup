@@ -1,5 +1,7 @@
 # http://stackoverflow.com/questions/2778510/efficiently-adding-or-removing-elements-to-a-vector-or-list-in-r
 # http://rosettacode.org/wiki/Stack#R
+
+# 1) 
 # the input data set
 dump <- paste(rep("a"),rep(1:14),sep="")
 
@@ -15,7 +17,7 @@ for (i in 1:length(dump)){
 
 keeper
 
- 
+# 2)  
 ## grow a list with an initialized vector of known length (4x faster)
 dumper <- rep(NA,9) # initialize a vector first, for storing new data
 for (i in 1:length(dump)){
@@ -32,6 +34,7 @@ for (i in 1:length(dump)){
 ## this loop does some weird stuff if you try to remove "i" directly
 # http://r.789695.n4.nabble.com/identifying-odd-or-even-number-td2275447.html
 dump <- paste(rep("a"),rep(1:14),sep="")
+# function(input){
 dumpList <- NULL
 for (i in 1:length(dump)){
   # temporarily store the number in the string
@@ -48,6 +51,7 @@ for (i in 1:length(dump)){
 
 # now remove those positions from the input vector - this would work best iif this was all in a brief function
 dump[-dumpList]
-
+# return(dump[-dumpList])
+#}
 
 
