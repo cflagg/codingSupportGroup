@@ -2,6 +2,8 @@
 
 # 1) exception handling for empty sheets e.g. "sheet1" throws an error -- probably embed everything in tryCatch()??
 
+# 2) put data files in github and point file checker to that directory
+
 # 2) way to access excel file on sharepoint directly?
 # sharepoint location: https://neoninc.sharepoint.com/sites/fieldops/private/documents/_layouts/15/WopiFrame.aspx?sourcedoc=%7b6BE35F35-785F-4F20-A7FE-2498E0480591%7d&file=TOS%20Protocol%20Implementation%20April%202015.xlsx&action=default
 
