@@ -1,3 +1,13 @@
+########### TO DO ###########
+
+# 1) exception handling for empty sheets e.g. "sheet1" throws an error -- probably embed everything in tryCatch()??
+
+# 2) way to access excel file on sharepoint directly?
+# sharepoint location: https://neoninc.sharepoint.com/sites/fieldops/private/documents/_layouts/15/WopiFrame.aspx?sourcedoc=%7b6BE35F35-785F-4F20-A7FE-2498E0480591%7d&file=TOS%20Protocol%20Implementation%20April%202015.xlsx&action=default
+
+#############################
+
+
 # this script lays out an example for combining multiple Excel files or multiple sheets within a single Excel file
 # Cody Flagg - 6/17/2015
 
@@ -13,7 +23,6 @@ library(lazyeval)
 
 # Set working directory and file path
 setwd('C:/Users/cflagg/Documents/Test/fopsCalendar')
-## pathToPlot<-c('~/Documents/GitHub/neonPlantSampling/vst_datacheck/testdata/ARCADIS_data/Arcadis_plots') #test data here for mapping/tagging, should only need vst_perindividual_Dxx csvs
 
 #set this to the prefix for the sheets in your module; make specific to file name batch
 prefix<-'.xlsx'
@@ -22,11 +31,6 @@ prefix<-'.xlsx'
 files <- list.files(getwd(), full.names=TRUE) # list all the files, full.names=TRUE is necessary for ldplay/lapply to work below
 
 xlsGrab <- files[grep(prefix,files)] # subset to just the ones in your module, using prefix
-
-# create empty vector for output, apparently this is inefficient: 
-# https://stat.ethz.ch/pipermail/r-help/2006-June/107734.html
-# http://stackoverflow.com/questions/22054269/using-for-loop-and-rbind-to-iterate-over-multiple-files
-
 
 # create a function to pull all of the worksheets together into a single data frame
 scheduler <- function(input){
@@ -111,7 +115,7 @@ sched_vis <- function(data, prot, gap = 15){
 
 sched_vis(sched, "Veg..Characterization")
 names(sched)
-sched_vis(sched, "Mosquitos")
+sched_vis(sched, "Coarse.Downed.Wood")
 #################################################################################################################################
 #################################################################################################################################
 
