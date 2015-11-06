@@ -19,4 +19,14 @@ You can also embed plots, for example:
 plot(cars)
 ```
 
+```{r}
+View(read.csv(file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/spread.csv"))
+
+```
+
+```{r}
+head(read.csv(file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/spread.csv"))
+
+```
+
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
