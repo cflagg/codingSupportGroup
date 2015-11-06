@@ -12,3 +12,9 @@ When you click the **Knit** button a document will be generated that includes bo
 [test_md](http://cflagg.github.io/codingSupportGroup/test_md.html)
 
 [cool_maps](http://bbest.github.io/NEON-DC-DataLesson-Hackathon/code/group05_visualization.html)
+
+[how to configure _config.yml file for a Jekyll powered page](https://github.com/bbest/NEON-DC-DataLesson-Hackathon/blob/gh-pages/_config.yml)
+
+[original index.html; does not render the same as in the base folder](http://cflagg.github.io/codingSupportGroup/save/index.html)
+
+[markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links)
