@@ -11,6 +11,10 @@ The Tufte-\LaTeX\ [^tufte_latex] document classes define a style similar to the 
 
 # Headings
 
+<aside>
+An aside note -- use html tag `aside` to put notes in the right-hand margin, NOT in code chunks
+</aside>
+
 This style provides a- and b-heads (that is, `#` and `##`), demonstrated above.
 An error is emitted if you try to use `###` and smaller headings.
 
@@ -24,6 +28,7 @@ Images and graphics play an integral role in Tufte's work. To place figures or t
 
 ```{r, fig.margin = TRUE, fig.cap = "Sepal length vs. petal length, colored by species"}
 # https://github.com/sachsmc/tufterhandout
+# https://nsaunders.wordpress.com/2012/08/27/custom-css-for-html-generated-using-rstudio/
 library(ggplot2)
 qplot(Sepal.Length, Petal.Length, data = iris, color = Species)
 ```
