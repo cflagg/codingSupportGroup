@@ -2,7 +2,7 @@
 title: "Tufte Handout"
 author: "John Smith"
 date: "August 13th, 2014"
-output: tufterhandout::html_tufte_handout
+output: rmarkdown::tufte_handout
 ---
 
 # Introduction
@@ -10,10 +10,6 @@ output: tufterhandout::html_tufte_handout
 The Tufte-\LaTeX\ [^tufte_latex] document classes define a style similar to the style Edward Tufte uses in his books and handouts. Tufte's style is known for its extensive use of sidenotes, tight integration of graphics with text, and well-set typography. 
 
 # Headings
-
-<aside>
-An aside note -- use html tag `aside` to put notes in the right-hand margin, NOT in code chunks
-</aside>
 
 This style provides a- and b-heads (that is, `#` and `##`), demonstrated above.
 An error is emitted if you try to use `###` and smaller headings.
@@ -27,9 +23,6 @@ An error is emitted if you try to use `###` and smaller headings.
 Images and graphics play an integral role in Tufte's work. To place figures or tables in the margin you can use the `fig.margin` knitr chunk option. For example:
 
 ```{r, fig.margin = TRUE, fig.cap = "Sepal length vs. petal length, colored by species"}
-# https://github.com/sachsmc/tufterhandout
-# https://nsaunders.wordpress.com/2012/08/27/custom-css-for-html-generated-using-rstudio/
-# http://rmarkdown.rstudio.com/html_document_format.html#creating-a-website
 library(ggplot2)
 qplot(Sepal.Length, Petal.Length, data = iris, color = Species)
 ```
@@ -40,10 +33,10 @@ Note the use of the `fig.cap` chunk option to provide a figure caption. You can 
 
 You can also include \LaTeX\ equations in the margin by explicitly invoking the `marginfigure` environment.
 
-\begin{equation}
-\frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x)
-
-\end{equation}
+\begin{marginfigure}
+$$\frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x).$$
+\caption{An equation}
+\end{marginfigure}
 
 Note the use of the `\caption` command to add additional text below the equation.
 
