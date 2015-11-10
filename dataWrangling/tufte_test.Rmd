@@ -30,6 +30,8 @@ Images and graphics play an integral role in Tufte's work. To place figures or t
 # https://github.com/sachsmc/tufterhandout
 # https://nsaunders.wordpress.com/2012/08/27/custom-css-for-html-generated-using-rstudio/
 # http://rmarkdown.rstudio.com/html_document_format.html#creating-a-website
+# http://www.techrepublic.com/article/build-full-featured-sites-with-jekyll-bootstrap-and-github/
+# http://ialsa.github.io/tutorials/ # supports commenting
 library(ggplot2)
 qplot(Sepal.Length, Petal.Length, data = iris, color = Species)
 ```
