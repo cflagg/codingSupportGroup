@@ -1,0 +1,111 @@
+---
+title: "errorRateTracking"
+author: "Cody Flagg"
+date: "October 9, 2015"
+output: html_document
+---
+
+```{r}
+library(XLConnect)
+library(stringr)
+library(plyr)
+```
+
+```{r}
+# declare functions
+# function to stack .csv files in a directory - used to pull FIU soil phys data together
+multipleCombine <- function(input, ply = llply){
+  ply(input, function(x){
+    t <- read.csv(x, header=TRUE, sep=",",stringsAsFactors = FALSE)
+    t1 <- rbind(t) # rbind it to a temporary variable 
+    return(t1) # return the full variable
+  })}
+
+# for combining xls files
+multipleCombine_xls <- function(files){
+          ldply(files, function(input){
+          t <- loadWorkbook(input)
+          t2 <- readWorksheet(t, sheet = 1, header = FALSE)
+          # append the names from the worksheet to the data.frame
+          names(t2) <- readWorksheet(t, sheet = 1, header = FALSE)
+          #colnames(t2) <- t2[6,]
+          t3 <- rbind(data.frame(t2))
+})}
+
+# the opposite of %in% - from the Knights who say Ni!!
+`%ni%` <- Negate(`%in%`)
+```
+
+```{r}
+# import data 
+dir_data <- "Z:/2015data/errorRateTracking"
+
+# list the folders 
+folder_list <- list.files(path=dir_data)
+
+# for each folder, list the contents
+dir_store <- NA # create an empty object to fill
+dat_store <- NA
+
+# process each file
+for (folder in folder_list){
+  #browser()
+  # read files from the folder
+  dir_temp <- list.files(path = paste(dir_data,"/",folder,sep=""),full.names = TRUE)
+  dir_store[folder] <- list(dir_temp) # store file paths as a list
+}
+
+## Need to add exception handling e.g. try()
+# store the data
+dat_store <- NA
+# process each file, depending on the file extension type
+# http://stackoverflow.com/questions/14059657/how-to-skip-an-error-in-a-loop
+# http://jonlefcheck.net/2013/05/20/continuing-a-for-loop-in-r-after-an-error/
+# http://mazamascience.com/WorkingWithData/?p=929
+for (folder in folder_list){
+  # to keep loop going on errors, leave try or tryCatch arguments blank
+  try({
+  #browser()
+  # read files from the folder
+  dir_temp <- list.files(path = paste(dir_data,"/",folder,sep=""),full.names = TRUE)
+  #dir_store[folder] <- list(dir_temp) # store file paths as a list
+  for (file in dir_temp){
+  # read the name of the file
+  f_ext <- str_sub(file, -4,-1)
+  print(file) # print which file the loop is on, to identify errors
+  # could grepl the if statements to true if there are more than four characters
+  if (f_ext == ".csv"){
+  # read in the .csv to dat_store
+  file_c <- read.csv(file = file, header = TRUE)
+  file_name <- sub("(Z:/2015data/errorRateTracking/)(D[0-9]{2}/)(D[0-9]{2})", "\\3",file)
+  file_c$domainID <- str_extract(file_name, pattern = "^D[0-9]{2}")
+  file_c$protocol <- str_extract(file_name, pattern = "[a-z]{3}")
+  dat_store <- plyr::rbind.fill(data.frame(dat_store), data.frame(file_c))
+  #print(f_ext)
+  }else if (f_ext == ".txt"){
+  # read in the .txt to dat_store
+  file_t <- read.table(file = file, header = TRUE, sep = ",")
+  file_name <- sub("(Z:/2015data/errorRateTracking/)(D[0-9]{2}/)(D[0-9]{2})", "\\3",file)
+  file_t$domainID <- str_extract(file_name, pattern = "^D[0-9]{2}")
+  file_t$protocol <- str_extract(file_name, pattern = "[a-z]{3}")
+  dat_store <- plyr::rbind.fill(data.frame(dat_store), data.frame(file_t))
+  #print(f_ext)
+  }else if (f_ext == ".xls" | f_ext == "xlsx"){
+  # read in the .xls to dat_store
+  t <- loadWorkbook(file)
+  file_x <- readWorksheet(t, sheet = 1, header = TRUE)
+  file_name <- sub("(Z:/2015data/errorRateTracking/)(D[0-9]{2}/)(D[0-9]{2})", "\\3",file)
+  file_x$domainID <- str_extract(file_name, pattern = "^D[0-9]{2}")
+  file_x$protocol <- str_extract(file_name, pattern = "[a-z]{3}")
+  # append the names from the worksheet to the data.frame
+  dat_store <- plyr::rbind.fill(data.frame(dat_store), file_x) # readWorksheet already imports as a data.frame
+  #print(f_ext)  
+  }
+  }
+  # parse domain and protocol from string
+  # if loop, if it's a csv use the regular multiCombine. else if it's an xls, use the Excel combiner, else if it's txt use read.table
+})}
+
+# write the file
+write.csv(dat_store, file = paste(dir_data,"/","compiled_errors.csv", sep=""))
+```

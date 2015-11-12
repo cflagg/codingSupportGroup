@@ -16,6 +16,8 @@ library(plyr)
 #library(pander)
 library(stringr)
 
+
+
 # Set working directory and file path ... relative path will work if Git folders are in "Documents"
 setwd("../Documents/GitHub/organismalIPT/spatialData") # alternative: file.path(getwd(),directory2)
 pathToFiles <- getwd()
@@ -25,7 +27,7 @@ pathToFiles <- getwd()
 
 #set this to the prefix for the sheets in your module; make specific to file name batch
 myPrefix <- 'plotSpatialData_'
-mySuffix <- '//.csv' # the period is a 'special character', thus it needs to be 'escaped' with "//" for R to recognize this is a 'literal string'
+mySuffix <- '\\.csv' # the period is a 'special character', thus it needs to be 'escaped' with "//" for R to recognize this is a 'literal string'
 
 # load and inspect files
 fileList <- list.files(pathToFiles, full.names=TRUE) # list all the files, full.names=TRUE is necessary for ldplay/lapply to work below

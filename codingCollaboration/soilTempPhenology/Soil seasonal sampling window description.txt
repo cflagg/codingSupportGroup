@@ -1,0 +1,30 @@
+Soils seasonal transition coding work
+
+The goal of this effort is to devise an approach for determining site-specific seasonal
+transition times for soil sampling. One occurs in the spring, and the other in the fall.
+These time periods are intended to capture the "hot moments", when soil physical, chemical
+and biotic properties are responding more rapidly to seasonal changes.
+
+While at some sites the snowmelt period or time when the ground freezes are reliable 
+and observable indicators, however at lower latitude sites or sites with wet/dry seasons,
+these metrics tend to be irrelevant. For such sites, potential criteria include air temperature,
+soil moisture, and NDVI index.
+
+The current approach is to define the sampling window when the rates of change for these 
+metrics are highest (e.g. when the slope of the change in AT and SM is largest). For NDVI
+index, this might be the julian date of avg incr, or avg decr, plus or minus 2 weeks.
+
+The working data set uses AT data from SERC for 2010-2014. Currently, I am working toward
+compiling the 5 years of data into a single file. I've been managing dates by creating a
+new field for Year and redefining Date as julianDate (Jan 1 of the year is the first day
+for each data set).
+From there, I created a new field for Week so that rows could be grouped by week. Not sure
+if this is necessary/useful.
+
+Remaining tasks:
+1. Create a model for the temperature data. Not sure how to extract subsets of that for 
+week-long or month-long analysis of slopes, and which temporal scale will work best. 
+2. May want to create a model that treats each julianDate for the 5 years of data as replicates
+of julianDate and model as an entire dataset. Then can conduct loess smoothing (or similar)
+to find the ideal time period.
+ 
