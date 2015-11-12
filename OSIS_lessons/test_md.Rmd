@@ -10,6 +10,12 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
+library(xtable)
+library(knitr)
+testdat <- read.csv(file = "~/GitHub/codingSupportGroup/spread.csv")
+```
+
+```{r}
 summary(cars)
 ```
 
@@ -19,14 +25,21 @@ You can also embed plots, for example:
 plot(cars)
 ```
 
-```{r}
-View(read.csv(file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/spread.csv"))
+## Rendering Tables/Spreadsheets
 
+* xtable() does not seem to gel well with the latest Rmarkdown version (v2)
+
+```{r results='asis'}
+# testing formatting
+xtable(testdat)
 ```
 
-```{r}
-head(read.csv(file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/spread.csv"))
+* However knitr::kable() spits out some nice output without wrapping the rows down the HTML page
 
+```{r}
+kable(testdat)
 ```
+
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
