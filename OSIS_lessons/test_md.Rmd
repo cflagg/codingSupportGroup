@@ -2,7 +2,6 @@
 title: "test_md"
 author: "Cody Flagg"
 date: "November 6, 2015"
-runtime: shiny
 output: html_document
 ---
 
@@ -13,6 +12,7 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r}
 library(xtable)
 library(knitr)
+# How to deploy Shiny Apps: http://shiny.rstudio.com/tutorial/lesson7/
 library(shiny)
 testdat <- read.csv(file = "~/GitHub/codingSupportGroup/spread.csv")
 ```
@@ -26,6 +26,11 @@ You can also embed plots, for example:
 ```{r, echo=FALSE}
 plot(cars)
 ```
+
+## Shiny Apps
+
+* The Shiny app has to be hosted on a server, or run locally, for the interactive graphs to work
+* If this document is downloaded and `knit` by an end user, the interactive graph will work
 
 ```{r}
 library(shiny)
