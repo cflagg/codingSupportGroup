@@ -5,6 +5,16 @@ date: "August 13th, 2014"
 output: tufterhandout::html_tufte_handout
 ---
 
+# Installation
+This template can be installed into your R-library with: 
+
+`devtools::install_github("tufterhandout", "sachsmc")`
+
+After installation, open a Tufte .Rmd template, then modify the YAML header to read as :
+
+`output: tufterhandout::html_tufte_handout`
+
+
 # Introduction
 
 The Tufte-\LaTeX\ [^tufte_latex] document classes define a style similar to the style Edward Tufte uses in his books and handouts. Tufte's style is known for its extensive use of sidenotes, tight integration of graphics with text, and well-set typography. 
