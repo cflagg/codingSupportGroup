@@ -2,6 +2,7 @@
 title: "Tufte Handout"
 author: "John Smith"
 date: "August 13th, 2014"
+runtime: shiny
 output: tufterhandout::html_tufte_handout
 ---
 
@@ -47,6 +48,29 @@ qplot(Sepal.Length, Petal.Length, data = iris, color = Species)
 ```
 
 Note the use of the `fig.cap` chunk option to provide a figure caption. You can adjust the proportions of figures using the `fig.width` and `fig.height` chunk options. These are specified in inches, and will be automatically scaled down to fit within the handout margin.
+
+## Interactive Figures 
+
+* will Shiny embed inside GH Pages and Tufte Layout?
+
+```{r}
+library(shiny)
+inputPanel(
+  selectInput("n_breaks",label = "Number of Bins:",
+              choices = c(10,20,35,50), selected = 20),
+  
+  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
+              min = 0.2, max = 2, value = 1, step = 0.2)
+)
+
+renderPlot({
+  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
+       xlab = "Duration (minutes)", main = "Geyser Eruption Duration")
+  
+  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
+  lines(dens, col = "blue")
+})
+```
 
 ## Equations
 
