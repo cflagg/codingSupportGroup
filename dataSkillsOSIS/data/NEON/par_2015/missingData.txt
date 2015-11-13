@@ -1,0 +1,6 @@
+The data product you downloaded did not have all of the data files it could.
+This is usually because some measurement data is missing from the site during the dates you selected,
+but it could also be due to errors getting the data from the database.
+The list below specifies which files could be present but were not due to missing data.
+If there was an error getting the data, that will be specified below as well.
+Max wait time for data files exceeded, found 3 status files, but expected to find 4
