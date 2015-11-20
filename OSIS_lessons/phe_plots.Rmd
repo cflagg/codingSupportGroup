@@ -87,7 +87,6 @@ pheData2 %>%
 ```
 
 ### Figure 3 (Cody's line-version)
-### Line Version
 
 * x-axis = dayOfYear (full-series)
 * y-axis = proportion of individuals in phenophaseStatus
