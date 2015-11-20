@@ -132,6 +132,8 @@ ggplot(aes(x = dayOfYear, y = prop)) +
 * y-axis = DOY of occurrence of single phenophase 
 * group  = siteID
 
+* NOTE - the figure below illustrates one site, there would be another next to it in the final
+
 ```{r}
 #Not done using dplyr cause I'm not that familiar and wanted to churn this out real quick like...
 pheData3 <- pheData2[pheData2$phenophaseName=='Open flowers' & pheData2$phenophaseStatus=='yes',]
