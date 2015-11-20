@@ -1,10 +1,10 @@
 ---
-title: "phe_plots"
+title: "Initial Phenology Plots"
 author: "Cody Flagg"
 date: "November 19, 2015"
 output: 
   html_document: 
-    css: stylesheets/stylesheet.css
+    css: stylesheets/styles.css
     toc: yes
 ---
 
@@ -83,7 +83,7 @@ xtabs(~phenophaseStatus+dayOfYear+phenophaseName, pheData2)
 pheData2 %>% 
   dplyr::group_by(dayOfYear, phenophaseName, phenophaseStatus, growthForm,totalID_n) %>% 
   dplyr::filter() %>%
-  ggplot(aes(x = phenophaseStatus, y = dayOfYear, colour = phenophaseName, fill = phenophaseName)) + geom_boxplot()
+  ggplot(aes(x = phenophaseStatus, y = dayOfYear, colour = phenophaseName, fill = phenophaseName)) + geom_boxplot() + scale_fill_manual(values = wes_palette("Darjeeling"))
 ```
 
 ### Figure 3 (Cody's line-version)
