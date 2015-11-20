@@ -113,7 +113,7 @@ pheData2 %>%
   mutate(prop = (n/totalID_n)*100) %>% 
   filter(phenophaseName == "Leaves") %>% 
 ggplot(aes(x = dayOfYear, y = prop)) + 
-  geom_area(aes(group = phenophaseStatus, fill = phenophaseStatus), position = "dodge", alpha=0.5) + scale_fill_manual(values = wes_palette("Darjeeling"))
+  geom_area(aes(group = phenophaseStatus, fill = phenophaseStatus), position = "dodge", alpha=0.75) + scale_fill_manual(values = wes_palette("Darjeeling"))
 
 ```
 
