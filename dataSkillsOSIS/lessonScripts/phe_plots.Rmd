@@ -1,0 +1,87 @@
+---
+title: "phe_plots"
+author: "Cody Flagg"
+date: "November 19, 2015"
+output: html_document
+---
+
+## A brief summary of phenology plot ideas 
+
+### Import Data & Set Libraries
+```{r}
+library(ggplot2)
+library(plyr)
+library(dplyr)
+
+# http://stackoverflow.com/questions/18057081/ddply-summarise-proportional-count
+
+# read in data
+pheData <- read.csv("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/dataSkillsOSIS/data/NEON/phe_2014/NEON.D10.STER.DP1.10055.001.phe_statusintensity.csv", header = T)
+
+# scramble phenophaseStatus for now, since it's all homogeneous
+# DON'T RUN ON FULL DATASET
+pheData$phenophaseStatus <- sample(pheData$phenophaseStatus)
+```
+
+### Pseudo-Code
+
+### Figure 1 (Caren's barplot)
+
+* x-axis = sites
+* y-axis = percentage of same taxonID/individualID within that phenophase (number in phenophase/total in taxonID)
+* groups = phenophaseStatus (% of group in phenophase X)
+
+```{r}
+names(pheData)
+# phenophaseStatus = YES
+
+# obtain count of individualID per growthForm per dayOfYear -- this = totalID_n
+pheData <- ddply(pheData, .(dayOfYear, growthForm), mutate, totalID_n = length(unique(individualID)))
+# munge the data together
+pheData %>% 
+  ddply(.(dayOfYear, phenophaseName, phenophaseStatus, growthForm), summarize, counts = length(phenophaseStatus)) %>% head
+
+pheData %>% 
+  ddply(.(dayOfYear, phenophaseName, phenophaseStatus, growthForm), summarize, counts = length(individualID)) %>% head
+
+# these are the correct totals, but in an unideal format
+xtabs(~dayOfYear+phenophaseName+phenophaseStatus, pheData)
+```
+
+```{r}
+# dplyr method
+# how do we pass the total individualID count without hard coding it? Coun't it before hand with a ddply
+# don't want to hardcode because # of individuals could be different because of missing tags or field error
+# obtain count of individualID per growthForm per dayOfYear -- this = totalID_n
+pheData <- ddply(pheData, .(dayOfYear, growthForm), mutate, totalID_n = length(unique(individualID)))
+pheData %>% 
+  group_by(dayOfYear, phenophaseName, phenophaseStatus, growthForm,totalID_n) %>% 
+  summarize(n = length(phenophaseStatus)) %>% 
+  mutate(prop = (n/totalID_n)*100) %>% 
+  filter(phenophaseName == "Leaves") %>% 
+  ggplot(aes(x = dayOfYear, y = prop)) + geom_point(aes(colour = factor(phenophaseStatus))) + geom_line(aes(colour = factor(phenophaseStatus)))
+# facet_wrap(~phenophaseName)
+
+```
+
+```{r}
+# d1 %>% 
+# ggplot(aes(x = dayOfYear, y = phenophase_pc), colour = phenophaseName) + geom_point(aes(group=phenophaseName))
+```
+
+### Figure 2 (Lee's box & whisker)
+
+* x-axis = phenophase (1,2,3) in single taxonID
+* y-axis = days in phenophase (number of individualID/total individualID)
+* group  = siteID
+
+```{r}
+
+```
+
+### Figure 3
+```{r}
+
+```
+
+
