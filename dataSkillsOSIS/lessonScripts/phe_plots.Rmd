@@ -24,7 +24,16 @@ library(wesanderson)
 # stacked area: http://stackoverflow.com/questions/12323060/geom-area-plot-with-areas-and-outlines-ggplot
 
 # read in data
-pheData <- read.csv("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/dataSkillsOSIS/data/NEON/phe_2014/NEON.D10.STER.DP1.10055.001.phe_statusintensity.csv", header = T)
+rm(list=ls())
+options(stringsAsFactors = FALSE) 
+
+if (file.exists('C:/Users/cflagg')) {
+  pheData <- read.csv("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/dataSkillsOSIS/data/NEON/phe_2014/NEON.D10.STER.DP1.10055.001.phe_statusintensity.csv", header = T)
+}
+
+if (file.exists('C:/Users/nrobinson')) {
+  pheData <- read.csv("C:/Users/nrobinson/Desktop/MyDocuments/NEON_Git/codingSupportGroup/dataSkillsOSIS/data/NEON/phe_2014/NEON.D10.STER.DP1.10055.001.phe_statusintensity.csv", header = T)
+}
 
 # scramble phenophaseStatus for now, since it's all homogeneous
 # DON'T RUN ON FULL DATASET
@@ -117,4 +126,24 @@ ggplot(aes(x = dayOfYear, y = prop)) +
 
 ```
 
+### Figure 4 (Natalie's impression of what Lee had in mind)
 
+* x-axis = site
+* y-axis = DOY of occurrence of single phenophase 
+* group  = siteID
+
+```{r}
+#Not done using dplyr cause I'm not that familiar and wanted to churn this out real quick like...
+pheData3 <- pheData2[pheData2$phenophaseName=='Open flowers' & pheData2$phenophaseStatus=='yes',]
+
+tbl <- aggregate(pheData3["dayOfYear"], by=pheData3[c("siteID")], FUN=min)
+tbl2 <- aggregate(pheData3["dayOfYear"], by=pheData3[c("siteID")], FUN=max)
+tbl3 <- aggregate(pheData3["dayOfYear"], by=pheData3[c("siteID")], FUN=median)
+
+firstLastMed <- rbind(tbl,tbl3,tbl2)
+
+boxplot(dayOfYear~siteID, data =firstLastMed, main="Timing of open flower phenophase per site", 
+  	xlab="siteID", ylab="Day of Year of open flowers found",names=c('STER') )
+mtext(side=1, 'STER')
+
+```
