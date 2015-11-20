@@ -138,13 +138,9 @@ ggplot(aes(x = dayOfYear, y = prop)) +
 #Not done using dplyr cause I'm not that familiar and wanted to churn this out real quick like...
 pheData3 <- pheData2[pheData2$phenophaseName=='Open flowers' & pheData2$phenophaseStatus=='yes',]
 
-tbl <- aggregate(pheData3["dayOfYear"], by=pheData3[c("siteID")], FUN=min)
-tbl2 <- aggregate(pheData3["dayOfYear"], by=pheData3[c("siteID")], FUN=max)
-tbl3 <- aggregate(pheData3["dayOfYear"], by=pheData3[c("siteID")], FUN=median)
+summary(pheData3$dayOfYear)
 
-firstLastMed <- rbind(tbl,tbl3,tbl2)
-
-boxplot(dayOfYear~siteID, data =firstLastMed, main="Timing of open flower phenophase per site", 
+boxplot(summary(pheData3$dayOfYear), main="Timing of open flower phenophase per site", 
   	xlab="siteID", ylab="Day of Year of open flowers found",names=c('STER') )
 mtext(side=1, 'STER')
 
