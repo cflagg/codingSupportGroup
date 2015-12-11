@@ -8,11 +8,23 @@ library(stringr)
 library(plyr)
 library(dplyr)
 
-# only lists the folders
-folderList <- list.files("Z:/2015data", full.names = TRUE)
 
-# lists all folders in a directory, including sub-folders
-dirList <- list.dirs("Z:/2015data")
+############################################# VARIABLE INPUTS #############################################
+# These variables are passed onto functions below
+# last year's dropbox data
+directory <- "N:/Science/FSU/DataL0fromFOPs/fieldData2014"
+# directory <- "Z:/2015data" # current dropbox data
+
+# # protocol strings of interest -- what to parse the file output for, after it has been collated
+# prot_str <- c("tck", "cdw", "dhp", "ltr", "mos", "vst", "sls", "soi", "Pla", "div") # for 2015
+prot_str <- c("phe")
+############################################# VARIABLE INPUTS #############################################
+
+# only lists the folders ## VARIABLE INPUT ## 
+folderList <- list.files(directory, full.names = TRUE)
+
+# lists all folders in a directory, including sub-folders ## VARIABLE INPUT ## 
+dirList <- list.dirs(directory)
 
 # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
 rowList <- list()
@@ -57,14 +69,15 @@ colnames(rowsProtocol) <- c("rows", "protocol", "fileName")
 # grab the uniques
 unique(rowsProtocol$protocol)
 
-# protocol strings of interest
-prot_str <- c("tck", "cdw", "dhp", "ltr", "mos", "vst", "sls", "soi", "Pla", "div")
-
 # convert to numeric
 rowsProtocol$rows <- as.numeric(rowsProtocol$rows)
 
+
+
+
 # # http://stackoverflow.com/questions/27903890/summarize-rows-grouped-by-id-and-preserve-other-non-grouping-variables
 # filter out the crap e.g. csv files from the WebUI, oddly named files etc.
+## VARIABLE INPUT ## 
 row_summary <- dplyr::filter(rowsProtocol, protocol %in% prot_str) %>% 
   group_by(protocol) %>% 
   summarize(meanRows_perFile = mean(rows), minRows_perFile = min(rows), maxRow_perFiles = max(rows), totalRows_allFiles = sum(rows), nFiles=length(rows)) 
@@ -80,4 +93,6 @@ ddply(rowsProtocol, ~protocol, summarize, meanRows = mean(rows))
 # "== 0" tests the condition that a file has zero rows (i.e. a NULL) 
 table(ldply(sapply(rowList, "[[" ,1)) == 0)
 
+phe2014_only <- dplyr::filter(rowsProtocol, protocol == "phe")
 
+write.csv(phe2014_only, file = "phen2014_rowCounts.csv")
