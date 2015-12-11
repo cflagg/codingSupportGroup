@@ -8,29 +8,11 @@ library(stringr)
 library(plyr)
 library(dplyr)
 
+# only lists the folders
 folderList <- list.files("Z:/2015data", full.names = TRUE)
 
+# lists all folders in a directory, including sub-folders
 dirList <- list.dirs("Z:/2015data")
-
-# if the directory structure was more flat, with only .csv files
-rowList <- list()
-for (folder in folderList){
-  folder_content <- list.files(folder)
-  # print(folder_content)
-  for (file in folder_content){
-    print(nrow(read.csv(paste(folder,"/", file, sep=""))))
-    rowList[file] <- nrow(read.csv(paste(folder,"/", file, sep="")))
-  }
-}
-
-# # munging the list into a data frame
-# sto <- plyr::ldply(rowList)
-# colnames(sto) <- c("file", "rows")
-# # take the first 3 letters of the string, which is the protocol abbreviation
-# sto$module <- str_sub(sto[,1], 1,3)
-# 
-# # how the data would be summarized
-# ddply(sto, ~module, summarize, meanRows = mean(rows))
 
 # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
 rowList <- list()
@@ -87,6 +69,7 @@ row_summary <- dplyr::filter(rowsProtocol, protocol %in% prot_str) %>%
   group_by(protocol) %>% 
   summarize(meanRows_perFile = mean(rows), minRows_perFile = min(rows), maxRow_perFiles = max(rows), totalRows_allFiles = sum(rows), nFiles=length(rows)) 
 
+# print it out
 row_summary
   
 # how the data would be summarized
