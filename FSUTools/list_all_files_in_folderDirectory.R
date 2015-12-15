@@ -12,12 +12,12 @@ library(dplyr)
 ############################################# VARIABLE INPUTS #############################################
 # These variables are passed onto functions below
 # last year's dropbox data
-directory <- "N:/Science/FSU/DataL0fromFOPs/fieldData2014"
-# directory <- "Z:/2015data" # current dropbox data
+# directory <- "N:/Science/FSU/DataL0fromFOPs/fieldData2014"
+directory <- "Z:/2015data" # current dropbox data
 
 # # protocol strings of interest -- what to parse the file output for, after it has been collated
-# prot_str <- c("tck", "cdw", "dhp", "ltr", "mos", "vst", "sls", "soi", "Pla", "div") # for 2015
-prot_str <- c("phe")
+prot_str <- c("tck", "cdw", "dhp", "ltr", "mos", "vst", "sls", "soi", "Pla", "div") # for 2015 -- soils data have a few prefixes
+# prot_str <- c("phe")
 ############################################# VARIABLE INPUTS #############################################
 
 # only lists the folders ## VARIABLE INPUT ## 
@@ -72,27 +72,32 @@ unique(rowsProtocol$protocol)
 # convert to numeric
 rowsProtocol$rows <- as.numeric(rowsProtocol$rows)
 
+# 
+filter(rowsProtocol, protocol %in% c("soi", "sls"))
 
 
+###################################################################################################################################
+############################################# THIS IS SPECIFIC TO PHENOLOGY 2014 DATA #############################################
+###################################################################################################################################
 
 # # http://stackoverflow.com/questions/27903890/summarize-rows-grouped-by-id-and-preserve-other-non-grouping-variables
 # filter out the crap e.g. csv files from the WebUI, oddly named files etc.
-## VARIABLE INPUT ## 
-row_summary <- dplyr::filter(rowsProtocol, protocol %in% prot_str) %>% 
-  group_by(protocol) %>% 
-  summarize(meanRows_perFile = mean(rows), minRows_perFile = min(rows), maxRow_perFiles = max(rows), totalRows_allFiles = sum(rows), nFiles=length(rows)) 
-
-# print it out
-row_summary
-  
-# how the data would be summarized
-ddply(rowsProtocol, ~protocol, summarize, meanRows = mean(rows))
-
-# determine how many files were not parsed
-# sapply() takes the first element of the group | ldply() turns the output into a data.frame | table() summarizes the output 
-# "== 0" tests the condition that a file has zero rows (i.e. a NULL) 
-table(ldply(sapply(rowList, "[[" ,1)) == 0)
-
-phe2014_only <- dplyr::filter(rowsProtocol, protocol == "phe")
-
-write.csv(phe2014_only, file = "phen2014_rowCounts.csv")
+# ## VARIABLE INPUT ## 
+# row_summary <- dplyr::filter(rowsProtocol, protocol %in% prot_str) %>% 
+#   group_by(protocol) %>% 
+#   summarize(meanRows_perFile = mean(rows), minRows_perFile = min(rows), maxRow_perFiles = max(rows), totalRows_allFiles = sum(rows), nFiles=length(rows)) 
+# 
+# # print it out
+# row_summary
+#   
+# # how the data would be summarized
+# ddply(rowsProtocol, ~protocol, summarize, meanRows = mean(rows))
+# 
+# # determine how many files were not parsed
+# # sapply() takes the first element of the group | ldply() turns the output into a data.frame | table() summarizes the output 
+# # "== 0" tests the condition that a file has zero rows (i.e. a NULL) 
+# table(ldply(sapply(rowList, "[[" ,1)) == 0)
+# 
+# phe2014_only <- dplyr::filter(rowsProtocol, protocol == "phe")
+# 
+# write.csv(phe2014_only, file = "phen2014_rowCounts.csv")
