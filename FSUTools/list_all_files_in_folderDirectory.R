@@ -1,7 +1,15 @@
+############################################# Script Summary #############################################
+## This script will parse through every folder and sub-folder of the drop-box, open each .csv or .xlsx file, and count the number o rows.
+## I wrote it to get a better idea of how many records there are per protocol to better inform the Time Estimates in the Manual Data Transcription protocol. 
+## Author: Cody Flagg
+############################################# Script Summary #############################################
+
+# Pseudo-code
 # create list of folders and files
 # loop through each folder and each file
-# count the number of rows in each file
-# save the count
+# open file, count the number of rows
+# save the count in a list
+# turn list into dataframe
 
 library(XLConnect)
 library(stringr)
@@ -27,7 +35,7 @@ folderList <- list.files(directory, full.names = TRUE)
 dirList <- list.dirs(directory)
 
 # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
-rowList <- list()
+rowList <- list() # initialize a list object to populate
 counter = 0
 for (folder in dirList){
   # list all files in a particular folder
@@ -36,6 +44,7 @@ for (folder in dirList){
     # iterate the file count for tracking and for indexing the list
     counter = counter + 1
     # EXCEPTION HANDLING -- PASS ON GRASS -- this will keep the loop going even if there is an error
+    # Added b/c there are .xls and .xlsx files
     try({
     # grab the file type
     fileType <- str_sub(string = file, start = -4, end = -1)
@@ -43,16 +52,17 @@ for (folder in dirList){
     # pass the full file path
     filePath <- paste(folder,"/",file, sep="")
       if (fileType == ".csv"){
-        # add the number of rows
-        rowList[counter][1] <-nrow(read.csv(filePath))
+        # add the number of rows - **MODIFY HERE** TO GRAB FULL CONTENTS OF FILE
+        rowList[counter][1] <-nrow(read.csv(filePath)) # this is just storing the row count, rather than the file contents
         # add the protocol type
         rowList[[counter]][2] <- str_sub(file, 1,3)
-        # add file name for tracking purposes
+        # add file name for tracking purposes 
         rowList[[counter]][3] <- file
       }else if (fileType == "xlsx"){
         t <- loadWorkbook(filePath)
         file_x <- readWorksheet(t, sheet = 1, header = TRUE)
-        rowList[counter][1] <-nrow(file_x)
+        ## **MODIFY HERE** TO GRAB FULL CONTENTS OF FILE
+        rowList[counter][1] <-nrow(file_x) # this is just storing the row count, rather than the file contents
         # add the protocol type
         rowList[[counter]][2] <- str_sub(file, 1,3)
         # add file name for tracking
@@ -63,7 +73,8 @@ for (folder in dirList){
 }
 
 # munging the list into a data frame
-rowsProtocol <- plyr::ldply(rowList)
+# takes each list element and returns a dataframe
+rowsProtocol <- plyr::ldply(rowList) # list to dataframe
 colnames(rowsProtocol) <- c("rows", "protocol", "fileName")
 
 # grab the uniques
@@ -72,8 +83,8 @@ unique(rowsProtocol$protocol)
 # convert to numeric
 rowsProtocol$rows <- as.numeric(rowsProtocol$rows)
 
-# 
-filter(rowsProtocol, protocol %in% c("soi", "sls"))
+# specifically looking at files with soils data
+dplyr::filter(rowsProtocol, protocol %in% c("soi", "sls"))
 
 
 ###################################################################################################################################
