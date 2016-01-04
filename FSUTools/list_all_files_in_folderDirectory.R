@@ -49,8 +49,13 @@ for (folder in dirList){
     # grab the file type
     fileType <- str_sub(string = file, start = -4, end = -1)
     print(paste(counter, fileType))
+    # **MODIFY HERE** -- If you pull out the 3-letter protocol prefix, you can pass that info to the if else statements 
+    # to just grab files from a specific protocol e.g.: 
+    # protocolType <- grep(pattern = contains("vst"), x = file)
     # pass the full file path
     filePath <- paste(folder,"/",file, sep="")
+      # **MODIFY HERE**
+      #if (fileType == ".csv" & protocolType == "vst")
       if (fileType == ".csv"){
         # add the number of rows - **MODIFY HERE** TO GRAB FULL CONTENTS OF FILE
         rowList[counter][1] <-nrow(read.csv(filePath)) # this is just storing the row count, rather than the file contents
