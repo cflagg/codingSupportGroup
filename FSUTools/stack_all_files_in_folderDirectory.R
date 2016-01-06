@@ -16,6 +16,8 @@ library(stringr)
 library(plyr)
 library(dplyr)
 
+fileList <- c("stuff", "stuff", "notstuff", "Thing", "Bob", 2)
+grepl(pattern = "stuff", x = fileList)
 
 ############################################# VARIABLE INPUTS #############################################
 # These variables are passed onto functions below

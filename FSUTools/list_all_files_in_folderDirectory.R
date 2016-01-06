@@ -4,7 +4,7 @@
 ## Author: Cody Flagg
 ############################################# Script Summary #############################################
 
-# Pseudo-code
+# Pseudo-code: 
 # create list of folders and files
 # loop through each folder and each file (nested loop: folder path > file)
 # open file, count the number of rows
@@ -34,6 +34,8 @@ folderList <- list.files(directory, full.names = TRUE)
 # lists all folders in a directory, including sub-folders ## VARIABLE INPUT ## 
 dirList <- list.dirs(directory)
 
+
+
 # how does debug work?
 # debug(mean) # point debug to a function you need to understand
 # mean(1:10) # run the function
@@ -44,14 +46,14 @@ dirList <- list.dirs(directory)
 #  R will activate the debug() function, which is nearly identical to browser(), except that its scope is limited to local variables 
 # within the function, AND it will highlight which line is being run for each 'enter' stroke
 
-# fileParse <- function(){
+fileParse <- function(){
 # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
 rowList <- list() # initialize a list object to populate
 counter = 0
 for (folder in dirList){
   # browser() # this is the interactive debugger, its scope is global & local
   # list all files in a particular folder
-  folder_content <- list.files(folder)
+  folder_content <- list.files(folder) # here is a new note
   for (fileN in folder_content){
     # iterate the file count for tracking and for indexing the list
     counter = counter + 1
