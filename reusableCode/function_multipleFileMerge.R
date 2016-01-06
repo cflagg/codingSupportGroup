@@ -45,7 +45,7 @@ combined.df = multipleCombine(fileGrab1, ply = ldply)
 # This example takes the combined file above and splits it into separate files for each unique domainID
 fileSuffix = as.character("newFileSuffix")
 d_ply(combined.df,.(domainID), function(input) 
-  write.csv(input, file = paste0("D",unique(input$domainID),"_",fileSuffix, ".csv", sep="")))
+  write.csv(input, file = paste0("D", unique(input$domainID),"_",fileSuffix, ".csv", sep="")))
 
 
 
