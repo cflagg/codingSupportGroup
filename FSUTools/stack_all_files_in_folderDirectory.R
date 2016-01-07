@@ -9,7 +9,7 @@
 # loop through each folder and each file (nested loop: folder path > file)
 # open file, count the number of rows
 # save the count in a list
-# turn list into dataframe
+# turn list into data frame
 
 library(XLConnect)
 library(stringr)
