@@ -25,8 +25,8 @@ multiCombine_xls <- function(fileList, ...){
 )
 }
 
-setwd("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/")
-f <- ("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/multi_worksheet_ex.xlsx")
+## An example workbook file -- use as input
+# f <- ("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/multi_worksheet_ex.xlsx")
 
 # create a function to pull all of the worksheets together into a single data frame
 multiWorksheetCombine_xls <- function(input){

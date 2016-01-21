@@ -4,9 +4,9 @@
 ## Author: Cody Flagg
 ############################################# Script Summary #############################################
 
-# Pseudo-code
+# Pseudo-code: 
 # create list of folders and files
-# loop through each folder and each file
+# loop through each folder and each file (nested loop: folder path > file)
 # open file, count the number of rows
 # save the count in a list
 # turn list into dataframe
@@ -28,54 +28,69 @@ prot_str <- c("tck", "cdw", "dhp", "ltr", "mos", "vst", "sls", "soi", "Pla", "di
 # prot_str <- c("phe")
 ############################################# VARIABLE INPUTS #############################################
 
-# only lists the folders ## VARIABLE INPUT ## 
+# only lists the folders in the root
 folderList <- list.files(directory, full.names = TRUE)
 
 # lists all folders in a directory, including sub-folders ## VARIABLE INPUT ## 
 dirList <- list.dirs(directory)
 
+
+
+# how does debug work?
+# debug(mean) # point debug to a function you need to understand
+# mean(1:10) # run the function
+# undebug(mean) # turn debugger off when you're done
+
+# this is a quick trick to use the visual debugger, turn the loop into a function with zero arguments (i.e. name <- function(){})
+# , embed browser() inside of the loop, then call the function you just made ("fileParse()" below).
+#  R will activate the debug() function, which is nearly identical to browser(), except that its scope is limited to local variables 
+# within the function, AND it will highlight which line is being run for each 'enter' stroke
+
+fileParse <- function(){
 # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
 rowList <- list() # initialize a list object to populate
 counter = 0
 for (folder in dirList){
+  # browser() # this is the interactive debugger, its scope is global & local
   # list all files in a particular folder
-  folder_content <- list.files(folder)
-  for (file in folder_content){
+  folder_content <- list.files(folder) # here is a new note
+  for (fileN in folder_content){
     # iterate the file count for tracking and for indexing the list
     counter = counter + 1
     # EXCEPTION HANDLING -- PASS ON GRASS -- this will keep the loop going even if there is an error
     # Added b/c there are .xls and .xlsx files
     try({
     # grab the file type
-    fileType <- str_sub(string = file, start = -4, end = -1)
+    fileType <- str_sub(string = fileN, start = -4, end = -1)
     print(paste(counter, fileType))
     # **MODIFY HERE** -- If you pull out the 3-letter protocol prefix, you can pass that info to the if else statements 
     # to just grab files from a specific protocol e.g.: 
     # protocolType <- grep(pattern = contains("vst"), x = file)
     # pass the full file path
-    filePath <- paste(folder,"/",file, sep="")
+    filePath <- paste(folder,"/",fileN, sep="")
       # **MODIFY HERE**
       #if (fileType == ".csv" & protocolType == "vst")
       if (fileType == ".csv"){
         # add the number of rows - **MODIFY HERE** TO GRAB FULL CONTENTS OF FILE
         rowList[counter][1] <-nrow(read.csv(filePath)) # this is just storing the row count, rather than the file contents
         # add the protocol type
-        rowList[[counter]][2] <- str_sub(file, 1,3)
+        rowList[[counter]][2] <- str_sub(fileN, 1,3)
         # add file name for tracking purposes 
-        rowList[[counter]][3] <- file
+        rowList[[counter]][3] <- fileN
       }else if (fileType == "xlsx"){
         t <- loadWorkbook(filePath)
         file_x <- readWorksheet(t, sheet = 1, header = TRUE)
         ## **MODIFY HERE** TO GRAB FULL CONTENTS OF FILE
         rowList[counter][1] <-nrow(file_x) # this is just storing the row count, rather than the file contents
         # add the protocol type
-        rowList[[counter]][2] <- str_sub(file, 1,3)
+        rowList[[counter]][2] <- str_sub(fileN, 1,3)
         # add file name for tracking
-        rowList[[counter]][3] <- file
+        rowList[[counter]][3] <- fileN
     }
     })
   }
 }
+#}
 
 # munging the list into a data frame
 # takes each list element and returns a dataframe
@@ -90,6 +105,8 @@ rowsProtocol$rows <- as.numeric(rowsProtocol$rows)
 
 # specifically looking at files with soils data
 dplyr::filter(rowsProtocol, protocol %in% c("soi", "sls"))
+
+
 
 
 ###################################################################################################################################
@@ -109,10 +126,11 @@ dplyr::filter(rowsProtocol, protocol %in% c("soi", "sls"))
 # # how the data would be summarized
 # ddply(rowsProtocol, ~protocol, summarize, meanRows = mean(rows))
 # 
-# # determine how many files were not parsed
-# # sapply() takes the first element of the group | ldply() turns the output into a data.frame | table() summarizes the output 
-# # "== 0" tests the condition that a file has zero rows (i.e. a NULL) 
-# table(ldply(sapply(rowList, "[[" ,1)) == 0)
+# determine how many files were not parsed
+# sapply() takes the first list element of the group | ldply() turns the output into a data.frame | table() summarizes the output 
+# "== 0" tests the condition that a file has zero rows (i.e. a NULL)
+# sapply() is accessing list elements via "[[", the third argument ("1") tells it to process the first list element
+table(ldply(sapply(rowList, "[[" ,1)) == 0)
 # 
 # phe2014_only <- dplyr::filter(rowsProtocol, protocol == "phe")
 # 
