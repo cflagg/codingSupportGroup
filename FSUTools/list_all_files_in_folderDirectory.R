@@ -90,7 +90,10 @@ for (folder in dirList){
     })
   }
 }
-#}
+}
+
+# execute function
+fileParse()
 
 # munging the list into a data frame
 # takes each list element and returns a dataframe
@@ -106,8 +109,24 @@ rowsProtocol$rows <- as.numeric(rowsProtocol$rows)
 # specifically looking at files with soils data
 dplyr::filter(rowsProtocol, protocol %in% c("soi", "sls"))
 
+## test grep
+#x  <- c("yo", "yo", "ma", "da", "pa")
+## a reverse grep on the row index
+#x[-grep(pattern = "yo", x)]
+library(stringr)
+prot_str <- c("tck", "cdw", "dhp", "ltr", "mos", "vst", "sls", "soi")
 
+# return non-WebUI data files
+access_csv <- rowsProtocol[grep(pattern = paste(prot_str, collapse="|"), x = rowsProtocol$fileName),]
 
+# drop the error rate files
+access_out <- access_csv[-grep(pattern = "errorRate|ErrorRate|errorrate", x = access_csv$fileName),]
+
+# append the domainID
+domain_pat <- "(D[0-9]{1,2})"
+access_out$domainID <- str_extract(string = access_out$fileName, pattern = domain_pat)
+
+write.csv(access_out, file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/accessData_2015.csv")
 
 ###################################################################################################################################
 ############################################# THIS IS SPECIFIC TO PHENOLOGY 2014 DATA #############################################
