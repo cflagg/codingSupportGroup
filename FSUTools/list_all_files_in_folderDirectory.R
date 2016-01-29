@@ -46,7 +46,7 @@ dirList <- list.dirs(directory)
 #  R will activate the debug() function, which is nearly identical to browser(), except that its scope is limited to local variables 
 # within the function, AND it will highlight which line is being run for each 'enter' stroke
 
-fileParse <- function(){
+# fileParse <- function(){
 # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
 rowList <- list() # initialize a list object to populate
 counter = 0
@@ -72,7 +72,7 @@ for (folder in dirList){
       #if (fileType == ".csv" & protocolType == "vst")
       if (fileType == ".csv"){
         # add the number of rows - **MODIFY HERE** TO GRAB FULL CONTENTS OF FILE
-        rowList[counter][1] <-nrow(read.csv(filePath)) # this is just storing the row count, rather than the file contents
+        rowList[counter][1] <- nrow(read.csv(filePath)) # this is just storing the row count, rather than the file contents
         # add the protocol type
         rowList[[counter]][2] <- str_sub(fileN, 1,3)
         # add file name for tracking purposes 
@@ -90,15 +90,18 @@ for (folder in dirList){
     })
   }
 }
-}
+# }
 
 # execute function
-fileParse()
+# rowListfileParse()
 
 # munging the list into a data frame
 # takes each list element and returns a dataframe
 rowsProtocol <- plyr::ldply(rowList) # list to dataframe
 colnames(rowsProtocol) <- c("rows", "protocol", "fileName")
+
+## write a csv with ALL files, not pared down by protocol abbreviation
+#write.csv(x = rowsProtocol, file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/allDropboxFiles_2015.csv")
 
 # grab the uniques
 unique(rowsProtocol$protocol)
