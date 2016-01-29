@@ -1,0 +1,23 @@
+---
+title: "Lesson1_dataManagement"
+author: "Cody Flagg"
+date: "January 27, 2016"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+
+```{r}
+## setup directories with a relative path
+base_wd <- "../Documents/GitHub/codingSupportGroup/dataSkillsOSIS/data/NEON/munge/"
+phe_files <- paste(base_wd, "phe/", sep="")
+prec_files <- paste(base_wd, "prec/",sep="")
+
+# load files
+
+## load libraries
+library(plyr)
+library(dplyr)
+
+```

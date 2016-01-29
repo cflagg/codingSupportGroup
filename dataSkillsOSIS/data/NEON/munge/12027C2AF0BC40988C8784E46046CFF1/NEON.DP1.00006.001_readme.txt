@@ -1,0 +1,78 @@
+Data package from NEON Inc.
+These data are provided under the terms of the NEON data policy, included in this data download.
+Data Product ID: NEON.DOM.SITE.DP1.00006.001
+Data Product Name: Precipitation
+Date-Time of Query Submission (UTC): 2016-01-28 00:34:45
+Start Date-Time for Data (UTC): 2015-04-01 00:00:00
+End Date-Time for Data (UTC): 2015-10-31 23:59:59
+Data Package Type: Basic
+
+Site: ORNL Oak Ridge Site, CORE
+Geographic coordinates (lat/long): 35.9641277778/-84.2825880556
+Domain: D07 Appalachians and Cumberland Plateau
+
+Site: BLAN Blandy Experimental Farm Site, RELOCATABLE
+Geographic coordinates (lat/long): 39.033698/-78.041788
+Domain: D02 Mid-Atlantic
+
+Site: MLBS Mountain Lake Biological Station Site, RELOCATABLE
+Geographic coordinates (lat/long): 37.378314/-80.524847
+Domain: D07 Appalachians and Cumberland Plateau
+
+This package was generated on: 2016-01-28
+
+This package contains the following files:
+NEON.D02.BLAN.DP1.00006.001.00000.000.040.001.SECPRE_1min.csv
+NEON.D02.BLAN.DP1.00006.001.00000.000.040.030.SECPRE_30min.csv
+NEON.D07.MLBS.DP1.00006.001.00000.000.060.001.SECPRE_1min.csv
+NEON.D07.MLBS.DP1.00006.001.00000.000.060.030.SECPRE_30min.csv
+NEON.D07.ORNL.DP1.00006.001.00000.000.060.001.SECPRE_1min.csv
+NEON.D07.ORNL.DP1.00006.001.00000.000.060.030.SECPRE_30min.csv
+NEON.DP1.00006.001_readme.txt
+NEON.DP1.00006.001_variables.csv
+NeonDataPolicy.txt
+
+
+
+
+Data Product Description: Precipitation is observed using one of two sensors. Primary precipitation is observed using a weighing gauge housed within a small double fence intercomparison reference, which is generally located within 0.5 km of the tower infrastructure. Secondary precipitation is observed using a tipping bucket located on the top of the tower infrastructure. Ground level precipitation (also known as throughfall) is also observed using tipping buckets at 3 of 5 soil array locations. Bulk precipitation is determined at five- and fifteen-minute intervals for primary precipitation and at one- and thirty-minute intervals for secondary precipitation. AIS sites only include Primary (DFIR at Core Aquatic sites; currently only 2 or 3) or Secondary (tipping buckets at relocatable sites; currently about 8). No AIS sites have both; no AIS sites have the equivalent of throughfall.
+
+Download packages available:
+basic � Includes the data product , summary statistics, expanded uncertainty,  and final quality flag.
+expanded � Includes the basic package information plus quality metrics for all of the quality assessment and quality control analyses.
+request � Provided only for a data product�s lowest time resolution. This package includes the expanded package information as well as the outcomes of the individual quality flags at a data product�s native sampling resolution.  
+
+Sensor: Belfort - AEPG II 600M
+
+File naming convention for sensor data files: NEON.DOM.SITE.DPL.PRNUM.REV.TERMS.HOR.VER.TMI.DESC, where:
+NEON denotes the organizational origin of the data product and identifies the product as operational; data collected as part of a special data collection exercise are designated by a separate, unique alphanumeric code created by the PI
+DOM is a three-character alphanumeric code, referring to the domain of data acquisition (D01 � D20)
+SITE is four-character alphanumeric code, referring to the site of data acquisition; all sites are designated by a standardized four-character alphabetic code
+DPL is a three-character alphanumeric code, referring to data product processing level
+PRNUM is a five-character numeric code, referring to the data product number (see the Data Product Catalog at http://data.neoninc.org/data-product-catalog)
+REV is a three-digit designation, referring to the revision number of the data product; it is also used to track �Data Product Maturity�, from Engineering �Grade/Provisional to Science-Grade (001 = initial REV, Engineering-Grade or Provisional; 101 = initial REV, Science-Grade)
+TERMS is a five-digit designation used in data product numbering to identify a sub-product or discrete vector of metadata. Since each download file typically contains several sub-products, this field is set to 00000 in the file name to maintain consistency with the data product numbering scheme.
+HOR is the Spatial Index #1 and refers to measurement locations within one horizontal plane. For example, if five surface measurements were taken, one at each of the five soil array plots, the number in the HOR field would range from 001-005.
+VER is the Spatial Index #2 and refers to measurement locations within one vertical plane. For example, if eight temperature measurements are collected, one at each tower level, the number in the VER field would range from 010-080.
+TMI is the Temporal Index; it is a three-digit designation and refers to the temporal representation, averaging period, or coverage of the data product (e.g., minute, hour, month, year, sub-hourly, day, lunar month, single instance, seasonal, annual, multi-annual)
+DESC is an abbreviated description of the data product 
+
+Term descriptions, data types, and units can be found in:
+NEON.DP1.00006.001_variables.csv - Descriptions of all fields used in the above data files.
+
+Additional documentation/metadata for this data product available for download at http://data.neoninc.org/documents  includes:
+NEON.DOC.000898 - Algorithm Theoretical Basis Document Precipitation
+NEON.DOC.000783 - Time Series Automatic Despiking for TIS Level 1 Data Products � QA/QC Algorithm Theoretical Basis Document
+NEON.DOC.000785 - TIS Level 1 Data Products Uncertainty Budget Estimation Plan
+NEON.DOC.000927 - Calibration and Sensor Uncertainties
+NEON.DOC.000008 - NEON Acronym List
+NEON.DOC.001069 - Preprocessing for TIS Level 1 Data Products � QA/QC Algorithm Theoretical Basis Document
+NEON.DOC.011081 - NEON Algorithm Theoretical Basis Document QA/QC Plausibility Testing
+
+NEON requests that users cite data use as "National Ecological Observatory Network. 2015. Data accessed on [date of access]. Available on-line  http://data.neoninc.org/ from National Ecological Observatory Network, Boulder, CO, USA." Unique, reproducible citation codes on a per-download basis are currently in development.  - See more at: http://neoninc.org/about/terms-of-use/data-usage-and-citation-policies#sthash.4tXJtQx6.dpuf
+
+These data are considered provisional (created using a baseline algorithm approach with a minimal or reduced set of QA/QC checks). Minor updates to the QA/QC and processing algorithms will occur during construction (prior to 2017). Changes to provisional data products will occur on an as-needed basis.  Please check back to this site for updates tracked in change logs.  Query reproducibility on provisional data cannot be guaranteed.  
+
+Change log: 
+
+
