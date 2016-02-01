@@ -1,0 +1,617 @@
+Timestamp,Domain,Protocol,Date recorded in data,SiteCode,Description of error,email address,plotID
+,,,,,,,
+,,,,,,,
+,,,,,,,
+10/28/2014 21:59,,Small mammal,6/21/2014,STER,"Unfortunately a tech had a slip of the mouse when entering the date for smammal data. The grid in question is for STER 026 on 6/21. The first file was entered correctly and when entering another bouts data for STER 026, the date of 6/21 was incorrectly selected and submitted causing a duplicate file. The first file is correct and the second is wrong, as I understand it both will be flagged but how do we (FOPS) convey that the first entry of data for STER 026 6/21 was the correct data?",selmendorf@neoninc.org,
+10/29/2014 7:35,,Small mammal,5/6/2014,DSNY,"this error was added 20141021 by echartrand. 
+the entire record is wrong due to wrong plot number.
+the data record SHOULD be changed to:
+20140506 DSNY_009 Traps not set.
+
+in the data base I believe it is saved as 20140506 DSNY_004. that data is incorrect.
+",echartrand@field-ops.org,
+10/29/2014 7:42,,Small mammal,5/29/2014,JERC,"need to add to record input by echartrand on 20141022:
+
+20140529, JERC_005, H2, MUMU, Male, Adult, Scrotal, HFL: 18, WGT: 16, R2428, New, Old fecal sample, Ear punch.",echartrand@field-ops.org,
+10/29/2014 10:50,,Small mammal,8/20/2014,JERC,Submitted data for this grid with the incorrect date. The original submission listed the sampling date as 2014-10-20. I re-submitted this data with the correct date of 2017-08-20. ,aspink@neoninc.org,
+10/29/2014 10:54,,Small mammal,6/28/2014,JERC,JERC_019. Missed a few lines of data on original submission. Submitted a second record for this grid which only included the missed data.,aspink@neoninc.org,
+10/29/2014 10:56,,Small mammal,8/20/2014,JERC,JERC_009. Missed a few lines of data on original submission. Submitted a second record for this grid which only included the missed data.,aspink@neoninc.org,
+10/29/2014 10:57,,Small mammal,8/20/2014,JERC,JERC_002. Missed a few lines of data on original submission. Submitted a second record for this grid which only included the missed data.,aspink@neoninc.org,
+10/29/2014 12:54,,Small mammal,6/3/2014,DSNY,"For the references used to ID mammals, on the first page for plot 005, I did not include the entire reference for the Peterson Guide to Mammals.",lcard@neoninc.org,
+10/29/2014 12:55,,Small mammal,6/3/2014,DSNY,"for plot 004, I forgot to add a comment for trap A5, ""trap missing""",lcard@neoninc.org,
+10/29/2014 12:57,,Small mammal,6/3/2014,DSNY,"for Plot 009, additional traps were listed on the back of the datasheet for being disturbed, there was no comment on the front about this and I did not see the comment until after I'd closed the file. The following traps were disturbed (by cows): B10, B9, B8, B4, J5, I1, I4, A1, F1, F4, F5, F6, F7, and F10",lcard@neoninc.org,
+10/29/2014 14:11,,Small mammal,4/28/2014,CPER,"-	Missed data that was on a separate sheet, had to re-enter
+-	UI remarks: Corrected data
+",cemerson@neoninc.org,
+10/29/2014 14:12,,Small mammal,8/27/2014,CPER,"-	Missed data that was on a separate sheet, had to re-enter
+-	UI remarks: Corrected data
+",cemerson@neoninc.org,
+10/29/2014 14:12,,Small mammal,6/21/2014,STER,"-	Disregard second entry",cemerson@neoninc.org,
+10/29/2014 14:13,,Small mammal,5/21/2014,STER,"-	Second entry is complete",cemerson@neoninc.org,
+10/29/2014 14:13,,Small mammal,8/18/2014,STER,"-	Had combined STER_028 and STER_026 data for 20140818, had to re-enter STER_028
+-	UI notes: corrected data
+",cemerson@neoninc.org,
+10/29/2014 14:35,,Small mammal,8/20/2014,STER,"STER_006_20140820
+-	Missed data that was on a separate sheet, had to re-enter
+-	UI notes: corrected data
+",cemerson@neoninc.org,
+10/29/2014 14:35,,Small mammal,8/19/2014,STER,"STER_031_20140819
+-	Missed trap closure data on back of sheets, had to re-enter
+-	UI remarks: Corrected data
+",cemerson@neoninc.org,
+10/29/2014 14:36,,Small mammal,8/19/2014,STER,"STER_029_20140819
+-	Missed trap closure data on back of sheets, had to re-enter
+-	UI remarks: Corrected data
+",cemerson@neoninc.org,
+10/29/2014 14:36,,Small mammal,8/19/2014,STER,"STER_027_20140819
+-	Missed trap closure data on back of sheets, had to re-enter
+-	UI remarks: Corrected data
+",cemerson@neoninc.org,
+10/29/2014 14:37,,Small mammal,8/21/2014,STER,"STER_029_20140821
+-	Missed trap closure data on back of sheets, had to re-enter
+-	UI remarks: Corrected data
+
+",cemerson@neoninc.org,
+10/29/2014 14:37,,Small mammal,7/7/2013,CPER,"CPER_009_20130707
+-	Duplicates of data. Both are correct. 
+",cemerson@neoninc.org,
+10/30/2014 13:35,,Small mammal,8/26/2014,OSBS,"Plots OSBS_ 012, _004, _005 on 20140826, were input improperly. Today, 20141030, domain 3 re-input the data correctly.",echartrand@field-ops.org,
+12/4/2014 14:29,,Beetle,4/2/2014,DSNY,"When entering the plot # on the different pages, I didn't realize it wasn't changing to the new plot # after I entered it on the first field data page. It needs to be checked to make sure the sorting and pinning plot # got changed ot the right one. I did plots 7, 2, 5, 1, 4 and 6 in that order. ",jeells@neonince.org,
+12/4/2014 14:30,,Beetle,4/2/2014,DSNY,"The fluid level for plots 1, 4 and 5 were recorded as high but should be recorded as okay. ",jeells@neonince.org,
+12/4/2014 15:52,,Beetle,5/16/2014,DSNY,sample id saved as DSNY_005.N.20140416.pasimachus but should be DSNY_005.N.20140416.PASSUB1.01,jeells@neonince.org,DSNY_005
+12/10/2014 10:08,,Beetle,5/1/2014,DSNY,"Date is ""set date"".   This is ""trap data"" error.  No sample was collected at the W trap. ",mkerstein@neoninc.org,DSNY_016
+12/10/2014 12:33,,Beetle,7/2/2014,JERC,"Bout 3 for JERC, set date 20140702, note should have been included with trap activity for all 4 traps (N, S, E, W): ""Out of PG stock, some filtered waste mixed w/PG solution"".",mkerstein@neoninc.org,JERC_002
+12/10/2014 12:35,,Beetle,7/2/2014,JERC,"Bout 3 for JERC, set date 20140702, note should have been included with trap activity for the E trap: ""Soil eroded around ""E"" trap, catch cup not flush w/ground"".",mkerstein@neoninc.org,DSNY_003
+12/10/2014 12:36,,Beetle,7/2/2014,JERC,"Bout 3, set date 20140702.  Note should have been included with each trap (N, S, E, W) in the trap activity for this plot: ""Out of PG stock, some filtered waste mixed w/PG solution.""",mkerstein@neoninc.org,JERC_005
+12/10/2014 12:37,,Beetle,7/2/2014,JERC,"Bout 3, set date 20140702.  Note should have been included with each trap (N, S, E, W) in the trap activity for this plot: ""Out of PG stock, some filtered waste mixed w/PG solution.""",mkerstein@neoninc.org,JERC_006
+12/10/2014 12:38,,Beetle,7/2/2014,JERC,"Bout 3, set date 20140702.  Note should have been included with the W trap activity: ""W"" lid did not fully cover catch cup upon arrival.
+",mkerstein@neoninc.org,JERC_007
+12/10/2014 13:37,,Beetle,7/17/2014,JERC,"This date refers to the process date, the collect date is wrong.  JERC_001 sorting data, bout 3, from W trap that had other carbids.  This trap was collected on 7/16/14, not 7/2/14.  Also the trap should be N, not W. 
+
+I'm sorry--I accidentally entered the data from the previous bout for this plot.  This is the first error message of three referring to the sorting activity data from plot JERC_001 on the 3 bout.",mkerstein@neoninc.org,JERC_001
+12/10/2014 13:40,,Beetle,7/17/2014,JERC,"The date refers to the process date, the collection date is incorrect.  The entry for bout, JERC_001 sorting activity, other carbids at the E trap is incorrect and needs to be deleted (no other carbids were collected).
+
+I'm sorry--I accidentally entered the data from the previous bout for this plot.  This is the second error message of three referring to the sorting activity data from plot JERC_001 on the 3 bout.",mkerstein@neoninc.org,JERC_001
+12/10/2014 13:46,,Beetle,7/17/2014,JERC,"This date refers to the processing date, the collect date is incorrect.  Bout 3, JERC_001, sorting activity data, invertebrate bycatch has the incorrect collection date.  The collection date should be 7/16/14 not 7/2/14.
+
+I'm sorry--I accidentally entered the data from the previous bout for this plot.  This is the last error message about sorting data at JERC_001.",mkerstein@neoninc.org,JERC_001
+12/10/2014 13:49,,Beetle,7/17/2014,JERC,"This is the processing date, not the collection date.  Beetle pining data associated with bout 3, plot JERC_001.  The collection date is incorrect, so beetles id: 000216, 000295, 000293, 000294 these all refer to the previous bout (and were previously entered with that bout).",mkerstein@neoninc.org,JERC_001
+12/10/2014 13:51,,Beetle,7/17/2014,JERC,"This is the processing date, since the collection date is incorrect.  For bout 3, JERC_002, sorting data, the date for the invertebrate bycatch is incorrect.  The collection date should be 7/16/14 not 7/2/14.",mkerstein@neoninc.org,JERC_002
+12/10/2014 13:53,,Beetle,7/17/2014,JERC,"This refers to the processing date, rather than the collection date.  Sorting data for JERC_003, bout 3, invertebrate bycatch the collection date should be 7/16/14 not 7/2/14.",mkerstein@neoninc.org,JERC_003
+12/10/2014 13:57,,Beetle,7/2/2014,JERC,"Sorting data-
+The files have 2 Scahol as vert bycatch (vb) but it only needs one (this one has the set date 7/2/14).
+
+Under other carabids (oc) there's two entries. there shouldn't be any entries for this. ",jeells@neonince.org,JERC_005
+12/10/2014 13:59,,Beetle,7/2/2014,JERC,"Sorting data- have two other carabid (oc) entries
+ -the one we need is the west trap 
+ -the south trap entry is the one we don't need
+ -Anihap
+",jeells@neonince.org,JERC_007
+12/12/2014 8:47,,Beetle,12/8/2014,STER,"Late in the data entry/submission process of CPER bout 1 and STER bout 2 we discovered that there was a typo in the description of our morph f. I tried to correct as many of the entries as were available to editing, however I expect that there are more in our data set.
+
+the error is: 10cm should be 10mm
+
+that would of been one scary big beetle",cemerson@neoninc.org,
+12/18/2014 7:46,,Beetle,4/16/2014,DSNY,Got a list of possible errors from Kate. At the end of this entry it reads the date as 20140402. The date should be 20140416.,jeells@neonince.org,4
+12/18/2014 7:47,,Beetle,4/16/2014,DSNY,Got a list of possible errors. The date at the end of this one says 200140402. It should say 20140417.,jeells@neonince.org,DSNY_005
+12/18/2014 7:48,,Beetle,4/14/2014,DSNY,"Collect date is recorded as 20140414 for the E trap and N trap on the information about the other carabid samples.  The collect date should be 20140416, as previously entered in the sorting data and as entered for the other traps at this plot.",mkerstein@neoninc.org,DSNY_009
+12/18/2014 7:51,,Beetle,6/16/2014,DSNY,"For beetle 000456 the collect date is incorrect, the date should be 20140416.  As previously entered in sorting data for this plot.",mkerstein@neoninc.org,DSNY_021
+12/18/2014 8:42,,Beetle,6/24/2014,STER,"The actual date of collection is and should be 20140624, however, for both the sorting and pinning entries STER_033 was entered with a collection date of 20140324. It needs to be changed to 20140624. ",hschartel@neoninc.org,STER_033
+12/18/2014 8:43,,Beetle,6/24/2014,STER,"The actual date of collection is and should be 20140624, however, for the pinning entry STER_029 was entered with a collection date of 20140324. It needs to be changed to 20140624. ",hschartel@neoninc.org,STER_029
+12/18/2014 8:44,,Beetle,6/24/2014,STER,"The actual date of collection is and should be 20140624, however, for the pinning entry STER_028 was entered with a collection date of 20140324. It needs to be changed to 20140624. ",hschartel@neoninc.org,STER_028
+12/29/2014 12:13,,Small mammal,6/30/2014,SCBI,Forgot to add comment to Plot Comments: “2 traps set at G09 accidentally”,lcard@neoninc.org,SCBI_039
+12/29/2014 14:08,,Small mammal,6/30/2014,SCBI,"For this plot, I entered a trap as (X,X) as its location was not known. I'm guessing the total traps then came to 101. In the comments, it should be written "" Only 100 total traps set; trap from unknown location would replace one of the set and empty traps"".",lcard@neoninc.org,SCBI_039
+12/29/2014 14:11,,Small mammal,6/30/2014,SCBI,"Two traps were set at B10. I wrote this in the comments of the plot. However, I think I was supposed to enter one as B10 and the other as X,X  (both set and empty) in order for the total count of 101 traps to be correct",lcard@neoninc.org,SCBI_008
+12/29/2014 14:13,,Small mammal,6/30/2014,SCBI,"Two traps were set at G9. I wrote this in the comments of the plot. However, I think I was supposed to enter one as G9 (which I did, it had the PELE) and the other as X,X  (both set and empty) in order for the total count of 101 traps to be correct",lcard@neoninc.org,SCBI_039
+12/29/2014 14:28,,Small mammal,7/25/2014,HARV,"Error 1:  Entered and submitted data, then found additional data on another sheet.  The data from the original submission contains false ""set and empty"" (code = 2) trap locations.  These should be replaced by the data from the second submission, which contains only the additional ""new"" data.
+
+Error 2:  Handler/measurer recorded incorrectly in the first submission. Should be kauger@neoninc.org, not bchagnon@neoninc.org.
+
+Have a nice day!",bvierra@neoninc.org,HARV_006
+12/30/2014 14:15,,Small mammal,8/23/2014,SCBI,"I entered this data, downloaded the csv file, and then hit ""upload"". The site counted down to 0 and remained there for 20 min. Then I reloaded the page at which the site said it needed to be closed and restarted. I was not sure if this data was actually uploaded so I entered it again. It uploaded fine the second time. But in case it uploaded the first time and there are 2 sets of the same data, one set would need to be deleted.",lcard@neoninc.org,SCBI_004
+1/5/2015 8:06,,Small mammal,7/21/2014,HARV,Some data (approximately 15 lines) for HARV_032 on 2014-07-21 was missed and not properly entered into the database.  Data was recorded on another datasheet belonging to a different plot which is why it was originally missed.  Please send instructions on how to enter the remaining data for HARV_032 on 2014-07-21 since it has already been submitted to the database.  ,jamante@neoninc.org,HARV_032
+1/5/2015 13:10,,Small mammal,6/30/2014,BART,"I thought data entry was complete and submitted the data after setting traps without records to ""set but empty"" status.  Later, I found another partial page of data.  So I have submitted a second plot record containing ONLY the additional data points.  The data from the second submission will replace some ""set but empty"" records from the first submission.",bvierra@neoninc.org,BART_012
+1/5/2015 13:11,,Small mammal,6/24/2014,TALL,"I submitted the plot data for TALL_024 20140624 before adding one additional line of data.  Line of data was not on same datasheet.  There are two records for this night of trapping, they just need to be combined.  Sorry about this, these lines were hiding.",jwhite@neoninc.org,24
+1/5/2015 13:28,,Small mammal,7/26/2014,SCBI,"For the PELE caught at H02 (L1129): In the ""Ear tag replaced"" column, ""Left"" needs to be changed to ""Right""",lcard@neoninc.org,SCBI_008
+1/5/2015 13:30,,Small mammal,8/18/2014,SCBI,"For the mice caught at G10 (L1132), I6 (L1133), and J2 (L1129): In the ""Ear tag replaced"" column, ""Left"" needs to be changed to ""Right""",lcard@neoninc.org,SCBI_008
+1/5/2015 13:36,,Small mammal,8/19/2014,SCBI,"For the PELE caught at J5 (L1023): In the ""Ear tag replaced"" column, ""Left"" needs to be changed to ""Right""",lcard@neoninc.org,SCBI_002
+1/5/2015 13:37,,Small mammal,8/21/2014,SCBI,"For the PELE caught at F3 (L1137): In the ""Ear tag replaced"" column, ""Left"" needs to be changed to ""Right""",lcard@neoninc.org,SCBI_004
+1/5/2015 13:39,,Small mammal,9/17/2014,SCBI,"For the PELE's caught at B9 (L1049), I6 (L1039), and A5 (L1050): In the ""Ear tag replaced"" column, ""Left"" needs to be changed to ""Right""
+",lcard@neoninc.org,SCBI_002
+1/6/2015 10:42,,Small mammal,7/24/2014,HARV,"Many traps in this plot have a note that includes email addresses of the handler and recorder. I entered this information to document who handled which critter, as handlers/recoders switched off part way through the plot. Then I learned I wasn't supposed to do this. 
+Please remove the email addresses from the notes for traps I6, J5, H1, H2, H10, J10. Thanks.",cgoranson@neoninc.org,HARV_010
+1/6/2015 10:44,,Small mammal,7/25/2014,HARV,"Many traps in this plot have a note that includes email addresses of the handler and recorder. I entered this information to document who handled which critter, as handlers/recoders switched off part way through the plot. Then I learned I wasn't supposed to do this. 
+Please remove the email addresses from the notes for traps J8, J7, I8, I1, G1, G7, G9, G10, F6, E10, E9. Thanks.",cgoranson@neoninc.org,HARV_010
+1/6/2015 10:54,,Small mammal,7/26/2014,HARV,"Many traps in this plot have a note that includes email addresses of the handler and recorder. I entered this information to document who handled which critter, as handlers/recoders switched off part way through the plot. Then I learned I wasn't supposed to do this. 
+Please remove the email addresses from the notes for traps 
+A1
+A6
+A8
+B1
+B10
+B2
+B4
+B9
+C10
+C6
+C8
+C9
+D9
+E10
+E2
+E5
+E6
+E7
+E8
+F1
+F7
+Thanks.",cgoranson@neoninc.org,HARV_010
+1/6/2015 11:02,,Small mammal,5/22/2014,HARV,"Please delete emails from trap notes for these traps:
+C8
+F4
+G9
+H5
+Thanks.",cgoranson@neoninc.org,HARV_008
+1/6/2015 11:09,,Small mammal,4/30/2014,HARV,"Please delete the email addresses in the remark for trap
+C4
+Thanks.
+",cgoranson@neoninc.org,HARV_006
+1/6/2015 11:13,,Small mammal,4/29/2014,HARV,"Please delete the email addresses from the remarks field from these traps:
+A7
+D3
+D7
+J7
+Thanks.",cgoranson@neoninc.org,HARV_023
+1/6/2015 11:15,,Small mammal,4/30/2014,HARV,"Please delete the email from the remarks field for the trap G10.
+Thanks.
+",cgoranson@neoninc.org,HARV_023
+1/6/2015 11:23,,Small mammal,6/23/2014,HARV,"Please remove email addresses from remarks for these traps:
+A6
+A7
+A8
+C2
+D10
+E2
+E9
+F4
+G5
+I9
+J4
+J6
+Thanks.",cgoranson@neoninc.org,HARV_001
+1/6/2015 11:33,,Small mammal,6/20/2014,HARV,"Please delete email addresses from remarks field of these traps:
+B8
+B9
+C5
+C7
+D1
+D2
+E6
+F1
+F6
+G6
+H1
+H4
+J1
+J5
+Thanks.
+",cgoranson@neoninc.org,HARV_021
+1/6/2015 11:39,,Small mammal,6/20/2014,HARV,"Please delete email addresses from the remarks field of these traps:
+F4
+G2
+G4
+H4
+I2
+I3
+I8
+J1
+J3
+J9
+Thanks.",cgoranson@neoninc.org,HARV_008
+1/6/2015 11:48,,Small mammal,7/2/2014,BART,The recorder and handler (person measuring mammals) switched during an individual sampling bout.  This was recorded in the notes portion for each coordinate when applicable.  The email addresses of the employees needs to be removed from the notes section of coordinates in this bout.  Please let me know the next step.  Thanks.  ,jamante@neoninc.org,BART_015
+1/6/2015 11:49,,Small mammal,7/22/2014,HARV,The recorder and handler (person measuring mammals) switched during an individual sampling bout.  This was recorded in the notes portion for each coordinate when applicable.  The email addresses of the employees needs to be removed from the notes section of coordinates in this bout.  Please let me know the next step.  Thanks.  ,jamante@neoninc.org,HARV_032
+1/6/2015 11:50,,Small mammal,7/23/2014,HARV,The recorder and handler (person measuring mammals) switched during an individual sampling bout.  This was recorded in the notes portion for each coordinate when applicable.  The email addresses of the employees needs to be removed from the notes section of coordinates in this bout.  Please let me know the next step.  Thanks.  ,jamante@neoninc.org,HARV_032
+1/8/2015 8:44,,Option 3,6/11/2014,SCBI,"The end date for data collection in SCBI_002 should be June 12, 2014, not June 11, 2014.",dsoteropoulos@neoninc.org,SCBI_002
+1/9/2015 5:43,,Option 3,8/9/2014,BART,"This was the original problem plot on 20140108 for plant diversity.  I tried to submit it at least a half dozen times, probably closer to 10 before I gave up entirely and called in the IT cavalry.  Sorry for all the duplicates!  This was BART_011, Plant Div, data recorded 20140709, submitted 20150108.",dcrandall@neoninc.org,11
+1/9/2015 6:06,,Option 3,6/19/2014,HARV,I resubmitted this plot several times- maybe 5-7 times- when it wouldn't go through,cgoranson@neoninc.org,HARV_005
+1/9/2015 11:07,,Small mammal,7/27/2014,TALL,"Unentered line of data, did not get submitted to database.  The information is listed below:
+20140722_024_H2_BLCA_Male_Dead_Voucher Yes_TagID=024H2.
+Let me know if any of this is unclear.
+Thanks,
+Jake",jwhite@neoninc.org,TALL_024
+1/13/2015 14:12,,Small mammal,7/21/2014,WOOD,"Some data were missed and need to be added to this plot's data for this date and a new CSV file generated. These data are as follows:
+
+Trap D07: MIPE, Unknown sex, Tag R1089, New capture.
+Trap D03: ZAPR, Female, Adult, Enlarged nipples, Neither vagina, Tag R1093, New capture, Mandibular bleed successful.
+Trap I01: Trap note 2 (closed but empty).",totto@neoninc.org,9
+1/15/2015 7:05,,Option 3,1/15/2015,SCBI,"In the plant diversity database, SCBI_012 was recorded as starting and ending on 20140715. It ended on 20140716.",dsoteropoulos@neoninc.org,SCBI_012
+1/20/2015 12:21,,Small mammal,7/23/2014,WOOD,"TrapID F3, capture SOCI. This animal was released.",totto@neoninc.org,WOOD_008
+1/20/2015 12:23,,Small mammal,7/24/2014,WOOD,"TrapID H9, capture SOCI. This animal was marked and released.",totto@neoninc.org,WOOD_002
+1/20/2015 12:37,,Small mammal,7/21/2014,WOOD,"Recorded several tag IDs not using the leading 'O' for ""other"" because I used 3 characters to identify trap ID (e.g., F03 rather than F3). These errors occurred within the data-collection window spanning from July 21-25, 2014 for plots 009, 015, 008, 002, 006, 013, and 011.  ",totto@neoninc.org,WOOD_XXX
+1/20/2015 15:32,,Option 3,1/20/2015,CPER,All of Subplot 40 was measured by dbradley@field-ops.org and recorded by legli@field-ops.org for Plant Diversity protocol.,bhwang@neoninc.org,CPER_010
+1/21/2015 10:48,,Small mammal,9/15/2014,WOOD,"Plots WOOD_011 and WOOD_001 where on the same data sheet and got combined to the same file. A new file for WOOD_001 has been entered. Traps D08,F02,A01,A02,D02,and D03 that are recorded in the WOOD_011 file for 20140915 should be set as, ""set but empty"" to fix the error. ",gcain@neoninc.org,WOOD_011
+1/21/2015 14:07,,Plant diversity,6/2/2014,SCBI,"SCBI_023 was measured 20140602. During data entry, all plants we’re tracking with unknown names were recorded as Taxon Search “2Plant” instead of the lowest known Taxon.
+
+In 41.1, morphospecies ""roughleaf desmodium"" was entered with a taxonID of 2Plant, taxonID should be Desmodium sp.",dsoteropoulos@neoninc.org,SCBI_023
+1/21/2015 14:09,,Plant diversity,6/4/2014,SCBI,"SCBI_019 was measured 20140604. During data entry, all plants we’re tracking with unknown names were recorded as Taxon Search “2Plant” instead of the lowest known Taxon.
+
+Morphospecies ""invasive persicaria"" was entered with a taxonID of 2Plant, taxonID should be ""Polygonum sp,"" TaxonRemarks should be ""Persicaria sp.""",dsoteropoulos@neoninc.org,SCBI_019
+1/21/2015 14:13,,Plant diversity,6/11/2014,SCBI,"SCBI_002 was measured 20140611. During data entry, all plants we’re tracking with unknown names were recorded as Taxon Search “2Plant” instead of the lowest known Taxon.
+
+Morphospecies ""invasive persicaria"" was entered with a taxonID of 2Plant, taxonID should be ""Polygonum sp,"" TaxonRemarks should be ""Persicaria sp.""
+
+Morphospecies ""long perigynia carex"" was entered with a taxonID of 2Plant, taxonID should be ""CAAM8,"" with a ""cf. species"" and TaxonRemarks should be ""Carex amphibola complex""",dsoteropoulos@neoninc.org,SCBI_002
+1/21/2015 14:18,,Plant diversity,6/18/2014,SCBI,"SCBI_017 was measured 20140618. During data entry, recorded plants we’re tracking with unknown names were recorded as Taxon Search “2Plant” instead of the lowest known Taxon.
+
+Morphospecies ‘smooth ipomoea’ was entered with a taxonID of 2Plant, taxonID should be Ipomoea sp.
+
+Morphospecies ‘delicate ocrea persicaria’ was entered with a taxonID of 2Plant, taxonID should be Polygonum spp. with a TaxonRemark ""Persicaria sp.""
+
+Morphospecies ‘invasive persicaria’ was entered with a taxonID of 2Plant, taxonID should be Polygonum spp. with a TaxonRemark ""Persicaria sp.""
+
+
+Morphospecies ‘tiny mat poa’ was entered with a taxonID of 2Plant, taxonID should be Poa sp.",dsoteropoulos@neoninc.org,SCBI_017
+1/21/2015 14:20,,Plant diversity,7/2/2014,SCBI,"SCBI_018 was sampled 20140702-03. During data entry, plants we’re tracking with unknown names were recorded as Taxon Search “2Plant” instead of the lowest known Taxon.
+
+Morphospecies ‘invasive persicaria’ was entered with a taxonID of 2Plant, taxonID should be Polygonum sp. with a TaxonRemark ""Persicaria sp.""",dsoteropoulos@neoninc.org,SCBI_018
+1/21/2015 14:34,,Plant diversity,1/20/2015,CPER,"We've decided to lump species. Please make the following correction for Plant Diversity:
+
+40.1.10 CHGL to CHENOSPP
+41.1.1 ASTRASP to ASTRASPP",bhwang@neoninc.org,CPER_010
+1/21/2015 14:35,,Plant diversity,1/15/2015,CPER,"Lumping species. Please make the following change on the Plant Diversity data entry:
+
+32.2.1 ASTRASP to ASTRASPP
+
+Thank you.",bhwang@neoninc.org,9
+1/21/2015 14:36,,Plant diversity,1/13/2015,CPER,"Lumping species. Please make the following change on the Plant Diversity data entry:
+
+41.4.1 CHGL to CHENOSPP
+
+Thank you.",bhwang@neoninc.org,7
+1/22/2015 9:54,,Beetle,5/27/2014,OSBS,"Bout 4 at OSBS duplicate entries for trap data. Jeells@neoninc.org entered this bout already.  mkerstein@neoninc.org duplicated her entries for OSBS_001-OSBS_005, for trap data only.",mkerstein@neoninc.org,OSBS_001
+1/22/2015 9:55,,Beetle,5/27/2014,OSBS,"Bout 4 at OSBS duplicate entries for trap data. Jeells@neoninc.org entered this bout already.  mkerstein@neoninc.org duplicated her entries for OSBS_001-OSBS_005, for trap data only.",mkerstein@neoninc.org,OSBS_002
+1/22/2015 9:56,,Beetle,5/27/2014,OSBS,"Bout 4 at OSBS duplicate entries for trap data. Jeells@neoninc.org entered this bout already.  mkerstein@neoninc.org duplicated her entries for OSBS_001-OSBS_005, for trap data only.",mkerstein@neoninc.org,OSBS_003
+1/22/2015 9:56,,Beetle,5/27/2014,OSBS,"Bout 4 at OSBS duplicate entries for trap data. Jeells@neoninc.org entered this bout already.  mkerstein@neoninc.org duplicated her entries for OSBS_001-OSBS_005, for trap data only.",mkerstein@neoninc.org,OSBS_004
+1/22/2015 9:57,,Beetle,5/27/2014,OSBS,"Bout 4 at OSBS duplicate entries for trap data. Jeells@neoninc.org entered this bout already.  mkerstein@neoninc.org duplicated her entries for OSBS_001-OSBS_005, for trap data only.",mkerstein@neoninc.org,OSBS_005
+1/22/2015 11:29,,Small mammal,7/29/2014,UNDE,"On the list of CSVs downloaded, I have this plot listed twice just one second apart. I'm 100% sure I didn't hit submit twice.
+
+This happened while I was using Chrome, but I've since switched to FireFox.",jhudson@neoninc.org,UNDE_020
+1/22/2015 13:38,,Beetle,7/22/2015,SCBI,"I pasted the wrong reference for the following beetles:
+
+SCBI_008.W.20140722.CHLEMA.01
+SCBI_003.N.20140722.CHLEMA.01
+SCBI_008.E.20140722.CHLAES.01
+SCBI_008.W.20140722.CHLAES.01
+SCBI_010.E.20140722.CHLAES.01
+SCBI_008.S.20140722.CHLEMA.01
+SCBI_008.S.20140722.CHLAES.01
+SCBI_033.E.20140722.CHLAES.01
+SCBI_033.W.20140722.CHLAES.01
+SCBI_008.E.20140722.CHLEMA.01
+SCBI_002.N.20140722.CHLAES.01
+
+I incorrectly stated that the reference for Identifying these beetles was Conant when in fact it should be: Bousquet, Y. 2010. Illustrated Identification Guide to Adults and Larvae of Northeastern North American Ground Beetles (Coleoptera: Carabidae). 1st Ed. Pensoft Publishers, Sofia, Bulgaria.
+",lcard@neoninc.org,
+1/23/2015 8:54,,Beetle,7/24/2014,BART,When recording Beetle Sampling Bout 3 for BART the South trap in Plot 002 was recorded as having contained a sample.  This was an error.  There was no sample collected at BART_002 for Bout 3 (2014-07-10 to 2014-07-24).  ,jamante@neoninc.org,BART_002
+1/26/2015 10:43,,Beetle,8/26/2014,HARV,"All HARV plots (022, 013, 006, 001, 010, 004, 021, 002, 014, 005) during beetle Bout 8 were recorded by jhaggett@field-ops.org NOT emccarthy@field-ops.org.  ",jamante@neoninc.org,All Plots Bout 8
+1/26/2015 12:59,,Small mammal,5/28/2014,ONAQ,Data was submitted without clicking the box to mark all other traps as set and empty.  The only traps with recorded captures were E5 and A8.  All others should have been marked as set but empty. ,swest@neoninc.org,ONAQ_008
+1/27/2015 12:33,,Beetle,6/27/2014,OSBS,I entered a vertebrate bycatch for this date and there wasn't one. Please erase the vertebrate bycatch sorting data point for this collection date. ,jeells@neonince.org,osbs_003
+1/28/2015 13:46,,Small mammal,8/24/2014,UNDE,"Four capture entries were missed on the original UNDE_003 8-24 data submission (csv file: SmammalInputData_aspinkatneoninc.org_2015-01-28-16-09_.csv; submitted around 10:10am CST on 1/28/2015). 
+
+The four missing entries were entered (all other grid coordinates left as ""No Data"") and re-submitted (csv file: SmammalInputData_aspinkatneoninc.org_2015-01-28-20-35_.csv; submitted around 2:35pm CST on 1/28/2015) 
+
+The missing entries included a NAIN at grid location G1 (tag ID R1011), MYGA at G2 (tag ID R1178), MYGA at G4 (tag ID R1251), and PELE at H2 (tag ID R1216). ",aspink@neoninc.org,UNDE_003
+1/30/2015 6:30,,Beetle,6/1/2014,HARV,"Greetings,
+
+I accidentally entered and submitted beetle pinning data from bout2 at both HARV (20140701) and BART (20140710) as a single file.  Please let me know if there is anything I can do on my end to fix this.  This was submitted 20150130 at about 08:27 Eastern time.   ",dcrandall@neoninc.org,
+1/30/2015 12:35,,Beetle,6/26/0014,BART,The sorting portion of the Bout 1 BART beetle data was entered twice.  The collection date is 2014-06-26 for all plots that were entered twice.  ,jamante@neoninc.org,Beetle Sort Bout 1
+1/30/2015 12:37,,Beetle,7/24/2014,BART,The BART_025 North invertebrate bycatch sample was entered with the wrong collection date.  The collection date entered was 2014-07-10 but it should be 2014-07-24.  ,jamante@neoninc.org,BART_025
+2/2/2015 12:26,,Plant diversity,4/16/2014,OSBS,I recorded 2 unknown plants (no identification possible other than Plantae) in 31.4.1 as OTHE instead of 2PLANT.,mkerstein@neoninc.org,OSBS_009
+2/2/2015 12:29,,Plant diversity,5/5/2014,OSBS,"I recorded an unknown (unidentifiable plant) as OTHE instead of 2PLANT in subplot 41.1.1.
+",mkerstein@neoninc.org,OSBS_048
+2/2/2015 13:36,,Small mammal,7/23/2015,ONAQ,"Forgot to click box to ""set all remaining traps to set and empty."" All trap data that was entered is correct just need to mark all other traps that didn't have any data as ""set and empty"" ",swest@neoninc.org,ONAQ_015
+2/4/2015 10:04,,Herbaceous productivity,8/11/2014,CPER,"Some clipID BAG_COUNTS were entered incorrectly. Correct BAG_COUNTS are as follows:
+UNDE_057_454, 3
+UNDE_057_600, 3
+UNDE_057_930, 3
+",jpyatt@neoninc.org,
+2/4/2015 10:06,,Herbaceous productivity,8/12/2014,CPER,"Some clipID BAG_COUNTS were entered incorrectly. Correct BAG_COUNTS are as follows:
+UNDE_037_069, 3
+UNDE_037_609, 3
+UNDE_043_179, 3
+UNDE_043_557, 3
+UNDE_044_008, 2
+UNDE_044_399, 3
+UNDE_048_347, 3
+UNDE_052_047, 3
+UNDE_052_461, 3
+UNDE_053_663, 2
+UNDE_055_912, 2
+UNDE_056_171, 3
+UNDE_056_399, 2
+UNDE_059_011, 2
+UNDE_059_395, 3
+UNDE_059_643, 2
+UNDE_059_895, 2
+",jpyatt@neoninc.org,
+2/4/2015 10:09,,Herbaceous productivity,8/13/2014,CPER,"Some clipID BAG_COUNTS were entered incorrectly. Correct BAG_COUNTS are as follows:
+UNDE_049_906, 3
+UNDE_050_178, 3
+UNDE_050_362, 2
+",jpyatt@neoninc.org,
+2/4/2015 10:10,,Herbaceous productivity,8/22/2014,CPER,"Some clipID BAG_COUNTS were entered incorrectly. Correct BAG_COUNTS are as follows:
+UNDE_065_010, 3",jpyatt@neoninc.org,
+2/4/2015 12:19,,Beetle,7/22/2014,SCBI,The beetle # 000965 was entered under trap 7N incorrectly. It should have been entered under trap 10 N. This should not affect the 7N field or sorting data nor the 10N field or sorting data.,lcard@neoninc.org,SCBI_007
+2/4/2015 12:27,,Beetle,6/10/2014,SCBI,"In the pinning data: Beetle # 000048 (Chlaes) was listed as found in trap 12 N when it should be listed under 10 N.
+
+This means in the sorting data: 12 N - Common carabid - Chlaes file needs to be deleted as there was only 1 chlaes and this was incorrect
+for the 10N sorting trap - Common carabid - Chlaes file, the total # of chlaes needs to be increased from 8 to 9 total.",lcard@neoninc.org,SCBI_012
+2/5/2015 8:20,,Beetle,9/4/2014,BART,"BART, Bout 6, collection date 2014-09-04 recorded a beetle as 000948 when it should be recorded as 000978.  This beetle was found in plot 002, East site.  There is already a beetle 000948 from a previous bout at a different site so it is necessary to correct the beetle id on the data portal.  ",jamante@neoninc.org,BART_002
+2/5/2015 12:32,,Beetle,9/26/2014,HARV,A beetle pinning bout was recorded for HARV with a collection date of 2014-09-26.  Only one beetle was entered for pinning during this bout.  This was an error.  There was no bout and no beetle collected on that ended on 2014-09-26.  That entire pinning bout should be deleted.  ,jamante@neoninc.org,HARV_014
+2/9/2015 10:40,,Beetle,7/8/2014,SCBI,"For the Common Carabid vial with Chlaes, the individual count was left blank. This should be ""1""",lcard@neoninc.org,SCBI_033
+2/10/2015 6:36,,Herbaceous productivity,7/30/2014,BART,"A few BRY data points were not entered with their subplots. HQ directed me to enter the data points here because entering them into the WebUI would cause problems.
+
+All samples were collected either July 30 or July 31 2014 and put in drying oven on 1 August 2014 at 12:15 PM; after drying samples were weighed and weights recorded by kkrigest@field-ops.org.
+
+Here are the unentered data:
+BART_051_817, collected 20140730, BRY, 0.02g, in oven 20140801 12:15 PM.
+
+BART_034_855, collected 20140730, BRY, 0.01g, in oven 20140801 12:15 PM.
+
+BART 041_156, collected 20140730, BRY, 0.01g, in oven 20140801 12:15 PM.
+
+BART_034_146, collected 20140730, BRY, 0.10g, in oven 20140801 12:15 PM.
+
+BART_046_206, collected 20140730, BRY, 0.09g, in oven 20140801 12:15 PM.
+
+BART_047_640, collected 20140730, BRY, 0.01g, in oven 20140801 12:15 PM.
+
+BART_039_588, collected 20140730, BRY, 0.43g, in oven 20140801 12:15 PM.
+
+BART_034_527, collected 20140730, BRY, 0.01g, in oven 20140801 12:15 PM.
+
+BART_039_312, collected 20140730, BRY, 0.02g, in oven 20140801 12:15 PM.
+
+BART_032_860, collected 20140731, BRY, 0.10g, in oven 20140801 12:15 PM.
+
+We did not record the date and time when the samples were removed from the oven, or the date when they were weighed. The data sheets didn't ask for these pieces of information.",cgoranson@neoninc.org,BART_many plots
+2/17/2015 15:04,,Small mammal,8/21/2014,STER,There was a typo. The SPTE should be SPTR. ,tbaldwin@neoninc.org,
+2/24/2015 11:59,,Small mammal,10/28/2014,ONAQ,"I submitted the data for this plot/date to the database already, but just found five additional captures at the bottom of a data sheet for another plot on the same day.  In case you are able to add the missing data to the existing file, here is the missing capture data:
+
+1.  trap C01, species: TAMI, male, adult, nonscrotal, hindfoot=26mm, weight=30g, tag# R1412, recapture, fecal sample (fresh) collected, tissue sample collected (ear punch).
+
+2.  trap H10, species: PEPA, male, adult, nonscrotal, hindfoot=24mm, weight=18g, tag# 946920, new animal, fecal sample (fresh) collected, tissue sample collected (ear punch). 
+
+3.  trap I01, species: PEPA, male, adult, nonscrotal, hindfoot=24mm, weight=22g, tag# 992680, recapture, fecal sample (fresh) collected.
+
+4.  trap I02, species: PEMA, male, subadult, nonscrotal, hindfoot=20mm, weight=14g, tag# R1488, recapture, fecal sample (fresh) collected, tissue sample (ear punch) collected, hair sample collected, whisker sample collected.
+
+5. trap I07, species: PEMA, female, adult, not-enlarged nipples, not pregnant, swollen vagina, hindfoot=21mm, weight=17g, tag# R1208, recapture, fecale sample (fresh) collected, tissue sample collected (ear punch), hair sample collect, whisker sample collected.
+
+
+I had another technician check the above data for errors against the data sheet and there weren't any.  
+
+Sorry about the missing data and let me know if the entire plot needs to be re-entered.  Thanks.",hoswald@neoninc.org,ONAQ_015
+2/25/2015 11:16,,Small mammal,7/21/2014,HARV,"Several lines of data were missed for HARV_032 mammals bout (2014-07-21) during original data entry.  A problem ticket was submitted in early January 2015 for this issue.  After talking with HQ I was instructed to enter  the missing data for HARV_032 bout on 2014-07-21 while leaving the remaining cells labeled as ""no data"".  I have completed this task and made sure that all metadata was entered correctly so that the two partial data entries of this bout can be matched up.  ",jamante@neoninc.org,HARV_032
+3/5/2015 13:12,,Beetle,3/5/2015,TALL,"I have sent duplicate sort data for TALL_002.20140813.ib.01
+That particular sample ID was submitted three times. The original and correct sort data was submitted stating that target taxa was present. The two incorrect duplicates say no target taxa present.",khammer@field-ops.org,TALL_002
+3/11/2015 7:21,,Plant diversity,4/3/2014,OSBS,"We had an issue with plot 17, subplot 41, corner 1, 1 m2. There were two plant species recorded in that subplot, but one species was missing data for its percent cover and the average height. I attempted to enter just the species without this data, but when I tried to finish and submit the data for the plot, the website prohibited this action, claiming that the data were incomplete. I therefore had to remove the species from the list for that subplot in order to submit the data. The species I had to omit was Acer rubrum var. trilobum, which has a USDA plant code of ACRUT. If this data could be appended to the plot, I'd be very grateful.",ecayia@field-ops.org,OSBS_017
+3/17/2015 11:43,,Beetle,7/22/2014,SCBI,"We've had an ID change for what was determined to be Sphaeroderus stenostomus leconte (sphste1), it should be changed to Sphaeroderus stenostomus stenostomus (sphste2). In this case, it would be for beetle D02.001050",lcard@neoninc.org,SCBI_007
+3/17/2015 11:44,,Beetle,8/5/2014,SCBI,"We've had an ID change for what was determined to be Sphaeroderus stenostomus leconte (sphste1), it should be changed to Sphaeroderus stenostomus stenostomus (sphste2). In this case, it would be for beetle D02.001051",lcard@neoninc.org,SCBI_007
+3/17/2015 11:45,,Beetle,8/19/2014,SCBI,"We've had an ID change for what was determined to be Sphaeroderus stenostomus leconte (sphste1), it should be changed to Sphaeroderus stenostomus stenostomus (sphste2). For the North trap, D02.001052 would be changed and for the South trap, D02.001053 would be changed.",lcard@neoninc.org,SCBI_007
+3/17/2015 11:46,,Beetle,8/5/2014,SCBI,"We've had an ID change for what was determined to be Sphaeroderus stenostomus leconte (sphste1), it should be changed to Sphaeroderus stenostomus stenostomus (sphste2). In this case, beetle D02.001054 would be changed",lcard@neoninc.org,SCBI_004
+3/17/2015 11:47,,Beetle,8/19/2014,SCBI,"We've had an ID change for what was determined to be Sphaeroderus stenostomus leconte (sphste1), it should be changed to Sphaeroderus stenostomus stenostomus (sphste2). In this case, beetle D02.001055 would be changed",lcard@neoninc.org,SCBI_010
+3/17/2015 11:49,,Beetle,6/10/2014,SCBI,"We've had a change in ID for what was identified as Platynus opaculus (plaopa), this is now Platynus decentis (pladec). In this case, beetles D02.000663, 000664, and 000665 would be changed",lcard@neoninc.org,SCBI_002
+3/17/2015 11:50,,Beetle,7/22/2014,SCBI,"We've had a change in ID for what was identified as Platynus opaculus (plaopa), this is now Platynus decentis (pladec). In this case, beetle D02.000666 would be changed",lcard@neoninc.org,SCBI_007
+3/17/2015 13:45,,Plant diversity,3/17/2015,CPER,"The WebUI was slow to upload the data into prod. After several minutes it finally loaded and it appears that it may have been entered 2x. 
+
+CPER_014 Bout 2 Plant Div",dstetson@neoninc.org,14
+3/20/2015 9:32,,Plant diversity,7/11/2014,UNDE,"In subplot 40, No Plant Cover was wrongly selected for the 100m2 subplot. This should not be extrapolated to the entire subplot.  In actuality, no additional plant species were found in the 100m2 that were not already found in both 1m2 and 10m2 nested subplots. ",jpyatt@neoninc.org,UNDE_027
+3/20/2015 9:34,,Plant diversity,7/18/2014,UNDE,"In subplots 32 and 41, ""No Plant Cover"" was wrongly selected for the 100m2 subplots. This data should not be extrapolated to the entire subplot.  In actuality, no additional plant species were found in the 100m2 that were not already found in both 1m2 and 10m2 nested subplots. ",jpyatt@neoninc.org,UNDE_025
+3/20/2015 9:35,,Plant diversity,7/15/2014,UNDE,"In subplot 41, ""No Plant Cover"" was wrongly selected for the 100m2 subplot. This information should not be extrapolated to the entire subplot.  In actuality, no additional plant species were found in the 100m2 that were not already found in both 1m2 and 10m2 nested subplots. ",jpyatt@neoninc.org,UNDE_021
+3/20/2015 9:36,,Plant diversity,7/7/2014,UNDE,"In subplot 31, ""No Plant Cover"" was wrongly selected for the 100m2 subplot. This information should not be extrapolated to the entire subplot.  In actuality, no additional plant species were found in the 100m2 that were not already found in both 1m2 and 10m2 nested subplots. ",jpyatt@neoninc.org,UNDE_018
+3/24/2015 9:14,,Plant Phenology,10/10/2014,SCBI,"JUNI 6131 and 6132 were accidentally not entered during the initial setup oft the WebUI for SCBI phenology.Then, they were  entered using the ""Add New Plant"" button for a bout on 10/10/2014. This appears to have automatically changed the ""Add Date"" of every plant listed after these two to 10/10/2014. The tagIDs of affected trees are 6083, 6082, 6108, 6064, 6058, 6052, 6053, 6046, 6043, 6042, 6128. According to a FAQ page we found after discovering this error, this means all observations on these individuals between 8/22 and 10/10 will be lost. ",shackley@neoninc.org,SCBI_060
+3/24/2015 12:20,,Plant diversity,7/11/2014,TALL,TALL_032 is incorrectly named. It is actually plot TALL_024. ,glawrence@Field-ops.org,TALL_032
+3/27/2015 10:20,,Plant Phenology,9/26/2014,UNDE,Intensities for Phenophase 5 (P5): Colored Leaves were wrongly determined by technicians. Intensities reflect % of all adult leaves that are colored instead of % total canopy full with colored leaves. ,jpyatt@neoninc.org,UNDE_063
+3/27/2015 10:21,,Plant Phenology,9/30/2014,UNDE,Intensities for Phenophase 5 (P5): Colored Leaves were wrongly determined by technicians. Intensities reflect % of all adult leaves that are colored instead of % total canopy full with colored leaves. ,jpyatt@neoninc.org,UNDE_063
+3/27/2015 10:21,,Plant Phenology,10/3/2014,UNDE,Intensities for Phenophase 5 (P5): Colored Leaves were wrongly determined by technicians. Intensities reflect % of all adult leaves that are colored instead of % total canopy full with colored leaves. ,jpyatt@neoninc.org,UNDE_063
+3/27/2015 10:22,,Plant Phenology,10/7/2014,UNDE,Intensities for Phenophase 5 (P5): Colored Leaves were wrongly determined by technicians. Intensities reflect % of all adult leaves that are colored instead of % total canopy full with colored leaves. ,jpyatt@neoninc.org,UNDE_063
+3/27/2015 10:22,,Plant Phenology,10/14/2014,UNDE,Intensities for Phenophase 5 (P5): Colored Leaves were wrongly determined by technicians. Intensities reflect % of all adult leaves that are colored instead of % total canopy full with colored leaves. ,jpyatt@neoninc.org,UNDE_063
+3/30/2015 8:59,,Plant diversity,6/12/2014,DSNY,"subplot 31 corner 1 1m2
+ plant code CRPU5 with no measurements recorded on data sheet needs to be added.",echartrand@field-ops.org,DSNY_001
+3/31/2015 8:21,,Plant diversity,4/21/2014,DSNY,sub plot 32.4.1 needs PASE5 (with no measurements) added to it.,echartrand@field-ops.org,DSNY_037
+4/1/2015 13:14,,Plant diversity,5/13/2014,DSNY,"subplot 32.4.1 needs to have 5% overstory added and 5% scat deleted.
+
+subplot 41.1.1 needs DRCA2 added with .5% cover and .1 cm ht
+subplot 40.3.1 needs DRCA2 added with .5% cover and .1 cm ht
+subplot 41.4.1 needs DRCA2  added with .5% cover and no height recorded",echartrand@field-ops.org,DSNY_033
+4/7/2015 13:43,,Beetle,7/16/2014,WOOD,"PLOT_ID recorded incorrectly on datasheet and entered into the PROD server as WOOD_025, but the correct PLOT_ID was WOOD_024. We have never sampled for beetles at WOOD_025.",shauser@neoninc.org,WOOD_025
+4/9/2015 11:56,,Plant diversity,4/8/2015,CPER,"entered bout 1, should have been bout 2",amahood@field-ops.org,73
+4/9/2015 11:57,,Plant diversity,4/8/2015,CPER,"entered bout 1, should have been bout 2",amahood@field-ops.org,cper_059
+4/9/2015 15:17,,Plant Phenology,4/3/2015,DSNY,"Date recorded as 20150403, should have been 20140403. Was submitted by mistake before error could be corrected.",gcain@neoninc.org,DSNY_071
+4/20/2015 11:09,,Plant Phenology,9/17/2014,ONAQ,When entering data from the 20140917 sampling bout tag ID 6005 plant species ARTR2 was marked as seasonally dropped which was incorrect for that date. The correct information is P2: No P3: uncertain P4: No P5: uncertain P6: uncertain,rsteenson@neoninc.org,ONAQ_071
+4/21/2015 12:18,,Plant diversity,6/4/2014,JERC,"Complete date recorded into database: 2014 06 04
+Actual complete date: 2014 06 05",rvistocci@field-ops.org,JERC_011
+4/22/2015 7:24,,Plant Phenology,6/25/2014,BART,"There are instances where the add date does not represent the date the plant was tagged for BART phenology plants.  Comments have been made in the remarks section for plants that I could access via the WebUI so that people are aware when using the data.  There are plants that I can no longer view on the WebUI because they have been dropped from the study entirely.  Because of this I was not able to add a comment to those plants.    The plants that need a comment added are BART_6571, BART_6572, BART_6580, BART_6581, BART_6584, and BART_6590.  ",jamante@neoninc.org,BART_053
+4/24/2015 13:39,,Plant Phenology,9/16/2014,CPER,"Tag ID 6017 should have been dropped on this bout date, instead I entered data as p1:N, P3:N, P4:N as it was displayed on the data sheet.",jdegrossa@neoninc.org,CPER_077
+4/27/2015 11:53,,Small mammal,4/14/2015,CPER,Wrong email entered for handler. Was entered as DStetson@field-ops.org should be DStetson@neoninc.org.,jhausknecht@field-ops.org,CPER_005
+4/27/2015 11:56,,Small mammal,4/15/2015,CPER,"Email of recorder entered incorrectly. Was entered as DStetson@field-ops.org, should be DStetson@neoninc.org.",jhausknecht@field-ops.org,CPER_005
+4/29/2015 7:15,,Plant diversity,4/24/2014,DSNY,subplot 40.100 should have XYAM  added,echartrand@field-ops.org,DSNY_021
+5/4/2015 7:06,,Beetle,4/29/2015,WOOD,Quotations were used in all morphospecies descriptions entered by bcarroll@neoninc.org.  Multiple plots and dates affected. ,bcarroll@neoninc.org,multiple
+5/7/2015 11:00,,Beetle,8/5/2014,STER,"Sort Activity: STER_032.N.20140805
+Pin Activity: STER_028.E (IndividualID 002007); STER_032.N (IndividualID 002155)
+
+Issue: The wrong species was entered in the Taxon ID Box. The 6 letter code on the datasheet read CALAFF, which indeed it is that, but CALAFF in the WebUI is not the correct species. It is the CALAFF1 option, and unfortunately this was not chosen. The ID needs to be changed from CALAFF (Callisthenes affinis) to CALAFF1 (Calosoma affine). 
+
+This species designation/ID code may have further confusions when it is included in the auto-populated sample ID. Technicians will need to have a species list that matches the list in the WebUI BEFORE beginning to Sort and Pin or else the suffixes (and ID codes) on the datasheet possibly will not match what is getting produced when it is entered. This will also lead to mismatched Tube Sample ID Suffix in the Pin Activity to the sample ID produced in the Sort. 
+
+Thanks
+",hschartel@neoninc.org,STER_032; STER_028
+5/7/2015 11:35,,Beetle,8/14/2014,CPER,"CPER Bout 6 (collection date 20140814) PIN ACTIVITY: The Tube Sample ID Suffix has been entered incorrectly for all entries. Just the tube number was entered (ex. 01) So the auto-populated sample ID that is generated looks like CPER_002.N.20140814.01  and NOT CPER_002.N.20140814.oc.01 OR CPER_002.N.20140814.PASELO.01, for example. ",hschartel@neoninc.org,ALL
+5/7/2015 11:40,,Beetle,8/28/2014,CPER,"CPER Bout 7 (collection date 20140828) PIN ACTIVITY: The Tube Sample ID Suffix has been entered incorrectly for all entries. Just the tube number was entered (ex. 01) So the auto-populated sample ID that is generated looks like CPER_002.N.20140828.01 and NOT CPER_002.N.20140828.oc.01 OR CPER_002.N.20140828.PASELO.01, for example. ",hschartel@neoninc.org,ALL
+5/7/2015 11:41,,Beetle,9/11/2014,CPER,"CPER Bout 8 (collection date 20140911) PIN ACTIVITY: The Tube Sample ID Suffix has been entered incorrectly for all entries. Just the tube number was entered (ex. 01) So the auto-populated sample ID that is generated looks like CPER_002.N.20140911.01 and NOT CPER_002.N.20140911.oc.01 OR CPER_002.N.20140911.PASELO.01, for example. ",hschartel@neoninc.org,ALL
+5/7/2015 11:45,,Beetle,8/5/2014,STER,"STER Bout 5 (collection date 20140805) PIN ACTIVITY: The Tube Sample ID Suffix has been entered incorrectly for all entries. Just the tube number was entered (ex. 01) So the auto-populated sample ID that is generated looks like STER_002.N.20140805.01 and NOT STER_002.N.20140805.oc.01 OR STER_002.N.20140805.PASELO.01, for example.",hschartel@neoninc.org,ALL
+5/26/2015 15:12,,Plant Phenology,1/7/2015,JERC,Wrong plotID. plotID should be JERC_067. ,smatlick@field-ops.org,JERC_068
+5/29/2015 7:53,,Small mammal,5/19/2015,OSBS,"This site was JERC, not OSBS!
+Should be JERC_003",rvistocci@field-ops.org,OSBS_003
+5/29/2015 8:00,,Small mammal,5/12/2015,OSBS,"All remaining traps left as ""ND"" should have been entered as ""set with no captures"" or ""empty""",rvistocci@field-ops.org,OSBS_003
+5/29/2015 8:02,,Small mammal,5/12/2015,OSBS,"Remainder of traps should be recorded as ""set but empty""",rvistocci@field-ops.org,OSBS_004
+5/29/2015 8:08,,Small mammal,5/13/2015,OSBS,Capture at trap coordinate B3 was entered as a non-recapture. Individual should be recorded as a recapture.,rvistocci@field-ops.org,OSBS_003
+5/29/2015 9:59,,Small mammal,5/28/2015,STER,Submitted STER Plot 006 for the date 20150522 assuming there was only 1 data sheet for this plot. I will now add what I submitted yesterday to a new entry that will include the 2nd data sheet I was missing. I will need the plot submitted yesterday to be deleted. Thank you!,jjohnson@field-ops.org,6
+5/29/2015 10:31,,Small mammal,5/29/2015,STER,I was informed that I should just enter the data I was missing previously on this grid leaving the other locations as ND because the other plot cannot be deleted. Please disregard previous error entry.,jjohnson@field-ops.org,6
+5/29/2015 10:31,,Small mammal,5/29/2015,STER,I was informed that I should just enter the data I was missing previously on this grid leaving the other locations as ND because the other plot cannot be deleted. Please disregard previous error entry.,jjohnson@field-ops.org,6
+6/3/2015 11:35,,Small mammal,5/16/2015,JORN,The CHPE captured at D10 and given a pit tag #954497 had a weight entered into webui of 146g but it was incorrectly entered and the actual documented weight was 16g. ,rolinger@field-ops.org,JORN_017
+6/3/2015 12:12,,Small mammal,5/14/2015,JORN,"Trap coordinates B06 RFID# (188565), D02 RFID# (188202), F10 RFID# (188627), H04 RFID# (188040), I05 RFID# (188369), I10 RFID# (188957), where entered as PEFA c.s. (Perognathus fasciatus) instead of PEFV c.s. (Perognathus flavescens). The error resulted from setting the wrong four letter ID codes (PEFA instead of PEFV) that didn't match up with the database. We did not catch any PEFA's over the entire bout and are not found within the JORN's range. ",rolinger@field-ops.org,JORN_017
+6/3/2015 12:19,,Small mammal,5/16/2015,JORN,The same error as previously entered. The species entered at trap coordinate J10 RFID# (188407) was a PEFA (Perognathus fasciatus) instead of PEFV c.s.  (Perognathus flavescens). We did not catch any PEFA (Perognathus fasciatus). It is important to note the species IdQ on all the PEFA's entered should be PEFV c.s.,rolinger@field-ops.org,JORN_017
+6/8/2015 12:07,,Beetle,6/5/2014,CPER,"In the Pin Activity, a beetle was identified incorrectly. CPER Bout 1, collection date 20140605.
+Original sampleID: CPER_010.W.20140605.EURGRO.01 Unique number BET. D10.001107 was ID'd as EURGRO. The ID needs to be changed to PIOSET. 
+This sampleID also shows up in the Sort and should be changed to PIOSET as well.
+The correct SampleID should read CPER_010.W.PIOSET.01 ",hschartel@neoninc.org,CPER_010
+6/8/2015 12:12,,Beetle,6/24/2014,STER,"In the Pin Activity, STER_028.E.20140624 UniqueID BET.D10.001133 was ID'd as Morph F. This ID should be changed to CRADUB. 
+
+In the Pin Activity, STER_026.W.20140624 UniqueID BET.D10.001176 was ID'd as Morph F. This ID should be changed to CRADUB. 
+
+Thank you",hschartel@neoninc.org,STER_026; STER_028
+6/11/2015 8:07,,Plant Phenology,5/6/2015,HARV,When organizing saved CSV files it became evident that a HARV phenology bout that occurred on 2015-05-06 was entered incorrectly.  The date entered was 2015-05-13 when it should have been 2015-05-06.  There was another bout that occurred on 2015-05-13 so it will be impossible for you to tell the difference unless you look at the field data sheet.  Please give me a call when you need to distinguish between the two.  Extension 4012.,jamante@neoninc.org,HARV_053
+6/11/2015 13:09,,Small mammal,5/12/2015,MOAB,"Hi Kate,
+D15 has started to enter some small mammal data on from the first MOAB bout. One of our techs did something which has cause a problem:
+
+""I'm experiencing a problem with the Small Mammal data entry on the webui. I finished entering all the data for a plot (MOAB_003M), saved the .csv excel to QAQC, and did NOT submit the data to NEON. I then went back to the home screen, selected the Small Mammal data and hit ""start new plot record"" (assuming that, at most, it would overwrite the existing data). I finished entering the data for the next plot (MOAB_004M), and selected the option to review. On this page, it did not give me the option to download the .csv excel file. I clicked home, then went to the small mammal data entry and click ""Load Partially Completed Plot Record"" and the screenshot that is attached to this email resulted, saying that my request had failed to complete and that ""SmammalInputData_bmccormickatfield-ops.org_2015-05-29-15-53_.csv "" (which is MOAB_003) had been submitted previously. 
+
+1) Was the MOAB_003 actually submitted to NEON
+2) If it was, is there a way to overwrite it with the QA'd MOAB_003 Data
+3) Can I get back to my partially completed plot for MOAB_004?
+4) Do I need to start a new plot record for MOAB_004? ""
+
+We've paused small mammal data entry for this bout until it's resolved.
+
+Many Thanks
+Maria (on behalf of the D15 Smammal Techs)",mgaetani@neoninc.org,MOAB_003 and MOAB_004
+6/24/2015 11:46,,Small mammal,6/18/2015,STER,"The data has been recorded as June 18, 2015 but it was actually collected on June 19, 2015
+
+I made two submissions for this plot: the first one was page 2 with 8 captures on line A and B, the rest of the plot was set as empty. My second submission was page 1 and  included all the rest of the captures (24 total) and the rest of the traps was set to no data.",acampanella@field-ops.org,ster_029
+6/29/2015 15:11,,Small mammal,6/11/2015,OSBS,"trap I2 had a POFL capture(code 5)
+sex: Female
+age: Adult
+nipples: Not
+pregnant: Not
+Vagina: Neither
+HFL: 25
+WGT: 28
+recapture: Yes",echartrand@field-ops.org,OSBS_004
+7/2/2015 8:51,,Herbaceous productivity,6/23/2015,OAES,OAES_001_016 ClipID incorrect;correct to OAES_001_100. Three data points identified with this error on date 20150623,mstewart01@field-ops.org,OAES_001
+7/2/2015 12:16,,Small mammal,6/16/2015,JERC,"these traps were disturbed/closed and empty (code 2)  and need to be added to JERC_019 on 20150616
+J9
+I2
+H1
+C9",echartrand@field-ops.org,JERC_019
+7/7/2015 6:08,,Plant diversity,7/6/2015,SCBI,"I filled out a second entry for this plot because we have two different species of viola that are not able to be keyed down to species.  We were told to enter the second species in it's own plot like a ""missed species""  because entering two ""viola spp"" is not possible.  One is aculine and the other is cauline, so we know they're different, but we can't key them any more than that.  ",kmcmahon@field-ops.org,SCBI_004
+7/14/2015 10:46,,Small mammal,7/9/2015,CPER,"The locations of two disturbed traps were unknown so I recorded the data in the ""x"" box. I did not adjust for this in the grid so data for ""102 of 100"" traps were recorded. ",kaylalauger@field-ops.org,CPER_011
+7/15/2015 11:18,,Plant diversity,7/14/2015,OAES,"Taxon code should be ""PLVI/PLVI"".... entered as ""PLVIV/PLVI""",srubin@neoninc.org,OAES_021
+7/27/2015 8:00,,Plant diversity,6/9/2015,UKFS,An unknown plant was saved twice and the extra line could not be deleted. The line was changed to say Unknown(2Plant/2Plant): DELETE and should be removed. ,emueller@field-ops.org,UKFS_043
+7/27/2015 13:51,,Small mammal,7/16/2015,BLAN,"For PELE R1479, which was caught at B06, an ear sample was taken but not recorded in WebUI",lcard@neoninc.org,BLAN_009
+7/29/2015 9:32,,Plant diversity,5/19/2015,MOAB,"In Moab_004 and Moab_007 ""No Plant Cover Present"" was used in the 10m2 rather than entering a plant from the 1m2 to indicate no NEW plants present.",mgaetani@neoninc.org,"MOAB_004, MOAB_007"
+7/29/2015 9:32,,Plant diversity,7/7/2015,ONAQ,"""No Plant Cover Present"" was used in the 10m2 rather than entering a plant from the 1m2 to indicate no NEW plants present. ",mgaetani@neoninc.org,"ONAQ_002, ONAQ_009, ONAQ_011, ONAQ_014"
+7/30/2015 9:14,,Plant Phenology,7/7/2015,GUAN,"The date entered in WebUI was 20150707, however, it needs to be changed to 20150715.  ",adavila@neoninc.org,GUAN_062
+7/30/2015 11:09,,Plant Phenology,7/22/2015,KONZ,The plant marked with tagID 6010 (ANGE: transect meter 29.0) was marked to be on the right hand side of the transect but it is actually on the left hand side. ,emueller@field-ops.org,KONZ_072
+8/4/2015 11:06,,Small mammal,7/27/2015,JORN,"The individual entering the final data forgot to click fill all remaining traps with set but empty. Thus, every data point that says not set or there is no data for should be given a 6. All 100 traps were set but the button indicating this wasn't clicked before submission",rolinger@field-ops.org,JORN_007
+8/4/2015 11:08,,Small mammal,7/20/2015,JORN,"The individual entering the final data forgot to click fill all remaining traps with set but empty. Thus, every data point that says not set or there is no data for should be given a 6. All 100 traps were set but the button indicating this wasn't clicked before submission",rolinger@field-ops.org,JORN_031
+8/4/2015 11:11,,Small mammal,7/17/2015,JORN,"The individual entering the final data clicked 1 instead of code 6, indicating set but empty. Thus, every data point that says not set (1) or there is no data for should be given a 6. All 100 traps were set but the button indicating this wasn't clicked before submission",rolinger@field-ops.org,JORN_017
+8/4/2015 15:32,,Plant diversity,7/29/2015,NIWO,"The taxonID 'ARFEF' should be 'ARFEF3' for this site. It was incorrect on the data sheet and was transcribed incorrectly into the WebUI in subplots:
+
+40.1.1
+40.3.1
+41.1.1
+41.4.1
+",klauger@field-ops.org,NIWO_008
+8/7/2015 9:16,,Plant Phenology,6/9/2015,OAES,"UID = 9BE5EEFFAEB6400B8C342C6B252BE396
+
+BODA2.
+
+Transect distance recorded as ""125""... should be changed to ""175""",srubin@neoninc.org,OAES_074
+8/7/2015 9:16,,Plant Phenology,6/16/2015,OAES,"UID = 9BE5EEFFAEB6400B8C342C6B252BE396
+
+BODA2.
+
+Transect distance recorded as ""125""... should be changed to ""175""",srubin@neoninc.org,OAES_074
+8/10/2015 8:37,,Plant diversity,6/12/2015,DELA,"Delete all data for this plot -- data was accidentally entered from Site Characterization bout, and is incomplete.  We have new/updated data for this plot from Plant Diversity bout to enter.
+
+Please advise when new data for this plot can be entered.
+
+Thanks!",awyatt@neoninc.org,DELA_040
+8/10/2015 13:15,,Herbaceous productivity,7/20/2015,DELA,"Delete data from the following clipIDs for 2015 DELA herb clip bout ( 2015-07-20 through 2015-07-23). Toxicodendron sp. mass was added to FRB instead of WST.  Please advise when data is removed and we will re-enter correctly.
+
+Thanks!
+
+DELA_003_0121
+DELA_010_0189
+DELA_013_0145
+DELA_020_0099
+DELA_037_0419
+DELA_039_0526
+DELA_042_0392
+DELA_042_0526
+DELA_043_0698
+DELA_044_0867
+DELA_045_0758
+DELA_046_0012
+DELA_046_0514
+DELA_052_0320
+DELA_052_0564
+DELA_053_0557
+DELA_053_0956
+DELA_054_0021
+DELA_056_0603
+DELA_056_0946",awyatt@neoninc.org,multiple
+8/12/2015 7:04,,Plant Phenology,6/10/2015,OAES,"In the subplot 31.4.1, the plant BOHI (Bommeria hispida) should be switched to BOHI2 (Bouteloua hirsute). The number was not known upon the original data entry leading to an incorrect plant being entered.",cwhiting@field-ops.org,OAES_044
+8/12/2015 7:07,,Plant diversity,6/10/2015,OAES,"In subplot 32.2.10, BOHI (Bommeria hispida) should be switched to BOHI2 (Bouteloua hirsuta). The number was not know at the time of the original data entry leading to an incorrect code being entered.",cwhiting@field-ops.org,OAES_001
+8/12/2015 7:09,,Plant diversity,6/30/2015,OAES,"In subplot 31.1.10, BOHI (Bommeria hispida) should be switched to BOHI2 (Bouteloua hirsuta). The number was not know at the time of the original data entry leading to an incorrect code being entered.",cwhiting@field-ops.org,OAES_006
+8/12/2015 7:11,,Plant diversity,7/8/2015,OAES,"In subplots 40.100, 40.3.10, 41.100, 41.1.10, and 31.4.1, BOHI (Bommeria hispida) should be switched to BOHI2 (Bouteloua hirsuta). The number was not know at the time of the original data entry leading to an incorrect code being entered.",cwhiting@field-ops.org,OAES_022
+8/12/2015 7:13,,Plant diversity,7/14/2015,OAES,"In subplots 40.1.1, 40.3.10, 41.100, 41.1.10 and 31.4.1, BOHI (Bommeria hispida) should be switched to BOHI2 (Bouteloua hirsuta). The number was not know at the time of the original data entry leading to an incorrect code being entered.",cwhiting@field-ops.org,OAES_024
+8/12/2015 7:16,,Plant diversity,7/8/2015,OAES,"In subplots 40.100, 41.1.11, 41.4.1, 32.2.10 and 32.4.1, BOHI (Bommeria hispida) should be switched to BOHI2 (Bouteloua hirsuta). The number was not know at the time of the original data entry leading to an incorrect code being entered. This is the second error report on this subject but this time with the correct subplots recorded.  ",cwhiting@field-ops.org,OAES_022
+8/12/2015 13:44,,Plant Phenology,7/1/2015,JORN,The date needs to be changed to 07/02/2015 please. Thanks. ,shiebert@neoninc.org,JORN_072
+8/12/2015 13:45,,Plant Phenology,7/7/2015,JORN,The date needs to be changed to 07/06/2015. Please. thanks. ,shiebert@neoninc.org,JORN_072
+8/12/2015 15:04,,Plant diversity,8/10/2015,WOOD,Subplot 40.1.10 has SYER recorded with a CS code. This individual was later confirmed to be CHVI10.,shauser@neoninc.org,Wood_006
+8/14/2015 13:34,,Plant diversity,6/17/2015,OAES,In subplots 40.3.10 and 41.4.1 BOHI (Bommeria hispida) was entered when it should have been BOHI2 (Boudeloua hirsuta). The number was not know at the time it was entered. ,cwhiting@field-ops.org,OAES_030
+8/17/2015 6:34,,Beetle,7/28/2015,UKFS,"07/28/15 refers to the collection date for this beetle bout. We have had two technicians enter the same data for Beetle plots 003, 005, 009 and 010 at UKFS. The 6 remaining beetle plots were only transcribed once into the system and do not have duplicates.",skremidas@neoninc.org,"UKFS_003, UKFS_005, UKFS_009, UKFS_010"
+8/17/2015 6:37,,Small mammal,7/9/2015,UKFS,"Trap C09 on grid UKFS_010 was suspected to have lost an ear tag. ""Ear tag replaced"" should read an ""R"" while ""Recapture"" should read ""N"". ",skremidas@neoninc.org,UKFS_010
+8/17/2015 6:38,,Small mammal,7/10/2015,UKFS,"Trap G09 at UKFS_010 was suspected to have a mammal with a lost ear tag. ""Recapture"" should read ""N"" according to the protocol. ",skremidas@neoninc.org,UKFS_010
+8/20/2015 11:13,,Beetle,6/25/2015,OSBS,"Beetle Bout 05 with the set date: 20150611 and collect date 20150625 may have been submitted twice.
+
+The first submission to WebUI on 20150702 is correct. There may be another submission from 20150803 that is incorrect (reported as Bout 04). 
+
+Please omit the duplicate entry from the OSBS beetle bout with set date: 20150611 and collect date 20150625.",rvistocci@field-ops.org,"OSBS_002, etc."
+8/21/2015 8:44,,Plant diversity,6/10/2015,OAES,There is an unknown plant in plot 41.100 that has the description of sage like. This plant is now known to be HECA8 (Heterotheca canescens). ,cwhiting@field-ops.org,OAES_044
+8/21/2015 8:56,,Plant diversity,6/9/2015,OAES,"In several plots the species SERI2 (Senecio riddellii) was recorded. We now know that it is actually the species MAPIP4 (Machaeranthera pinnatifida var. pinnatifida). The plots it was recorded in are as follows: 41.1.10; 41.4.10; 31.1.1; 31.4.1; 32.100; 40.1.10; 40.3.1. Also in plot 013 there were some unknown species that have since been identified. In plots 40.1.1, 41.1.1, 31.1.1, 31.4.1, 32.2.1 and 32.4.1 there is an unknown recorded with the description sage like. We know this to be HECA8 (Heterotheca canescens). Lastly, in plot 40.1, there is an unknown listed as pea similar to PSTE5. We know this to be PECU3 (Pediomelum cuspidatum).",cwhiting@field-ops.org,OAES_013
+8/21/2015 9:04,,Plant diversity,6/10/2015,OAES,"There are several unknown plants (2plant) that have since been identified. Firstly, in plots 40.1.10, 40.3.1 and 31.4.1, there is an unknown with the description Fabaceae shrub. It is now known to be ACAN (Acacia angustissima). Secondly, in plots 31.100 and 40.3.1, there is the unknown listed as sage like. This is now known to be HECA8 (Heterotheca canescens). Finally, in plot 32.100, there is the unknown listed as 5-leaflet. This is PECU3 (Pediomelum cuspidatum).",cwhiting@field-ops.org,OAES_001
+8/21/2015 9:10,,Plant diversity,7/14/2015,OAES,"In plots 40.100, 41.100, 31.100 and 32.100, the plant SOLID (Solidago sp.) is listed. It should be COCA5 (Conyza canadensis).",cwhiting@field-ops.org,OAES_009
+8/21/2015 9:15,,Plant diversity,6/10/2015,OAES,"In the plots 40.1.1, 41.4.1 and 31.1.10, the plant listed as SERI2 (Senecio riddellii) should have been MAPIP4) Machaeranthera pinnatifida var. pinnatifida). Also, the unknown plant (2Plant) listed in  plots 40.1.10, 40.3.10, 41.100 and 31.100 and described as sage like, is now known to be HECA8 (Heterotheca canescens). ",cwhiting@field-ops.org,OAES_042
+8/21/2015 9:20,,Plant diversity,7/21/2015,OAES,"In plots 40.1.10, 41.1.1, 31.4.10 and 32.2.1 SOLID (Solidago sp.) should actually be COCA5 (Conyza canadensis).",cwhiting@field-ops.org,OAES_023
+8/21/2015 9:25,,Plant diversity,7/21/2015,OAES,"In plots 40.1.1, 41.1.1, 41.4.10, 31.1.10 and 32.100 the plant listed as SOLID (Solidago sp.) should have been COCA5 (Conyza canadensis).",cwhiting@field-ops.org,OAES_020
+8/21/2015 9:38,,Plant diversity,6/30/2015,OAES,"In plot 41.100, SERI2 (Senecio riddellii) is now known to be MAPIP4 (Machaeranthera pinnitifida var. pinnatifida). In plots 40.1.10, 41.1.10, 41.4.10 and 32.4.10, the unknown plant (2plant) with the description conyza like is now known to be COCA5 (Conyza canadensis). Finally, in plot 31.100, the record of MESA2 is incorrect it is actually suppose to be HESA2 (Helianthus salicifolius).",cwhiting@field-ops.org,OAES_006
+8/21/2015 9:41,,Plant diversity,6/16/2015,OAES,In plot 31.1.10 the record of SOLID (Solidago sp.) should have been COCA5 (Conyza canadensis).,cwhiting@field-ops.org,OAES_008
+8/21/2015 9:45,,Plant diversity,7/8/2015,OAES,In plot 31.4.1 SOLID (Solidago sp.) should have been COCA5 (Conyza canadensis).,cwhiting@field-ops.org,OAES_022
+8/21/2015 9:47,,Plant diversity,7/14/2015,OAES,In plots 31.100 and 32.2.10 the record of SOLID (Solidago sp.) should have been COCA5 (Conyza canadensis).,cwhiting@field-ops.org,OAES_024
+8/21/2015 9:52,,Plant diversity,6/10/2015,OAES,"In plots 40.1.1, 41.1.10, 41.4.10, 31.4.1 and 32.4.1, the record of SERI2 (Senecio riddellii) is now known to be MAPIP4 (Machaeranthera pinnitafida var. pinnitafida ). Also in plots 41.100 and 32.4.10 the unknown plant (2Plant) described as 5-leaflet is now known to be PECU3 (Pediomelum cuspidatum). ",cwhiting@field-ops.org,OAES_043
+8/21/2015 10:01,,Plant diversity,6/16/2015,OAES,"In plots 40.100 and 32.4.10, SOLID (Solidago sp.) is suppose to be COCA5 (Conyza canadensis).",cwhiting@field-ops.org,OAES_017
+8/21/2015 10:07,,Plant diversity,6/16/2015,OAES,"In plots 40.100 and 32.100 SOLID (Solidago sp.) is now known to be COCA5 (Conyza canadensis). Similarly, in plots 40.3.10, 41.1.1, 41.4.1, 31.4.1 and 32.100, CYDA (Cynodon dactylon) is now known to be BOBL (Bothriochloa bladhii).",cwhiting@field-ops.org,OAES_010
+8/21/2015 10:11,,Plant diversity,7/8/2015,OAES,"In plots 40.100, 41.1.1, 41.4.1 and 32.2.10, SOLID (Solidago sp.) is now known to be COCA5 (Conyza canadensis).",cwhiting@field-ops.org,OAES_016
+8/21/2015 10:18,,Plant diversity,6/17/2015,OAES,"In plot 41.100, the record of PRAN3 (Prunus angustifolia) is incorrect. It should have been ULPU (Ulmus pumila). A record on plot 41.1.1 of PLVIV should have been PLVI (Plantago virginica), the subspecies is not known. In plot 41.4.10 SOLID (Solidago sp.) is now known to be COCA5 (Conyza canadensis). ",cwhiting@field-ops.org,OAES_021
+8/21/2015 10:24,,Plant diversity,7/1/2015,OAES,"The listing of the unknown plant (2plant) described as conyza like is now known to be COCA5 (Conyza canadensis). It is found in plots 40.1.1, 41.1.10, 31.1.10, 31.4.10 and 32.2.10.",cwhiting@field-ops.org,OAES_002
+8/21/2015 10:38,,Plant diversity,7/8/2015,OAES,"SOLID (Solidago sp.) is now known to be COCA5 (Conyza canadensis). This error occurred in plots 40.100, 41.1.1, 41.4.1, 31.1.1 and 32.2.10.",cwhiting@field-ops.org,OAES_016
+8/26/2015 15:19,,Megapit,9/26/2012,DCFS,Suborder for DCFS should be “Ustoll” (not Udoll).,eayres@neoninc.org,Megapit
+8/31/2015 7:19,,Small mammal,7/21/2015,ORNL,Tag number for chipmunk (TAST) recorded incorrectly. Tag number was recorded at R1172 and should be recorded as R1272 for TAST,sthomason@neoninc.org,ORNL_002
+9/2/2015 8:11,,Plant Phenology,7/16/2015,DSNY,"Three plants have disappeared from the list and are not included in the dropped plant list. Their tag numbers are : 6180, 6194, and 6196.  It starts on this date specified (7/16/15).  4 weekly bouts were entered without anyone noticing that the plants were missing from the list and proceeded entering more data.  These plants were monitored and data was recorded on field datasheets.",mkerstein@neoninc.org,DSNY_071
+9/3/2015 14:42,,Small mammal,8/16/2015,ONAQ,"Person entering data for this plot forgot to set all traps without a note code of 5 or 2 to ""set and empty."" These traps are: A1, A3 to A10, B1 to B7, B9, B10, C2, C3, C5, C7, C8, C10, D1 to D6, D8 to D10, E2 to E10, F1 to F7, F9, F10, G1 to G9, H1 to H10, I1 to I7, I9, J4, J5, J7, J10.",hoswald@neoninc.org,ONAQ_023
+9/8/2015 11:36,,Plant diversity,7/8/2015,OAES,"In subplot 31.100, the 2PLANT identified as scratchy leaves is now known to be MEOL (Mentzelia oligosperma). ",cwhiting@field-ops.org,OAES_003
+9/8/2015 11:39,,Plant diversity,6/23/2015,OAES,"In subplot 32.4.10, Tridens flavus (TRFL2) was reported. It is now known to be Tridens muticus (TRMU).",cwhiting@field-ops.org,OAES_004
+9/8/2015 11:42,,Plant diversity,6/16/2015,OAES,"In subplots 40.100, 41.1.1 and 31.1.1, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU).",cwhiting@field-ops.org,OAES_012
+9/8/2015 11:44,,Plant diversity,6/9/2015,OAES,"In subplots 40.1.10, 40.3.10, 31.1.1, 31.4.10 and 32.100, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU).",cwhiting@field-ops.org,OAES_013
+9/8/2015 11:45,,Plant diversity,6/16/2015,OAES,"In subplots 40.1.10 and 32.100, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU).",cwhiting@field-ops.org,OAES_017
+9/8/2015 11:47,,Plant diversity,7/13/2015,OAES,"In subplot 32.4.1, an unknown plant (2PLANT) identified as Scratchy leaves is now known to be MEOL (Mentzelia oligosperma).",cwhiting@field-ops.org,OAES_018
+9/8/2015 11:48,,Plant diversity,7/7/2015,OAES,"In subplots 31.1.1 and 32.2.10, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU).",cwhiting@field-ops.org,OAES_019
+9/8/2015 11:52,,Plant diversity,6/17/2015,OAES,"In subplots 41.1.10, 31.1.10, 31.4.1 and 32.2.1, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU). The unknown plant (2PLANT) labeled 5 petal scratchy in subplots 40.100 and 41.100 is now known to be MEOL (Mentzelia oligosperma).",cwhiting@field-ops.org,OAES_021
+9/8/2015 11:55,,Plant diversity,6/10/2015,OAES,"In subplots 40.1.1, 40.3.1, 41.1.1, 41.4.1, 31.1.1, 31.4.1, 32.2.1 and 32.4.1, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU).",cwhiting@field-ops.org,OAES_042
+9/8/2015 11:59,,Plant diversity,6/16/2015,OAES,"In subplots 41.1.1, 41.4.1, 31.1.10, 31.4.1 and 32.100, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU).",cwhiting@field-ops.org,OAES_043
+9/8/2015 12:00,,Plant diversity,6/15/2015,OAES,"In subplot 40.1.10, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU).",cwhiting@field-ops.org,OAES_044
+9/8/2015 12:04,,Plant diversity,7/27/2015,OAES,"In subplot 32.100, Tridens flavus (TRFL2) was incorrectly reported, it should have been Tridens muticus (TRMU). Also in subplots 40.100 and 41.1.1, unknown plant (2PLANT) identified as scratchy leaves is now known to be MEOL (Mentzelia oligosperma).",cwhiting@field-ops.org,OAES_024

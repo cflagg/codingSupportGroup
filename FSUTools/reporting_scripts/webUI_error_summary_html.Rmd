@@ -1,0 +1,62 @@
+---
+title: "webUI_error_summary"
+author: "Cody Flagg"
+date: "February 1, 2016"
+output: html_document
+---
+
+
+```{r}
+# for summarizing reported webUI errors
+library(plyr)
+library(dplyr)
+library(knitr)
+
+# store the script execution time
+runTime <- Sys.Date()
+```
+
+```{r}
+# webUI error report -- GitHub NeonInc Folder:: organismalIPT > scienceDev/dataEntryErrorLog
+weberr <- read.csv("C:/Users/cflagg/Documents/GitHub/organismalIPT/scienceDev/dataEntryErrorLog/Known data entry errors (Responses) - Form Responses 1.csv",header=T)
+
+# domain to siteID mapping
+d_look <- read.csv("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/reporting_scripts/DomainID_SiteID_lookup.csv", header=T)
+
+# join with domainID codes
+weberr <- left_join(weberr, d_look, by = c("SiteCode" = "siteID"))
+
+# domain level errors
+d_out <- ddply(weberr, .(domainID, SiteCode), summarize, n_err = length(SiteCode))
+               
+# domain level errors
+time_out <- ddply(weberr, .(domainID, Date.recorded.in.data), summarize, n_err = length(SiteCode))
+
+# protocol-level errors
+p_out <- ddply(weberr, .(Protocol), summarize, n_err = length(SiteCode))
+
+# protocol by siteID
+s_out <- ddply(weberr, .(domainID, SiteCode, Protocol), summarize, n_err = length(SiteCode))
+```
+
+
+### Error Readout - Domain Level errors
+```{r}
+kable(d_out)
+```
+
+### Error Readout - Site Level errors
+```{r}
+kable(d_out)
+```
+
+### Error Readout - Protocol Specific errors
+```{r}
+kable(p_out)
+```
+
+### Write Output Files
+```{r}
+# # prob don't need to do this since it's knitted
+# write.csv(x = d_out, file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/report_outputs")
+```

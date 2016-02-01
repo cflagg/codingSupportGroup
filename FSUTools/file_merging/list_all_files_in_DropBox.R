@@ -29,12 +29,10 @@ prot_str <- c("tck", "cdw", "dhp", "ltr", "mos", "vst", "sls", "soi", "Pla", "di
 ############################################# VARIABLE INPUTS #############################################
 
 # only lists the folders in the root
-folderList <- list.files(directory, full.names = TRUE)
+# folderList <- list.files(directory, full.names = TRUE)
 
 # lists all folders in a directory, including sub-folders ## VARIABLE INPUT ## 
 dirList <- list.dirs(directory)
-
-
 
 # how does debug work?
 # debug(mean) # point debug to a function you need to understand
@@ -99,6 +97,7 @@ for (folder in dirList){
 # takes each list element and returns a dataframe
 rowsProtocol <- plyr::ldply(rowList) # list to dataframe
 colnames(rowsProtocol) <- c("rows", "protocol", "fileName")
+write.csv(rowsProtocol, file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/report_outputs/allDropboxFiles_2015.csv")
 
 ## write a csv with ALL files, not pared down by protocol abbreviation
 #write.csv(x = rowsProtocol, file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/allDropboxFiles_2015.csv")

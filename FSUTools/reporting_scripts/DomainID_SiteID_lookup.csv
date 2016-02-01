@@ -1,0 +1,61 @@
+domain,domainID,siteID,Type,SiteName
+1,D01,HARV,Core,Harvard Forest
+2,D02,SCBI,Core,Smithsonian Conservation Biology Institute
+3,D03,OSBS,Core,Ordway-Swisher Biological Station
+4,D04,GUAN,Core,Guanica Forest
+5,D05,UNDE,Core,UNDERC
+6,D06,KONZ,Core,Konza Prairie Biological Station
+7,D07,ORNL,Core,Oak Ridge
+8,D08,TALL,Core,Talladega National Forest
+9,D09,WOOD,Core,Woodworth
+10,D10,CPER,Core,Central Plains Experimental Range
+11,D11,CLBJ,Core,LBJ National Grassland 
+12,D12,YELL,Core,Yellowstone Northern Range (Frog Rock)
+13,D13,NIWO,Core,Niwot Ridge Mountain Research Station
+14,D14,SRER,Core,Santa Rita Experimental Range
+15,D15,ONAQ,Core,Onaqui-Ault
+16,D16,WREF,Core,Wind River Experimental Forest
+17,D17,SJER,Core,San Joaquin
+18,D18,TOOL,Core,Toolik Lake
+19,D19,BONA,Core,Caribou Creek - Poker Flats Watershed
+20,D20,OLAA,Core,Olaa Forest Reserve
+1,D01,BART,Relocatable,Bartlett Experimental Forest
+1,D01,SAWB,Relocatable,Sawmill Brook Conservation Area -Burlington; MA
+2,D02,BLAN,Relocatable,Blandy Experimental Farm
+2,D02,SERC,Relocatable,Smithsonian Environmental Research Center
+3,D03,DSNY,Relocatable,Disney Wilderness Preserve
+3,D03,JERC,Relocatable,Jones Ecological Research Center
+4,D04,LAJA,Relocatable,Lajas Experimental Station
+4,D04,MAME,Relocatable,Mameyes
+5,D05,STEI,Relocatable,Steigerwaldt Land Services
+5,D05,TREE,Relocatable,Treehaven
+6,D06,UKFS,Relocatable,Konza Prairie Biological Station
+6,D06,KONA,Relocatable,The University of Kansas Field Station
+7,D07,GRSM,Relocatable,Great Smoky Mountains National Park; Twin Creeks
+7,D07,MLBS,Relocatable,Mountain Lake Biological Station
+8,D08,DELA,Relocatable,Dead Lake
+8,D08,LENO,Relocatable,Lenoir Landing
+9,D09,DCFS,Relocatable,Dakota Coteau Field School
+9,D09,NOGP,Relocatable,Northern Great Plains Research Laboratory
+10,D10,STER,Relocatable,North Sterling; CO
+10,D10,RMNP,Relocatable,Rocky Mountain National Park; CASTNET
+11,D11,OAES,Relocatable,Klemme Range Research Station
+11,D11,TBD11,Relocatable,Relocatable
+12,D12,BOZE,Relocatable,Bozeman; MT
+12,D12,PARA,Relocatable,Paradise Valley; MT
+13,D13,MOAB,Relocatable,Moab
+13,D13,WINT,Relocatable,Winter Park
+14,D14,JORN,Relocatable,Jornada LTER
+14,D14,TBD14,Relocatable,Relocatable
+15,D15,RBUT,Relocatable,Red Butte Canyon Research Natural Area
+15,D15,TBD15,Relocatable,Relocatable
+16,D16,ABBY,Relocatable,Abby Road
+16,D16,THAY,Relocatable,Thayer
+17,D17,TEAK,Relocatable,Lower Teakettle
+17,D17,SOAP,Relocatable,Soaproot Saddle
+18,D18,BASC,Relocatable,Barrow Environmental Observatory
+19,D19,DEJU,Relocatable,Delta Junction
+19,D19,HEAL,Relocatable,Healy
+19,D19,POKE,Relocatable,Poker Flat
+20,D20,PUWI,Relocatable 1,Puu Waa Waa Forest Site
+20,D20,PUWU,Relocatable 2,Puu Waa Waa Grassland Site
