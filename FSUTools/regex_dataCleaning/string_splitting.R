@@ -19,3 +19,4 @@ head(x)
 
 # if the input is a character vector, this is not vectorized over the entire object (returns first element)
 stringr::str_split(xa, "_")[[1]][5]
+
