@@ -8,6 +8,13 @@
 # opening an Access DB to load the plant list, then performs a left_join() on the files to finally export a CSV that contains
 # the character values for the taxonID field, which is appended as "taxonID.y". 
 
+############################################### READ THIS AND CHECK R-Version AND Access Version
+######### EXTREMELY IMPORTANT NOTE: The bit memory must match between R and Access
+######### e.g. if you are trying to connect to a 64-bit Access DB, R MUST BE IN 64-BIT MODE AS WELL
+######### This also applies to 32-bit to 32-bit applications. The driver connection will fail if the bits are not matching.
+######### 
+
+
 library(stringr) # for regex ops
 library(RODBC) # for connecting to Access tables
 library(dplyr) # for select
@@ -15,7 +22,7 @@ library(dplyr) # for select
 # set working directory and grep files
 wd <- getwd()
 
-wd <- paste("C:/Users/cflagg/Documents/Test/vst_fixes", sep="")
+wd <- paste("C:/Users/cflagg/Documents/Test/vst_fixes/D01", sep="")
 
 fileList <- list.files(wd, full.names=TRUE) # 
 
@@ -26,27 +33,30 @@ dbList <- fileList[grep(".accdb", fileList)]
 ## access DB list
 ## http://rprogramming.net/connect-to-ms-access-in-r/
 
-
-# for each unique domain ... grab vst files, then grab plant list
+################# ANOTHER NOTE
+## If the input CSV files do not have a domainID in the field, the algorithm will not work. Either add the domain to the ID or change this list
+## But the loop identifies and matches csv files to Access files by the domain ID (rather than siteID, as that is how the Access files were created and distributed)
+# # for each unique domain ... grab vst files, then grab plant list
 domainList <- na.exclude(unique(str_match(csvList, "D[0-9]{2}"))) # find unique domains in list
+
 
 # only grep files that have the domain
 # then split files into vst and plant lists
 
 
-# execute join for each unique domainID
+# execute join for each unique domainID (pass a list to this loop)
 for (domain in unique(domainList)){
-  browser()
+  # browser()
   # load files
   dom_files <- csvList[grep(domain, csvList)] # all csv files
-  vst_files <- dom_files[grep("vst_",dom_files)] # only input vst files
+  vst_files <- dom_files[grep("_vst_",dom_files)] # only input vst files
   #plant_list <- dom_files[grep("_Plants_", dom_files)] # matching domain plant list
   # connect to the related Access DB
-  db_file <- dbList[grep(paste(domain,"_vst_dataIngest",sep=""), dbList)] # the name of the DB file
+  db_file <- dbList[grep(paste(domain,"_vst_",sep=""), dbList)] # the name of the DB file
   dd <- paste("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=", db_file, sep="") # the syntax for ODBC access
   print(db_file)
   db_channel <-  odbcDriverConnect(dd) # open a channel to the DB
-  plant_list <- sqlQuery(db_channel, paste("select * from USDA_plantList_2015")) # query the table and store it
+  plant_list <- sqlQuery(db_channel, paste("SELECT * from USDA_plantList_2015")) # query the table and store it
   plant_list$ID <- seq(1,nrow(plant_list)) # add ID values sequentially
   #now join the plant_list with the vst_files that have taxonID
   for (files in unique(vst_files)){
