@@ -14,7 +14,6 @@ table1$rates <- with(table1, 10000*(cases/population))
 # columns in their place. 
 spread(table2, key, value)
 
-
 # gather - does the opposite of spread()
 # turns key and value columns into key:value pairs
 
