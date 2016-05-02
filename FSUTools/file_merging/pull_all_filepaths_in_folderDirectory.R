@@ -1,7 +1,7 @@
 ############################################# Script Summary #############################################
-## This script will parse through every folder and sub-folder of the drop-box, open each .csv or .xlsx file, and count the number o rows.
-## I wrote it to get a better idea of how many records there are per protocol to better inform the Time Estimates in the Manual Data Transcription protocol. 
-## Author: Cody Flagg
+## This script will parse through every folder and sub-folder of the drop-box (or specified root directory) 
+## and store the full file path inside a list object. The list is collapsed into a vector and can be used 
+## to grep on specific file name patterns. 
 ############################################# Script Summary #############################################
 
 # Pseudo-code
@@ -11,7 +11,7 @@
 # save the count in a list
 # turn list into data frame
 
-library(XLConnect)
+#library(XLConnect)
 library(stringr)
 library(plyr)
 library(dplyr)
@@ -20,7 +20,7 @@ library(dplyr)
 # These variables are passed onto functions below
 # last year's dropbox data
 # directory <- "N:/Science/FSU/DataL0fromFOPs/fieldData2014"
-directory <- "Z:/2015data" # current dropbox data
+directory <- "Z:/" # current dropbox data - 2014, 2015, 2016
 
 
 # only lists the folders in the root
@@ -29,24 +29,29 @@ folderList <- list.files(directory, full.names = TRUE)
 # lists all folders in a directory, including sub-folders ## VARIABLE INPUT ## 
 dirList <- list.dirs(directory)
 
-# fileParse <- function(){
-# need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
-fullFilenameList <- list() # initialize a list object to populate
-counter = 0
-for (folder in dirList){
-  # browser() # this is the interactive debugger, its scope is global & local
-  # list all files in a particular folder
-  folder_content <- list.files(folder, full.names = TRUE)
-  for (fileN in folder_content){
-    # iterate the file count for tracking and for indexing the list
-    counter = counter + 1
-    fullFilenameList[[counter]] <- fileN
-    print(fileN)
+# a re-usable function
+fileParser <- function(directoryList, outputType = "vector"){
+  # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
+  fullFilenameList <- list() # initialize a list object to populate
+  counter = 0
+  for (folder in directoryList){
+    # browser() # this is the interactive debugger, its scope is global & local
+    # list all files in a particular folder
+    folder_content <- list.files(folder, full.names = TRUE)
+    for (fileN in folder_content){
+      # iterate the file count for tracking and for indexing the list
+      counter = counter + 1
+      fullFilenameList[[counter]] <- fileN
+      print(fileN)
+    }
+  }
+    # return a list
+    return(fullFilenameList)
   }
 }
 
-# collapse the list
-flatList <- unlist(fullFilenameList)
+# execute function
+flatList <- fileParser(dirList, output = "vector")
 
 # grep VST files
 flatList2 <- grep(pattern = "VST|vst", x = flatList, value = TRUE)
@@ -54,7 +59,7 @@ flatList2 <- grep(pattern = "VST|vst", x = flatList, value = TRUE)
 # grep VST mapping and tagging only
 flatList3 <- grep(pattern = "mapping", x = flatList2, value = TRUE)
 
-# grep .csv
+# grep .csv 
 flatList4 <- grep(pattern = ".csv", x = flatList3, value = TRUE)
 
 # stack the CSVs
@@ -72,10 +77,26 @@ multipleCombine <- function(input, ply = llply){
 # save the stack
 fileStack <- multipleCombine(flatList4, ply = ldply)
 
-# are the sites in this set?
-prototype_sites <- c("SERC", "WOOD", "GRSM")
+# TEST -- are the sites in this set?
+prototype_sites <- c("SERC", "GRSM")
 prototype_sites %in% unique(fileStack$siteID)
 
-
 # filter to prototype
-dplyr::filter(fileStack, siteID %in% c("SERC", "WOOD", "GRSM"))
+## NEED TO ADD VEG CHARACTERIZATION DATA
+prototype_sites <- dplyr::filter(fileStack, siteID %in% c("SERC", "GRSM"))
+
+# summary of data
+str(prototype_sites)
+
+# summarize by plotID
+ddply(prototype_sites, ~siteID+plotID, summarize, totalTags = length(tagID))
+
+
+# check SERC_046
+serc046 <- filter(prototype_sites, plotID == "SERC_046")
+
+length(unique(serc046$tagID))
+
+duplicated(serc046)
+
+View(serc046)
