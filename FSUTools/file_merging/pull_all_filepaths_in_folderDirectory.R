@@ -22,18 +22,17 @@ library(dplyr)
 # directory <- "N:/Science/FSU/DataL0fromFOPs/fieldData2014"
 directory <- "Z:/" # current dropbox data - 2014, 2015, 2016
 
-
 # only lists the folders in the root
 folderList <- list.files(directory, full.names = TRUE)
 
 # lists all folders in a directory, including sub-folders ## VARIABLE INPUT ## 
 dirList <- list.dirs(directory)
 
-# a re-usable function
+# a re-usable function - outputType can be 'vector' or 'list'
 fileParser <- function(directoryList, outputType = "vector"){
   # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
   fullFilenameList <- list() # initialize a list object to populate
-  counter = 0
+   counter = 0
   for (folder in directoryList){
     # browser() # this is the interactive debugger, its scope is global & local
     # list all files in a particular folder
@@ -45,13 +44,16 @@ fileParser <- function(directoryList, outputType = "vector"){
       print(fileN)
     }
   }
-    # return a list
-    return(fullFilenameList)
-  }
+  # what kind of output should be returned?
+  ifelse(outputType == "vector", 
+         # return a vector
+         return(unlist(fullFilenameList)),
+         # return a list
+         return(fullFilenameList))
 }
 
 # execute function
-flatList <- fileParser(dirList, output = "vector")
+flatList <- fileParser(dirList, outputType = "vector")
 
 # grep VST files
 flatList2 <- grep(pattern = "VST|vst", x = flatList, value = TRUE)
