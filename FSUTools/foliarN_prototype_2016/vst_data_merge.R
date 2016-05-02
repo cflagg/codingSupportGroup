@@ -3,6 +3,9 @@
 ## and store the full file path inside a list object. The list is collapsed into a vector and can be used 
 ## to grep on specific file name patterns. 
 
+##### input data files #####
+proto_plots <- read.csv("C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/foliarN_prototype_2016/prototype_plots.csv")
+
 
 ##### CUSTOM FUNCTIONS #####
 ## functioned used below
@@ -142,3 +145,7 @@ indivStack$date <- as.character(indivStack$date)
 merged_data <- left_join(x = indivStack, y = mappingStack, by = c("date", "plotID", "tagID"))
 
 ## now filter down to the target plotIDs
+proto_vst_plots <- dplyr::filter(merged_data, plotID %in% proto_plots$plotID)
+
+# write the file
+write.csv(proto_vst_plots, file = "C:/Users/cflagg/Documents/GitHub/codingSupportGroup/FSUTools/foliarN_prototype_2016/prototype_vst_data_out.csv")
