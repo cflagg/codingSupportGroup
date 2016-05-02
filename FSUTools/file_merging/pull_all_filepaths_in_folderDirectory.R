@@ -4,35 +4,26 @@
 ## to grep on specific file name patterns. 
 ############################################# Script Summary #############################################
 
-# Pseudo-code
-# create list of folders and files
-# loop through each folder and each file (nested loop: folder path > file)
-# open file, count the number of rows
-# save the count in a list
-# turn list into data frame
 
-#library(XLConnect)
-library(stringr)
-library(plyr)
-library(dplyr)
-
-############################################# VARIABLE INPUTS #############################################
-# These variables are passed onto functions below
-# last year's dropbox data
-# directory <- "N:/Science/FSU/DataL0fromFOPs/fieldData2014"
-directory <- "Z:/" # current dropbox data - 2014, 2015, 2016
-
-# only lists the folders in the root
-folderList <- list.files(directory, full.names = TRUE)
-
-# lists all folders in a directory, including sub-folders ## VARIABLE INPUT ## 
-dirList <- list.dirs(directory)
+##### CUSTOM FUNCTIONS #####
+## functioned used below
+# stack the CSVs
+# this is a function with two inputs - the file list and the type of plyr operation
+# the file list here should point to "fileGrab1" for this specific script
+multipleCombine <- function(input, ply = llply){
+  ply(input, function(x){
+    t <- read.csv(x, header=TRUE, sep=",",stringsAsFactors = FALSE) # read the csv
+    t1 <- rbind(t) # rbind it to a temporary variable
+    return(t1) # return the full variable
+  }
+  )
+}
 
 # a re-usable function - outputType can be 'vector' or 'list'
 fileParser <- function(directoryList, outputType = "vector"){
   # need to dive into each folder, decide if it's a .csv or .xlsx, then read the rows
   fullFilenameList <- list() # initialize a list object to populate
-   counter = 0
+  counter = 0
   for (folder in directoryList){
     # browser() # this is the interactive debugger, its scope is global & local
     # list all files in a particular folder
@@ -51,41 +42,76 @@ fileParser <- function(directoryList, outputType = "vector"){
          # return a list
          return(fullFilenameList))
 }
+##
 
+##### Pseudo-code #####
+# create list of folders and files
+# loop through each folder and each file (nested loop: folder path > file)
+# pull full file path
+# store all file paths
+# turn list into vector
+
+##### LIBRARY IMPORTS ##### 
+#library(XLConnect)
+library(stringr)
+library(plyr)
+library(dplyr)
+
+############################################# VARIABLE INPUTS #############################################
+# These variables are passed onto functions below
+# last year's dropbox data
+# directory <- "N:/Science/FSU/DataL0fromFOPs/fieldData2014"
+directory <- "Z:/" # current dropbox data - 2014, 2015, 2016
+###########################################################################################################
+
+##### MAP FILES IN DROP BOX ######
+# only lists the folders in the root
+folderList <- list.files(directory, full.names = TRUE)
+
+# lists all folders in a directory, including sub-folders ## VARIABLE INPUT ## 
+dirList <- list.dirs(directory)
+
+
+##### MERGE TOGETHER MAPPING FILES ######
 # execute function
-flatList <- fileParser(dirList, outputType = "vector")
+allFilesList <- fileParser(dirList, outputType = "vector")
 
-# grep VST files
-flatList2 <- grep(pattern = "VST|vst", x = flatList, value = TRUE)
+# grep VST files 
+vstList2 <- grep(pattern = "VST|vst", x = allFilesList, value = TRUE)
 
 # grep VST mapping and tagging only
-flatList3 <- grep(pattern = "mapping", x = flatList2, value = TRUE)
+mappingList3 <- grep(pattern = "mapping", x = vstList2, value = TRUE)
 
 # grep .csv 
-flatList4 <- grep(pattern = ".csv", x = flatList3, value = TRUE)
-
-# stack the CSVs
-# this is a function with two inputs - the file list and the type of plyr operation
-# the file list here should point to "fileGrab1" for this specific script
-multipleCombine <- function(input, ply = llply){
-  ply(input, function(x){
-    t <- read.csv(x, header=TRUE, sep=",",stringsAsFactors = FALSE) # read the csv
-    t1 <- rbind(t) # rbind it to a temporary variable
-    return(t1) # return the full variable
-  }
-  )
-}
+mappingList4 <- grep(pattern = ".csv", x = mappingList3, value = TRUE)
 
 # save the stack
-fileStack <- multipleCombine(flatList4, ply = ldply)
+mappingStack <- multipleCombine(mappingList4, ply = ldply)
 
+##### PUT TOGETHER APPARENT INDIVIDUAL FILES ######
+
+## grep vstList2 for app ind
+indivList3 <- grep(pattern = "apparent", x = vstList2, value = TRUE)
+
+## grep CSVs to be safe
+indivList4 <- grep(pattern = ".csv", x = indivList3, value = TRUE)
+
+# save the stack
+indivStack <- multipleCombine(indivList4, ply = ldply)
+
+
+
+
+
+
+##### DATA CHECK FOR FOLIAR BGC PROTOTYPE #####
 # TEST -- are the sites in this set?
 prototype_sites <- c("SERC", "GRSM")
-prototype_sites %in% unique(fileStack$siteID)
+prototype_sites %in% unique(mappingStack$siteID)
 
 # filter to prototype
 ## NEED TO ADD VEG CHARACTERIZATION DATA
-prototype_sites <- dplyr::filter(fileStack, siteID %in% c("SERC", "GRSM"))
+prototype_sites <- dplyr::filter(mappingStack, siteID %in% c("SERC", "GRSM"))
 
 # summary of data
 str(prototype_sites)
