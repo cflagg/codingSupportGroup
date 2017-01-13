@@ -14,7 +14,6 @@ soil_horizons <- dbReadTable(conn, "biomass_neon.soil_pit_horizons")
 soil_methods <- dbReadTable(conn, "biomass_neon.soil_pit_methods")
 soil_properties <- dbReadTable(conn, "biomass_neon.soil_pit_properties")
 
-
 head(test)
 
 # test query
