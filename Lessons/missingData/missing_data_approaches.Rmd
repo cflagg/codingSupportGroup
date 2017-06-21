@@ -1,0 +1,185 @@
+---
+title: "Missing Data Approaches"
+author: "cflagg"
+date: "June 19, 2017"
+output: html_document
+---
+
+1. Strategize
+    * Two examples to keep in mind:
+      * Predictors of high ozone in New York City (e.g. "air quality" data)
+      * Effectiveness of drug for treating depression ("clinical" data)
+    * Project Goals
+        * Predictive vs. Explanatory
+            * Predictive: usually creating a statistical model of some kind to predict response (Y)
+                * If only interested in predictive outcomes, 
+            * Explanatory: using statistical model to understand causal/mechanistic patterns
+                * We want to be careful about describing patterns of cause and effect in our conclusions
+    * Project Question, what's the problem?
+    * Study Type
+        * Observational (are there natural patterns that cause missing data?)
+        * Experimental (does experimental manipulation lead to missing data?)
+        * Participatory (i.e. studies about people e.g. do certain types of participants answer/not answer in certain ways?)
+        
+2. Understanding 'Missingness'
+    * Data Structure
+        * Temporal?
+        * Spatial?
+        * Group?
+        * Response?
+        * Predictor?  
+    * Flavors 
+        * Censoring (left, right, full)
+        * Missing Completely at Random (MCAR)
+        * Missing at Random (MAR)
+        * Not Missing at Random (NMAR)
+    * Sources   
+        * Surveys: respondents not answering questions
+        * Experiment: Loss due to destruction
+        * Long term study: drop-out (observed start, no observed end, respondent disappears), right censored (observed beginning, no observed ending), left censored (did not observe beginning, observed ending)
+        * Biased Missingness Example: sampling for species presence/absence; NA in Y always occurs in low areas that flood during the spring
+
+3. Profiling Missingness in our Data
+4. Non-Statistical Approaches
+5. Statistical Approaches
+
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+## Profile missingness
+
+* Identifying Missingness Patterns
+    * Response?
+    * Predictor?    
+    * Temporal?
+    * Spatial?
+    * Group?
+    
+* Identify patterns of missingness to understand: 
+        * Measurement Bias
+            * Measurement Bias will skew model results
+        * Unmeasured 'responses'
+        
+### Count Total Number of Missing Data Points
+
+```{r}
+# assign to an object
+na_count <- apply(X = airquality, 2, is.na)
+
+# view the first few rows of output
+na_count %>% head(5)
+
+# Count the total number of occurences where is.na==TRUE
+length(na_count[na_count==TRUE])
+```
+
+### Determine Missingness per Column: Response vs. Predictors
+
+```{r}
+apply(na_count, 2, function(x) length(x[x==TRUE]))
+```
+
+* Quite a few missing response (Y) values
+* A few missing predictor (X) values in Solar.R
+
+### Is there a pattern to missing values?
+
+* Let's visualize predictor distributions in records WITH ozone measurements
+* First, subset data into two different data frames for plotting: one with zero missing Y measurements, the other only containing missing Y
+
+```{r}
+aq_data <- airquality
+aq_data$time <- as.numeric(paste0(aq_data$Month + aq_data$Day)) # for quick plotting by time
+present_data <- filter(aq_data, is.na(Ozone)==FALSE)
+missing_data <- filter(aq_data, is.na(Ozone)==TRUE)
+```
+
+```{r}
+## Records with Ozone measurements
+car::scatterplotMatrix( ~ Solar.R + Wind + Temp + Month + Day, data = present_data)
+```
+
+* Now visualize predictor distributions in records WITHOUT ozone measurements, are there any visual differences between these two sub-sets?
+
+```{r}
+# records missing Ozone measurements
+car::scatterplotMatrix( ~ Solar.R + Wind + Temp + Month + Day, data = missing_data)
+```
+
+* This second subset appears to have quite a few missing values in Month 6
+* What would be a more alarming visual cue for measurement bias?
+* What if a predictor variable is highly correlated with missingness instead?
+
+```{r}
+## Subset to missing ozone measurements
+fishy <- filter(airquality, is.na(Ozone)==TRUE)
+## create random wind speeds twice the mean
+fishy$Wind <- rpois(n = nrow(fishy), lambda = mean(airquality$Wind)*2)
+
+ggplot(present_data, aes(Wind)) + geom_histogram() + scale_x_continuous(limits = c(0, 25)) + ggtitle("Wind Speed with Ozone Measurements")
+ggplot(fishy, aes(Wind)) + geom_histogram() + scale_x_continuous(limits = c(0, 25)) + ggtitle("Wind Speeds Missing Ozone Measurements")
+```
+
+* Here we see there is a clear pattern of missingness
+
+### Temporal Profiling
+
+* Are there patterns of missingness over the measurement time period?
+
+```{r}
+ggplot(present_data, aes(x = time, y = Wind)) + geom_point() + geom_line() + scale_y_continuous(limits=c(0, 20)) + scale_x_continuous(limits=c(0, 50))
+ggplot(missing_data, aes(x = time, y = Wind)) + geom_point() + geom_line() + scale_y_continuous(limits=c(0, 20)) + scale_x_continuous(limits=c(0, 50))
+```
+
+### Spatial Profiling
+
+* This data set only comes from a single monitoring station in New York City
+* If we had data for multiple monitoring stations, we would want to understand
+
+## 4. Non-Statistical Approaches
+    * Record Deletion (remove records before modeling)
+    * Category Merging (do multiple categories represent similar information)
+        * Gender ("combine" male and female responses by ignoring gender, make inferences about treatment irrespective of male/female differences)
+        * Income  
+        * Experimental Treatment Groups (e.g. 1x Nitrogen addition, 2x Nitrogen addition, 3x Nitrogen addition, combine the last two levels if many data points missing)
+
+## 5. Statistical Approaches
+    * Simple Imputation
+        * Mean/Median (replace missing value with response/predictor by group or time interval i.e. the 'group mean')
+    * Multiple Imputation
+        * Assume distribution model
+        * Impute values per response or predictor variable
+        * Repeat for each variable
+        * Bootstrap imputation N times
+        * Average model outputs to understand multi-variate bias
+        
+        
+## 6. Sources
+
+### Scholarly Papers
+
+https://www.ncbi.nlm.nih.gov/pubmed/18823677
+
+https://link.springer.com/article/10.1007%2Fs00265-010-1044-7
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3767219/
+
+https://gking.harvard.edu/category/research-interests/methods/missing-data
+
+### Technical Guides
+
+http://www.stat.columbia.edu/~gelman/arm/missing.pdf
+http://www.statmethods.net/input/missingdata.html
+https://stackoverflow.com/questions/8317231/elegant-way-to-report-missing-values-in-a-data-frame
+R Packages for Imputation: https://www.analyticsvidhya.com/blog/2016/03/tutorial-powerful-packages-imputing-missing-values/
+
+### Real World Approaches (blogs)
+
+http://www.jordicasanellas.com/data-science-blog/missing-data-impute-or-do-not-impute-r-examples
+http://www.kdnuggets.com/2016/03/doing-data-science-kaggle-walkthrough-cleaning-data.html
+http://www.datasciencecentral.com/profiles/blogs/how-to-treat-missing-values-in-your-data-1
+https://www.r-bloggers.com/missing-values-data-science-and-r/
