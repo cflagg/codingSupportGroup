@@ -146,6 +146,8 @@ ggplot(missing_data, aes(x = time, y = Wind)) + geom_point() + geom_line() + sca
         * Gender ("combine" male and female responses by ignoring gender, make inferences about treatment irrespective of male/female differences)
         * Income  
         * Experimental Treatment Groups (e.g. 1x Nitrogen addition, 2x Nitrogen addition, 3x Nitrogen addition, combine the last two levels if many data points missing)
+    * Last Observation Carried Forward (LOCF): take the last available value, apply it to the next missing observation
+        * Problematic if patterns are complex
 
 ## 5. Statistical Approaches
     * Simple Imputation
