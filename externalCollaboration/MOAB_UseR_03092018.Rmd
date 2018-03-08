@@ -1,0 +1,349 @@
+---
+title: "Loops and Apply"
+author: "E Pluribus Unum"
+date: "March 8, 2018"
+output: html_document
+---
+
+# Outline
+
+* Intro to loops
+* 1. Types of loops
+* 2. Common Application
+* 3. Nested loops
+* 3. Apply solutions
+* 4. Kristina's example
+
+```{r}
+### What's a loop?
+
+# Synonyms: cycle, iteration, replicants
+
+#"It is nothing more than automating a multi-step process by organizing sequences of actions or 'batch' processes and by 
+# grouping the parts that need to be repeated." - some website
+
+# Loops allow you to repeat stuff!
+
+### Three control flow commands: while, repeat, and for
+# "Control commands enable a project to branch between alternatives, or to "take descision", so to speak" - some website
+
+# While and repeat are verification-based commands. They follow rules like, "keep going until a condition is met"
+# the for command is a counter, or index-based command. It keeps going until it runs out of things. Here are some examples:
+
+### Two clauses: break and next
+ # break tells the loop to stop when conditions are met
+ # next skips to the next iteration
+```
+
+## PART 1: Types of loops
+
+```{r}
+### FOR LOOP
+for(ii in 1:10){
+  print(ii)
+}
+```
+
+```{r}
+### WHILE LOOP
+ii <- 0
+while(ii != 10){
+  print(ii)
+  ii <- ii + 1
+}
+```
+
+```{r}
+### REPEAT LOOP
+ii <- 0 
+repeat{
+  print(ii)
+  ii <- ii + 1
+  if(ii == 10) break
+}
+```
+
+
+* How would you verbally descibe what each of these loops is doing? 
+
+
+* TRY IT YOURSELF!
+* Make a for-loop that counts backwards from 100, but stops at 10
+
+## PART 2: common application
+
+* Imagine you have 50 plots with about 20 plant height measurements per plot, and you want to find the per plot mean height
+* The below for-loop will cycle through each plot and find the mean for that plot's measurements. Then it'll put the 
+* measurements together in a data.frame
+
+```{r, eval=FALSE}
+dat <- data.frame(plot = 1:50, height = rnorm(1000, 10, 10)) # Generate dummy dataset
+plots <- unique(dat$plot)                            # first we need a list of each plot, with no repeats. 
+
+for(ii in 1:length(plot)){                       # tell the for-loop to run the same number of times as the number of plots we have
+  a <- subset(dat, dat$plot == ii)               # subset the data.frame "dat" to include only rows where plot matched "ii"
+  b <- mean(a$height)                            # find the mean height for plot "ii"
+  c <- data.frame(plot = dat$plot[ii], mean = b) # put the mean height and plot id into a data.frame
+  if(ii == 1){                                   # we now need to compile each row of results (id and mean height) into a data.frame. To do this, we first check if this is the first time the for-loop has run by testing ii == 1
+    d <- c                                       # if this is the first run, then make "d" equal to "c"
+  }else{
+    d <- rbind(d, c)                             # if false, then make "d" equal to "c" and "d" combined
+  }
+}
+print(d)
+```
+
+
+### Try it yourself!
+* imagine you have 8000 kittens, and you need to find out the proportion of kittens that have missing tails by size class.
+* you should end up with a 2 column data.frame, 5 rows long
+
+
+```{r}
+dat <- data.frame(sizeclass = sample(1:5, 8000, replace=TRUE), tail = sample(c("yes", "no"), 8000, replace=TRUE)) # Generates dummy data
+```
+
+########## PART 3: Nested Loops ########## 
+
+```{r}
+# Generate dummy data
+dat <- data.frame(site = sample(1:5, 1000, replace=TRUE), year = sample(2001:2010, 1000, replace=TRUE), contamination = rnorm(1000, 0.1, 1))
+
+# Imagine you're looking at water contamination at five sites over the past ten years. You want to find the mean  
+# contamination levels per site, per year. Sounds like the job for a nested loop!
+
+sites <- unique(dat$site)                                                 # make list of sites and years
+years <- unique(dat$year)
+for(ii in 1:length(sites)){
+  a <- subset(dat, dat$site == sites[ii])                                # subset to one site
+for(jj in 1:length(years)){                                              # note that we use a different variable, "jj" for the nested loop
+  b <- subset(a, a$year == years[jj])                                    # subset again to one year for that one site
+  c <- mean(na.omit(b$contamination))                                    # find mean contamination
+  d <- data.frame(site = sites[ii], year = years[jj], contamination = c) # put data into a data.frame
+  if(jj == 1){
+    e <- d
+  }else{
+    e <- rbind(d, e)
+  }
+}
+  if(ii == 1){
+    f <- e
+  }else{
+    f <- rbind(f, e)
+  }
+  }
+results <- f
+print(head(results, 5))
+```
+
+## apply and apply-like solution alternatives (from Cody)
+
+* `apply` functions are an alternative to for loops
+* `apply` functions actually use for-loops "under the hood" i.e. you'll see for loops if you look at the source code
+    * Base R apply functions are written in C; writing code in C, then calling it from R, happens in a lot of functions and can be faster in a lot of cases
+* __Old Perception__: "for loops in R are slow and should be avoided""
+* __Today__: for loops can be just as "performant" or fast in R now, and were optimized many years ago
+    * There are a few useful best practices to follow for writing optimal for loops:
+        * pre-allocate memory e.g. if your output `data.frame` will be 50 rows and 3 columns...create an empty `data.frame` with these dimensions before running the for-loop
+        
+### Why use `apply` and `apply-like`** functions? 
+
+* Readability: write code in a linear, "top to bottom" style (whereas reading a for loop requires "jumping" up and down nested levels)
+* Shorter code
+* Don't have to track iterator tokens and indices for highly nested problems (i.e. `for (x in vector) {for (y in subvector) { for (z in subsubvector){mydata[x, y, z]}}}`)
+* Fewer side effects
+
+### Solutions 
+
+* `plyr` and `dplyr` are modern, multi-variate solutions
+* `plyr` has similar functionality to Base R apply functions with
+    * Support for working with all major R data structures (vector, list, data.frame, matrix)
+    * Cleaner syntax (function arguments have the same names)
+    * Simple function grammar ("ddply"" = data frame input, data frame output; "ldply"" = list input, data frame output; "dlply"" = data frame input, list output etc.)
+    * Quick multivariate/highly nested processing e.g. how fun will it be to write a nested for loop to summarize a data set with 5 factor columns and one response variable?
+        * plyr: `ddply(my_data, ~column1+column2+column3+column4+column5, summarize, mean_response = mean(my_response_variable))`
+        * for loop: `for u..., for v..., for y..., for x..., for z... {kill_me_now[i]}`
+    * Check this [link](https://github.com/cflagg/codingSupportGroup/blob/1574132dcfaff373e199598ab09acf985173f9a5/Lessons/dataWrangling/plyr_session/FSU_plyr_dplyr_session_04172015.Rmd) for a table of how apply functions map to plyr functions (very straightforward)
+
+
+#### Cat Tails Problem
+
+```{r}
+library(plyr)
+
+## same data as above
+katz <- data.frame(sizeclass = sample(1:5, 8000, replace=TRUE), tail = sample(c("yes", "no"), 8000, replace=TRUE)) # Generates dummy data
+
+## a plyr approach
+## plyr expands the apply function universe into multi variate problems
+
+## "dd = data frame to data frame"
+## Plain English: "in data frame 'katz', for each unique level/factor in sizeclass (~sizeclass), do the following and return a data frame...
+ddply(katz, ~sizeclass, summarize, 
+      ## count number of rows where tail == no
+      no_tail = length(which(tail == "no")),
+      ## count number of rows where tail == yes
+      tail = length(which(tail == "yes")),
+      ## calculate proportion for each level of sizeclass without tail""
+      proportion_no_tail = no_tail/(tail+no_tail))
+      ## give me a new data frame with columns [sizeclass, no_tail, tail, proportion_no_tail]
+```
+
+* `dplyr` is the "successor" package to plyr, but is geared towards only working with data.frames/tabular data 
+    * Common syntax
+    * Function grammar borrows from SQL query language
+    * String multiple data transformations together without the intermediate data objects
+
+```{r}
+library(dplyr)
+library(tidyr)
+## dplyr approach
+## need tidyr to go from long to wide structure
+katz %>% group_by(sizeclass, tail) %>% summarize(countz = n()) %>% spread(tail, countz) -> katz2
+katz2 %>% summarize(no_tail = no/(no+yes))
+```
+
+####apply solution to contamination mean problem
+
+```{r}
+tapply(dat$contamination, list(dat$site, dat$year), mean)
+```
+
+### plyr solution to contamination problem
+
+```{r}
+## mixing plyr (ddply) with dplyr (arrange) functions
+ddply(dat, ~site+year, summarize, mean_contam = mean(contamination)) %>% arrange(year)
+```
+
+
+## PART 4: Kristina's Data
+
+# Note: I didn't provide the files to execute this - I'll show you how it works in-person
+
+```{r, eval=FALSE}
+setwd("LEFT BLANK                     ")       # folder that includes all of the files, and only them
+files <- list.files()                          # makes list of file names in that folder
+for(ii in 1:length(files)){                    # the loop!
+  a <- files[ii]
+  b <- read.csv(a)                             # we load each file into R one at a time
+  Multitavelength <- substr(b[2,1], 28, 40)    # these isolate the text we want on each line/row
+  Test_name <- substr(b[3,1], 31, 40)
+  Date_Cell_Correction <- substr(b[4,1], 28, 40)
+  Measurement_mode <- substr(b[5,1], 31, 40)
+  Sample_positioner <- substr(b[6,1], 35, 40)
+  Number_of_Samples <- substr(b[7,1], 40, 40)
+  Cell_correction <- substr(b[8,1], 39, 40)
+  Setup_correction <- substr(b[9,1], 39, 40)
+  ID <- substr(b[10,1], 40, 40)
+  Auto_save_data <- substr(b[11,1], 39, 40)
+  Data_file_name <- substr(b[12,1], 38, 40)
+  nm488 <- as.numeric(substr(b[17,1], 14, 40))
+  nm1000 <- as.numeric(substr(b[18,1], 14, 40)) # adding "as.numeric" here produces "NA" when no measuremnet was taken
+  c <- data.frame(Multitavelength = Multitavelength, Test_name = Test_name, Date_Cell_Correction = Date_Cell_Correction, 
+                  Measurement_mode = Measurement_mode, Sample_positioner = Sample_positioner, Number_of_Samples = Number_of_Samples,
+                  Cell_correction = Cell_correction, Setup_correction = Setup_correction, ID = ID, Auto_save_data = Auto_save_data,
+                  Data_file_name = Data_file_name, nm488 = nm488, nm100 = nm1000) # this puts the data into a singe row data.frame
+  if(ii == 1){                                  # this puts the data.frame rows together
+    d <- c
+  }else{
+    d <- rbind(d, c)
+  }
+}
+results <- d
+print(results) # yay!
+
+# save.csv(results, "results.csv") # this will save the results as a csv in the same folder. 
+
+#
+
+
+
+########## PART 5: Functions ###########
+### Functions are like little programs in your r script - they help automate processes
+
+fun <- function(x){
+  a <- x * 2
+  print(a)
+}
+fun(10)
+
+
+### Example function: standard error of the mean
+sem <- function(x){
+  sd(x)/sqrt(length(x))
+}
+
+sem(c(10, 5, 1))
+
+
+
+### Example function: Size-mass index
+smi <- function(m, l){
+  require(lmodel2)
+  b <- lmodel2(m ~ l)$regression.results[3,3]
+  print(m*(mean(na.omit(l))/l)^b)
+}
+
+mass   <- sample(1:100, 100)
+length <- sample(1:100, 100)
+
+smi(mass, length)
+
+
+### Example function: Comparative modeling table
+getstr = function(mystring, initial.character, final.character){
+  if (!is.character(mystring)) { stop('The parent string must be a character variable.') }
+  if (!is.character(initial.character)){ stop('The initial character must be a character variable.') }
+  if (!is.character(final.character)) { stop('The final character must be a character variable.') }
+  snippet = rep(0, length(mystring))
+  for (i in 1:length(mystring)){ initial.position = gregexpr(initial.character, mystring[i])[[1]][1] + 1
+  final.position = gregexpr(final.character, mystring[i])[[1]][1] - 1
+  snippet[i] = substr(mystring[i], initial.position, final.position)}
+  return(snippet)
+}
+
+
+AICtable <- function(mods){
+  require(MuMIn)
+  require
+  for(ii in 1:length(mods)){
+    AICcs <- AICc(mods[[ii]])
+    k <- length(summary(mods[[ii]])$coefficients[,1])-1
+    names <- getstr(as.character(summary(mods[[ii]])[1]), "~", ",")
+    x <- data.frame(names, AICcs, k)
+    if(ii == 1){
+      xx <- x
+    }else{
+      xx <- rbind(xx, x)
+    }
+  }
+  xx$deltaAICc <- NA
+  xx$deltaAICc <- round(xx$AICc - xx$AICc[1], 3)
+  xx$deltaAICc <- xx$deltaAICc + abs(min(xx$deltaAICc))
+  xx$wi <- exp(-0.5*xx$deltaAICc) # note that the package Mulm includes better methods for estimating AICc and wi (don't use my bad math)
+  xx$wi <- round(xx$wi/sum(xx$wi), 3)
+  colnames(xx) <- c("model", "AICc", "k", "deltaAICc", "wi")
+  xx
+}
+
+dat <- data.frame(a = rnorm(10, 10, 10), b = rnorm(10, 5, 5), c=rnorm(10, 20, 20), d=rnorm(10, 1, 2)) # generate dummy data
+
+mod1 <- glm(a ~ b * c * d, data = dat)
+mod2 <- glm(a ~ b * c + d, data = dat)
+mod3 <- glm(a ~ b + c * d, data = dat)
+mod4 <- glm(a ~ b + c + d, data = dat)
+mod5 <- glm(a ~ b + c    , data = dat)
+mod6 <- glm(a ~ b +     d, data = dat)
+mod7 <- glm(a ~     c + d, data = dat)
+mod8 <- glm(a ~ b +      , data = dat)
+mod9 <- glm(a ~     c    , data = dat)
+mod10 <- glm(a ~        d, data = dat)
+mod11 <- glm(a ~ 1       , data = dat)
+
+mods <- list(mod1, mod2, mod3, mod4, mod5, mod6, mod7, mod8, mod9, mod10, mod11)
+
+AICtable(mods)
+
+#
+```

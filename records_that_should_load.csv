@@ -1,0 +1,38 @@
+"","appname","LOADED_Parent","SKIPPED_Parent","TOTAL_RECS","percent_loaded","percent_skipped"
+"1","(AOS) Algae - Field [PROD]",106,0,108,98,0
+"2","(AOS) Algae - Lab [PROD]",793,8,820,97,1
+"3","(AOS) Dissolved Gas [PROD]",462,13,478,97,3
+"4","(AOS) Macroinvertebrate [PROD]",31,0,182,17,0
+"5","(AOS) Plant Voucher Collection [PROD]",0,0,18,0,0
+"6","(AOS) Plants - Field [PROD]",717,0,1122,64,0
+"7","(AOS) Plants - Lab [PROD]",235,0,288,82,0
+"8","(AOS) Reaeration [PROD]",149,0,149,100,0
+"9","(AOS) Riparian Assessment [PROD]",59,0,59,100,0
+"10","(AOS) Secchi [PROD]",366,0,366,100,0
+"11","(AOS) Sediment [PROD]",63,0,74,85,0
+"12","(AOS) Water Chemistry [PROD]",706,26,736,96,4
+"13","(AOS) Zooplankton Field Data [PROD]",20,0,20,100,0
+"14","(TIS) Dust Particulate Mass COLLECT",7,0,7,100,0
+"15","(TOS) Canopy Foliar Sampling: Chemistry Subsampling [PROD]",62,0,379,16,0
+"16","(TOS) Canopy Foliar Sampling: LMA [PROD]",62,0,378,16,0
+"17","(TOS) Coarse Downed Wood: Tally [PROD]",902,0,902,100,0
+"18","(TOS) Ground Beetle Archiving and Pooling [PROD]",1759,5,4345,40,0
+"19","(TOS) Ground Beetle Field: Collection [PROD]",4976,18,7824,64,0
+"20","(TOS) Ground Beetle Pinning [PROD]",1057,5,6859,15,0
+"21","(TOS) Ground Beetle Sorting [PROD]",8623,13,17861,48,0
+"22","(TOS) Herbaceous Clip Harvest: Field Sampling [PROD]",259,60,3207,8,2
+"23","(TOS) Herbaceous Clip Harvest: Lab Masses [PROD]",245,15,3079,8,0
+"24","(TOS) Plant Diversity [PROD]",4996,54,5069,99,1
+"25","(TOS) Small Mammal: Trap Collection [PROD]",1977,0,2064,96,0
+"26","(TOS) Ticks: Field Collection [PROD]",3469,0,3469,100,0
+"27","(TOS) VST: Apparent Individuals [PROD]",82,0,1748,5,0
+"28","(TOS) VST: Mapping and Tagging [PROD]",15593,862,103505,15,1
+"29","(TOS) VST: Shrub Groups [PROD]",47,0,242,19,0
+"30","Litter: Field Sampling [PROD]",1889,0,14141,13,0
+"31","Litter: Lab Mass Data [PROD]",1693,23,12516,14,0
+"32","Litter: Trap Deployment [PROD]",618,61,1898,33,3
+"33","Mosquitoes: Trap Setting and Collection [PROD]",26442,0,26452,100,0
+"34","Soil Core Collection [PROD]",389,4,2290,17,0
+"35","Soil Metagenomic Pooling [PROD]",50,0,542,9,0
+"36","Soil Moisture [PROD]",1089,32,6795,16,0
+"37","Soil pH [PROD]",1032,2,6071,17,0
