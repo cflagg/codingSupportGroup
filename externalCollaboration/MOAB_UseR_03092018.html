@@ -277,11 +277,11 @@ for(jj in 1:length(years)){                                              # note 
 results &lt;- f
 print(head(results, 5))</code></pre>
 <pre><code>##   site year contamination
-## 1    1 2006    0.03871801
-## 2    1 2009    0.17178375
-## 3    1 2010    0.00619109
-## 4    1 2002    0.43874184
-## 5    1 2007   -0.12696363</code></pre>
+## 1    5 2006   0.197608361
+## 2    5 2009   0.516053102
+## 3    5 2001   0.178330292
+## 4    5 2007  -0.395759345
+## 5    5 2008  -0.005601081</code></pre>
 </div>
 </div>
 </div>
@@ -291,10 +291,11 @@ print(head(results, 5))</code></pre>
 <li><code>apply</code> functions are an alternative to for loops</li>
 <li><code>apply</code> functions actually use for-loops “under the hood” i.e. you’ll see for loops if you look at the source code
 <ul>
-<li>Base R apply functions are written in C; writing code in C, then calling it from R, happens in a lot of functions and can be faster in a lot of cases</li>
+<li>Base R apply functions are <a href="http://adv-r.had.co.nz/C-interface.html">often written in C</a>; writing code in C, then calling it from R, happens in a lot of functions and can be faster in a lot of cases</li>
 </ul></li>
-<li><strong>Old Perception</strong>: “for loops in R are slow and should be avoided”&quot;</li>
-<li><strong>Today</strong>: for loops can be just as “performant” or fast in R now, and were optimized many years ago
+<li><strong>Old Perception</strong>: <a href="https://stackoverflow.com/questions/7142767/why-are-loops-slow-in-r">“for loops in R are slow and should be avoided”</a></li>
+<li>Check Hadley Wickham’s <a href="http://adv-r.had.co.nz/memory.html">section on “Loops” (ctrl+f “loops”)</a> for an explanation of why for loops <em>can</em> be slow</li>
+<li><strong>Today</strong>: for loops can be just as <a href="https://datascienceplus.com/strategies-to-speedup-r-code/">“performant”</a> or fast in R now, and were optimized many years ago
 <ul>
 <li>There are a few useful best practices to follow for writing optimal for loops:
 <ul>
@@ -303,7 +304,7 @@ print(head(results, 5))</code></pre>
 </ul></li>
 </ul>
 <div id="why-use-apply-and-apply-like-functions" class="section level3">
-<h3>Why use <code>apply</code> and <code>apply-like</code>** functions?</h3>
+<h3>Why use <code>apply</code> and <code>apply-like</code> functions?</h3>
 <ul>
 <li>Readability: write code in a linear, “top to bottom” style (whereas reading a for loop requires “jumping” up and down nested levels)</li>
 <li>Shorter code</li>
@@ -314,16 +315,26 @@ print(head(results, 5))</code></pre>
 <div id="solutions" class="section level3">
 <h3>Solutions</h3>
 <ul>
-<li><code>plyr</code> and <code>dplyr</code> are modern, multi-variate solutions</li>
-<li><code>plyr</code> has similar functionality to Base R apply functions with
+<li><code>plyr</code> and <code>dplyr</code> are modern, multi-variate solutions
+<ul>
+<li>Written by an extremely thoughtful person who is now the <a href="http://hadley.nz/">Chief Scientist at RStudio</a> …among other things</li>
+<li><a href="https://www.tidyverse.org/">Part of the “Hadley-verse” or “tidyverse”: a collection of related, interoperable R packages</a></li>
+</ul></li>
+<li><code>plyr</code> has similar functionality to Base R apply functions but more…
 <ul>
 <li>Support for working with all major R data structures (vector, list, data.frame, matrix)</li>
 <li>Cleaner syntax (function arguments have the same names)</li>
-<li>Simple function grammar (“ddply”&quot; = data frame input, data frame output; “ldply”&quot; = list input, data frame output; “dlply”&quot; = data frame input, list output etc.)</li>
-<li>Quick multivariate/highly nested processing e.g. how fun will it be to write a nested for loop to summarize a data set with 5 factor columns and one response variable?
+<li>Simple function grammar
+<ul>
+<li>(“ddply”&quot; = data frame input, data frame output; “ldply”&quot; = list input, data frame output; “dlply”&quot; = data frame input, list output etc.)</li>
+</ul></li>
+<li>Easier multivariate/highly nested processing
+<ul>
+<li>e.g. how fun will it be to write a nested for loop to summarize a data set with 5 factor columns and one response variable?
 <ul>
 <li>plyr: <code>ddply(my_data, ~column1+column2+column3+column4+column5, summarize, mean_response = mean(my_response_variable))</code></li>
 <li>for loop: <code>for u..., for v..., for y..., for x..., for z... {kill_me_now[i]}</code></li>
+</ul></li>
 </ul></li>
 <li>Check this <a href="https://github.com/cflagg/codingSupportGroup/blob/1574132dcfaff373e199598ab09acf985173f9a5/Lessons/dataWrangling/plyr_session/FSU_plyr_dplyr_session_04172015.Rmd">link</a> for a table of how apply functions map to plyr functions (very straightforward)</li>
 </ul></li>
@@ -348,11 +359,11 @@ ddply(katz, ~sizeclass, summarize,
       ## calculate proportion for each level of sizeclass without tail&quot;&quot;
       proportion_no_tail = no_tail/(tail+no_tail))</code></pre>
 <pre><code>##   sizeclass no_tail tail proportion_no_tail
-## 1         1     777  794          0.4945894
-## 2         2     787  820          0.4897324
-## 3         3     854  780          0.5226438
-## 4         4     809  818          0.4972342
-## 5         5     808  753          0.5176169</code></pre>
+## 1         1     791  782          0.5028608
+## 2         2     811  776          0.5110271
+## 3         3     816  795          0.5065177
+## 4         4     787  823          0.4888199
+## 5         5     814  805          0.5027795</code></pre>
 <pre class="r"><code>      ## give me a new data frame with columns [sizeclass, no_tail, tail, proportion_no_tail]</code></pre>
 <ul>
 <li><code>dplyr</code> is the “successor” package to plyr, but is geared towards only working with data.frames/tabular data
@@ -383,27 +394,27 @@ katz2 %&gt;% summarize(no_tail = no/(no+yes))</code></pre>
 <pre><code>## # A tibble: 5 x 2
 ##   sizeclass no_tail
 ##       &lt;int&gt;   &lt;dbl&gt;
-## 1         1   0.495
-## 2         2   0.490
-## 3         3   0.523
-## 4         4   0.497
-## 5         5   0.518</code></pre>
+## 1         1   0.503
+## 2         2   0.511
+## 3         3   0.507
+## 4         4   0.489
+## 5         5   0.503</code></pre>
 </div>
 <div id="apply-solution-to-contamination-mean-problem" class="section level4">
 <h4>apply solution to contamination mean problem</h4>
 <pre class="r"><code>tapply(dat$contamination, list(dat$site, dat$year), mean)</code></pre>
-<pre><code>##           2001       2002        2003         2004       2005       2006
-## 1 -0.477809384  0.4387418  0.05351208 -0.002079414 -0.1580073 0.03871801
-## 2 -0.018489592 -0.1976948 -0.03616879  0.097194365  0.1869606 0.05311384
-## 3 -0.001266875  0.3781173  0.07871981 -0.049938288  0.2810624 0.29864986
-## 4  0.206763096  0.4796500 -0.12184019  0.001163862 -0.1460933 0.25580674
-## 5  0.157836526  0.4297964  0.68469681  0.557941276  0.1738186 0.09200019
-##         2007        2008        2009        2010
-## 1 -0.1269636  0.17223896  0.17178375  0.00619109
-## 2  0.1389042  0.26015001 -0.05761968 -0.11383276
-## 3  0.1642646  0.24452559  0.30414854 -0.23302250
-## 4  0.2678823 -0.29249790 -0.08707268 -0.18434548
-## 5  0.1701456 -0.09733599  0.40591923  0.04324760</code></pre>
+<pre><code>##         2001        2002        2003       2004      2005       2006
+## 1  0.2510174 -0.01253295 -0.06212903  0.1737673 0.3148324  0.3355472
+## 2  0.2322406 -0.10068937  0.03450063 -0.1711762 0.1242829  0.3039145
+## 3  0.2264537  0.06059308 -0.11229735 -0.2256443 0.2240106  0.4361640
+## 4 -0.4303583  0.14488346  0.05289137  0.1062335 0.2275526 -0.1049148
+## 5  0.1783303  0.01125326  0.22486591  0.1596724 0.2424257  0.1976084
+##           2007         2008      2009       2010
+## 1 -0.001542949  0.062366537 0.2773507  0.2009286
+## 2  0.113279401  0.335266240 0.1025307 -0.2616686
+## 3  0.805275548  0.108883910 0.2142358  0.1840073
+## 4 -0.134152995 -0.177482515 0.0440569  0.1750714
+## 5 -0.395759345 -0.005601081 0.5160531 -0.1195674</code></pre>
 </div>
 </div>
 <div id="plyr-solution-to-contamination-problem" class="section level3">
@@ -411,64 +422,63 @@ katz2 %&gt;% summarize(no_tail = no/(no+yes))</code></pre>
 <pre class="r"><code>## mixing plyr (ddply) with dplyr (arrange) functions
 ddply(dat, ~site+year, summarize, mean_contam = mean(contamination)) %&gt;% arrange(year)</code></pre>
 <pre><code>##    site year  mean_contam
-## 1     1 2001 -0.477809384
-## 2     2 2001 -0.018489592
-## 3     3 2001 -0.001266875
-## 4     4 2001  0.206763096
-## 5     5 2001  0.157836526
-## 6     1 2002  0.438741838
-## 7     2 2002 -0.197694848
-## 8     3 2002  0.378117282
-## 9     4 2002  0.479650006
-## 10    5 2002  0.429796424
-## 11    1 2003  0.053512084
-## 12    2 2003 -0.036168794
-## 13    3 2003  0.078719807
-## 14    4 2003 -0.121840185
-## 15    5 2003  0.684696805
-## 16    1 2004 -0.002079414
-## 17    2 2004  0.097194365
-## 18    3 2004 -0.049938288
-## 19    4 2004  0.001163862
-## 20    5 2004  0.557941276
-## 21    1 2005 -0.158007328
-## 22    2 2005  0.186960572
-## 23    3 2005  0.281062364
-## 24    4 2005 -0.146093328
-## 25    5 2005  0.173818611
-## 26    1 2006  0.038718010
-## 27    2 2006  0.053113839
-## 28    3 2006  0.298649857
-## 29    4 2006  0.255806744
-## 30    5 2006  0.092000185
-## 31    1 2007 -0.126963634
-## 32    2 2007  0.138904197
-## 33    3 2007  0.164264634
-## 34    4 2007  0.267882316
-## 35    5 2007  0.170145589
-## 36    1 2008  0.172238956
-## 37    2 2008  0.260150010
-## 38    3 2008  0.244525594
-## 39    4 2008 -0.292497902
-## 40    5 2008 -0.097335989
-## 41    1 2009  0.171783751
-## 42    2 2009 -0.057619676
-## 43    3 2009  0.304148543
-## 44    4 2009 -0.087072676
-## 45    5 2009  0.405919228
-## 46    1 2010  0.006191090
-## 47    2 2010 -0.113832765
-## 48    3 2010 -0.233022505
-## 49    4 2010 -0.184345477
-## 50    5 2010  0.043247596</code></pre>
+## 1     1 2001  0.251017397
+## 2     2 2001  0.232240596
+## 3     3 2001  0.226453695
+## 4     4 2001 -0.430358339
+## 5     5 2001  0.178330292
+## 6     1 2002 -0.012532955
+## 7     2 2002 -0.100689370
+## 8     3 2002  0.060593080
+## 9     4 2002  0.144883458
+## 10    5 2002  0.011253259
+## 11    1 2003 -0.062129031
+## 12    2 2003  0.034500633
+## 13    3 2003 -0.112297346
+## 14    4 2003  0.052891373
+## 15    5 2003  0.224865909
+## 16    1 2004  0.173767262
+## 17    2 2004 -0.171176246
+## 18    3 2004 -0.225644302
+## 19    4 2004  0.106233541
+## 20    5 2004  0.159672426
+## 21    1 2005  0.314832350
+## 22    2 2005  0.124282871
+## 23    3 2005  0.224010585
+## 24    4 2005  0.227552564
+## 25    5 2005  0.242425654
+## 26    1 2006  0.335547157
+## 27    2 2006  0.303914466
+## 28    3 2006  0.436164046
+## 29    4 2006 -0.104914771
+## 30    5 2006  0.197608361
+## 31    1 2007 -0.001542949
+## 32    2 2007  0.113279401
+## 33    3 2007  0.805275548
+## 34    4 2007 -0.134152995
+## 35    5 2007 -0.395759345
+## 36    1 2008  0.062366537
+## 37    2 2008  0.335266240
+## 38    3 2008  0.108883910
+## 39    4 2008 -0.177482515
+## 40    5 2008 -0.005601081
+## 41    1 2009  0.277350676
+## 42    2 2009  0.102530678
+## 43    3 2009  0.214235846
+## 44    4 2009  0.044056900
+## 45    5 2009  0.516053102
+## 46    1 2010  0.200928633
+## 47    2 2010 -0.261668637
+## 48    3 2010  0.184007291
+## 49    4 2010  0.175071416
+## 50    5 2010 -0.119567439</code></pre>
 </div>
 </div>
 <div id="part-4-kristinas-data" class="section level2">
 <h2>PART 4: Kristina’s Data</h2>
-</div>
-</div>
-<div id="note-i-didnt-provide-the-files-to-execute-this---ill-show-you-how-it-works-in-person" class="section level1">
-<h1>Note: I didn’t provide the files to execute this - I’ll show you how it works in-person</h1>
+<ul>
+<li>Note: I didn’t provide the files to execute this - I’ll show you how it works in-person</li>
+</ul>
 <pre class="r"><code>setwd(&quot;LEFT BLANK                     &quot;)       # folder that includes all of the files, and only them
 files &lt;- list.files()                          # makes list of file names in that folder
 for(ii in 1:length(files)){                    # the loop!
@@ -593,6 +603,7 @@ mods &lt;- list(mod1, mod2, mod3, mod4, mod5, mod6, mod7, mod8, mod9, mod10, mod
 AICtable(mods)
 
 #</code></pre>
+</div>
 </div>
 
 

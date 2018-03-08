@@ -140,13 +140,14 @@ print(head(results, 5))
 
 * `apply` functions are an alternative to for loops
 * `apply` functions actually use for-loops "under the hood" i.e. you'll see for loops if you look at the source code
-    * Base R apply functions are written in C; writing code in C, then calling it from R, happens in a lot of functions and can be faster in a lot of cases
-* __Old Perception__: "for loops in R are slow and should be avoided""
-* __Today__: for loops can be just as "performant" or fast in R now, and were optimized many years ago
+    * Base R apply functions are [often written in C](http://adv-r.had.co.nz/C-interface.html); writing code in C, then calling it from R, happens in a lot of functions and can be faster in a lot of cases
+* __Old Perception__: ["for loops in R are slow and should be avoided"](https://stackoverflow.com/questions/7142767/why-are-loops-slow-in-r)
+   * Check Hadley Wickham's [section on "Loops" (ctrl+f "loops")](http://adv-r.had.co.nz/memory.html) for an explanation of why for loops _can_ be slow
+* __Today__: for loops can be just as ["performant"](https://datascienceplus.com/strategies-to-speedup-r-code/) or fast in R now, and were optimized many years ago
     * There are a few useful best practices to follow for writing optimal for loops:
         * pre-allocate memory e.g. if your output `data.frame` will be 50 rows and 3 columns...create an empty `data.frame` with these dimensions before running the for-loop
         
-### Why use `apply` and `apply-like`** functions? 
+### Why use `apply` and `apply-like` functions? 
 
 * Readability: write code in a linear, "top to bottom" style (whereas reading a for loop requires "jumping" up and down nested levels)
 * Shorter code
@@ -156,13 +157,17 @@ print(head(results, 5))
 ### Solutions 
 
 * `plyr` and `dplyr` are modern, multi-variate solutions
-* `plyr` has similar functionality to Base R apply functions with
+    * Written by an extremely thoughtful person who is now the [Chief Scientist at RStudio](http://hadley.nz/) ...among other things
+    * [Part of the "Hadley-verse" or "tidyverse": a collection of related, interoperable R packages](https://www.tidyverse.org/)
+* `plyr` has similar functionality to Base R apply functions but more...
     * Support for working with all major R data structures (vector, list, data.frame, matrix)
     * Cleaner syntax (function arguments have the same names)
-    * Simple function grammar ("ddply"" = data frame input, data frame output; "ldply"" = list input, data frame output; "dlply"" = data frame input, list output etc.)
-    * Quick multivariate/highly nested processing e.g. how fun will it be to write a nested for loop to summarize a data set with 5 factor columns and one response variable?
-        * plyr: `ddply(my_data, ~column1+column2+column3+column4+column5, summarize, mean_response = mean(my_response_variable))`
-        * for loop: `for u..., for v..., for y..., for x..., for z... {kill_me_now[i]}`
+    * Simple function grammar 
+        * ("ddply"" = data frame input, data frame output; "ldply"" = list input, data frame output; "dlply"" = data frame input, list output etc.)
+    * Easier multivariate/highly nested processing 
+        * e.g. how fun will it be to write a nested for loop to summarize a data set with 5 factor columns and one response variable?
+            * plyr: `ddply(my_data, ~column1+column2+column3+column4+column5, summarize, mean_response = mean(my_response_variable))`
+            * for loop: `for u..., for v..., for y..., for x..., for z... {kill_me_now[i]}`
     * Check this [link](https://github.com/cflagg/codingSupportGroup/blob/1574132dcfaff373e199598ab09acf985173f9a5/Lessons/dataWrangling/plyr_session/FSU_plyr_dplyr_session_04172015.Rmd) for a table of how apply functions map to plyr functions (very straightforward)
 
 
@@ -219,7 +224,7 @@ ddply(dat, ~site+year, summarize, mean_contam = mean(contamination)) %>% arrange
 
 ## PART 4: Kristina's Data
 
-# Note: I didn't provide the files to execute this - I'll show you how it works in-person
+* Note: I didn't provide the files to execute this - I'll show you how it works in-person
 
 ```{r, eval=FALSE}
 setwd("LEFT BLANK                     ")       # folder that includes all of the files, and only them
