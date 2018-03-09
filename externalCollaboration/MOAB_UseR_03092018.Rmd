@@ -77,13 +77,15 @@ repeat{
 * measurements together in a data.frame
 
 ```{r, eval=FALSE}
-dat <- data.frame(plot = 1:50, height = rnorm(1000, 10, 10)) # Generate dummy dataset
-plots <- unique(dat$plot)                            # first we need a list of each plot, with no repeats. 
+dat <- data.frame(plotID = 1:50, height = rnorm(1000, 10, 10)) # Generate dummy dataset
 
-for(ii in 1:length(plot)){                       # tell the for-loop to run the same number of times as the number of plots we have
-  a <- subset(dat, dat$plot == ii)               # subset the data.frame "dat" to include only rows where plot matched "ii"
+## best to avoid assigning an object name to a global function... i.e. "plot()" is the default graphing function
+plots <- unique(dat$plotID)                            # first we need a list of each plot, with no repeats. 
+
+for(ii in 1:length(plots)){                       # tell the for-loop to run the same number of times as the number of plots we have
+  a <- subset(dat, dat$plotID == ii)               # subset the data.frame "dat" to include only rows where plot matched "ii"
   b <- mean(a$height)                            # find the mean height for plot "ii"
-  c <- data.frame(plot = dat$plot[ii], mean = b) # put the mean height and plot id into a data.frame
+  c <- data.frame(plotID = dat$plotID[ii], mean = b) # put the mean height and plot id into a data.frame
   if(ii == 1){                                   # we now need to compile each row of results (id and mean height) into a data.frame. To do this, we first check if this is the first time the for-loop has run by testing ii == 1
     d <- c                                       # if this is the first run, then make "d" equal to "c"
   }else{
@@ -135,6 +137,68 @@ for(jj in 1:length(years)){                                              # note 
 results <- f
 print(head(results, 5))
 ```
+
+## Loop optimization and debugging advice
+
+* If you're just trying to summarize data, just use `apply()`, `aggregate()`, `plyr`, or `dplyr` functions
+    * People have figured out how to avoid complex loops for summarizing data in R, use their solutions
+    * Loops are well suited for conditional logic problems that require `ifelse()` type of cases
+* Use a print statement for every "transformation" or nested level
+* Learn to use the `browser()` and `debug()` functions if something isn't working
+* Fix your expectations
+    * Have a concrete idea of what the first line and last line of output should be, then check them
+    * If they aren't what you expected, inspect the loop
+* If you know the  dimensions of your output object, [pre-allocate](https://stackoverflow.com/questions/11486369/growing-a-data-frame-in-a-memory-efficient-manner) it before running the loop
+    * This will decrease the run time
+* Global, "naked" for loops are poor practice
+    * Enclose a for loop within a function to debug and re-use
+    * Dumping objects into your global environment can be confusing and affect other snippets of code
+    
+```{r}
+## a non-global conditional logic for loop run with browser() on something that isn't a data.frame/data table
+
+## practice data set, an ugly non-tabular thing with mixed data types (numbers, characters, data frame, list etc.)
+## This is an example of messy data you might find from the internet...or from a collaborator
+## a named list, where the names are a, b, c, d, e
+test <-  list(a = c(1:10), b = c(LETTERS),c = list(LETTERS), d = list(c(1:10, rnorm(100))), e = data.frame(x = rep(10), y = rnorm(10)))
+
+## problem: how many items do I have in each element of this list, what is the data type, and are there any lists or data frames nested in it?
+
+my_loop = function(){
+  #browser() # uncomment this and run to see what browser() does
+  output_object = data.frame(x = 10, y = 10) ## pre-allocated object
+  for (things in names(test)){
+    
+    print(things)
+    pointer = test[things][[1]] ## accessing list element
+    
+    if(is.character(pointer)){
+      print("it's not a number")
+    } else if (is.numeric(pointer)) {
+      print("itza a number!") 
+    } else if (is.data.frame(pointer)){
+      ## You want the data table, "export" it for further use
+      print("found a data frame!")
+      output_object = pointer
+      return(output_object)
+    } else {
+      # everything else...
+      print("...must be a list")
+    }
+  }
+} 
+
+## How is this "non global"? 
+# the object "pointer" was assigned at each iteration of the for loop, type it here to see what it is
+# pointer
+
+## run your non global loop any time in one line
+my_loop()
+
+## assign the output of your functional loop
+outputz <- my_loop() 
+```
+
 
 ## apply and apply-like solution alternatives (from Cody)
 

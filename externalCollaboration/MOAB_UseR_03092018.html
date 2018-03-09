@@ -225,13 +225,15 @@ repeat{
 <li>The below for-loop will cycle through each plot and find the mean for that plot’s measurements. Then it’ll put the</li>
 <li>measurements together in a data.frame</li>
 </ul>
-<pre class="r"><code>dat &lt;- data.frame(plot = 1:50, height = rnorm(1000, 10, 10)) # Generate dummy dataset
-plots &lt;- unique(dat$plot)                            # first we need a list of each plot, with no repeats. 
+<pre class="r"><code>dat &lt;- data.frame(plotID = 1:50, height = rnorm(1000, 10, 10)) # Generate dummy dataset
 
-for(ii in 1:length(plot)){                       # tell the for-loop to run the same number of times as the number of plots we have
-  a &lt;- subset(dat, dat$plot == ii)               # subset the data.frame &quot;dat&quot; to include only rows where plot matched &quot;ii&quot;
+## best to avoid assigning an object name to a global function... i.e. &quot;plot()&quot; is the default graphing function
+plots &lt;- unique(dat$plotID)                            # first we need a list of each plot, with no repeats. 
+
+for(ii in 1:length(plots)){                       # tell the for-loop to run the same number of times as the number of plots we have
+  a &lt;- subset(dat, dat$plotID == ii)               # subset the data.frame &quot;dat&quot; to include only rows where plot matched &quot;ii&quot;
   b &lt;- mean(a$height)                            # find the mean height for plot &quot;ii&quot;
-  c &lt;- data.frame(plot = dat$plot[ii], mean = b) # put the mean height and plot id into a data.frame
+  c &lt;- data.frame(plotID = dat$plotID[ii], mean = b) # put the mean height and plot id into a data.frame
   if(ii == 1){                                   # we now need to compile each row of results (id and mean height) into a data.frame. To do this, we first check if this is the first time the for-loop has run by testing ii == 1
     d &lt;- c                                       # if this is the first run, then make &quot;d&quot; equal to &quot;c&quot;
   }else{
@@ -277,13 +279,111 @@ for(jj in 1:length(years)){                                              # note 
 results &lt;- f
 print(head(results, 5))</code></pre>
 <pre><code>##   site year contamination
-## 1    5 2006   0.197608361
-## 2    5 2009   0.516053102
-## 3    5 2001   0.178330292
-## 4    5 2007  -0.395759345
-## 5    5 2008  -0.005601081</code></pre>
+## 1    4 2008    0.07410677
+## 2    4 2006   -0.11121889
+## 3    4 2009   -0.07075219
+## 4    4 2002    0.26923668
+## 5    4 2003   -0.18922322</code></pre>
 </div>
 </div>
+</div>
+<div id="loop-optimization-and-debugging-advice" class="section level2">
+<h2>Loop optimization and debugging advice</h2>
+<ul>
+<li>If you’re just trying to summarize data, just use <code>apply()</code>, <code>aggregate()</code>, <code>plyr</code>, or <code>dplyr</code> functions
+<ul>
+<li>People have figured out how to avoid complex loops for summarizing data in R, use their solutions</li>
+<li>Loops are well suited for conditional logic problems that require <code>ifelse()</code> type of cases</li>
+</ul></li>
+<li>Use a print statement for every “transformation” or nested level</li>
+<li>Learn to use the <code>browser()</code> and <code>debug()</code> functions if something isn’t working</li>
+<li>Fix your expectations
+<ul>
+<li>Have a concrete idea of what the first line and last line of output should be, then check them</li>
+<li>If they aren’t what you expected, inspect the loop</li>
+</ul></li>
+<li>If you know the dimensions of your output object, <a href="https://stackoverflow.com/questions/11486369/growing-a-data-frame-in-a-memory-efficient-manner">pre-allocate</a> it before running the loop
+<ul>
+<li>This will decrease the run time</li>
+</ul></li>
+<li>Global, “naked” for loops are poor practice
+<ul>
+<li>Enclose a for loop within a function to debug and re-use</li>
+<li>Dumping objects into your global environment can be confusing and affect other snippets of code</li>
+</ul></li>
+</ul>
+<pre class="r"><code>## a non-global conditional logic for loop run with browser() on something that isn't a data.frame/data table
+
+## practice data set, an ugly non-tabular thing with mixed data types (numbers, characters, data frame, list etc.)
+## This is an example of messy data you might find from the internet...or from a collaborator
+## a named list, where the names are a, b, c, d, e
+test &lt;-  list(a = c(1:10), b = c(LETTERS),c = list(LETTERS), d = list(c(1:10, rnorm(100))), e = data.frame(x = rep(10), y = rnorm(10)))
+
+## problem: how many items do I have in each element of this list, what is the data type, and are there any lists or data frames nested in it?
+
+my_loop = function(){
+  #browser() # uncomment this and run to see what browser() does
+  ## output_object = data.frame(x = 10, y = 10)
+  for (things in names(test)){
+    
+    print(things)
+    pointer = test[things][[1]] ## accessing list element
+    
+    if(is.character(pointer)){
+      print(&quot;it's not a number&quot;)
+    } else if (is.numeric(pointer)) {
+      print(&quot;itza a number!&quot;) 
+    } else if (is.data.frame(pointer)){
+      ## You want the data table, &quot;export&quot; it for further use
+      print(&quot;found a data frame!&quot;)
+      output_object = pointer
+      return(output_object)
+    } else {
+      # everything else...
+      print(&quot;...must be a list&quot;)
+    }
+  }
+} 
+
+## How is this &quot;non global&quot;? 
+# the object &quot;pointer&quot; was assigned at each iteration of the for loop, type it here to see what it is
+# pointer
+
+## run your non global loop any time in one line
+my_loop()</code></pre>
+<pre><code>## [1] &quot;a&quot;
+## [1] &quot;itza a number!&quot;
+## [1] &quot;b&quot;
+## [1] &quot;it's not a number&quot;
+## [1] &quot;c&quot;
+## [1] &quot;...must be a list&quot;
+## [1] &quot;d&quot;
+## [1] &quot;...must be a list&quot;
+## [1] &quot;e&quot;
+## [1] &quot;found a data frame!&quot;</code></pre>
+<pre><code>##     x           y
+## 1  10 -0.54477911
+## 2  10  0.60167529
+## 3  10  0.02934791
+## 4  10  0.27067000
+## 5  10 -0.09272787
+## 6  10 -0.38990540
+## 7  10  0.13495510
+## 8  10 -0.14977271
+## 9  10 -0.34273145
+## 10 10  0.36278225</code></pre>
+<pre class="r"><code>## assign the output of your functional loop
+outputz &lt;- my_loop() </code></pre>
+<pre><code>## [1] &quot;a&quot;
+## [1] &quot;itza a number!&quot;
+## [1] &quot;b&quot;
+## [1] &quot;it's not a number&quot;
+## [1] &quot;c&quot;
+## [1] &quot;...must be a list&quot;
+## [1] &quot;d&quot;
+## [1] &quot;...must be a list&quot;
+## [1] &quot;e&quot;
+## [1] &quot;found a data frame!&quot;</code></pre>
 </div>
 <div id="apply-and-apply-like-solution-alternatives-from-cody" class="section level2">
 <h2>apply and apply-like solution alternatives (from Cody)</h2>
@@ -359,11 +459,11 @@ ddply(katz, ~sizeclass, summarize,
       ## calculate proportion for each level of sizeclass without tail&quot;&quot;
       proportion_no_tail = no_tail/(tail+no_tail))</code></pre>
 <pre><code>##   sizeclass no_tail tail proportion_no_tail
-## 1         1     791  782          0.5028608
-## 2         2     811  776          0.5110271
-## 3         3     816  795          0.5065177
-## 4         4     787  823          0.4888199
-## 5         5     814  805          0.5027795</code></pre>
+## 1         1     764  856          0.4716049
+## 2         2     800  763          0.5118362
+## 3         3     791  803          0.4962359
+## 4         4     805  783          0.5069270
+## 5         5     814  821          0.4978593</code></pre>
 <pre class="r"><code>      ## give me a new data frame with columns [sizeclass, no_tail, tail, proportion_no_tail]</code></pre>
 <ul>
 <li><code>dplyr</code> is the “successor” package to plyr, but is geared towards only working with data.frames/tabular data
@@ -394,27 +494,27 @@ katz2 %&gt;% summarize(no_tail = no/(no+yes))</code></pre>
 <pre><code>## # A tibble: 5 x 2
 ##   sizeclass no_tail
 ##       &lt;int&gt;   &lt;dbl&gt;
-## 1         1   0.503
-## 2         2   0.511
-## 3         3   0.507
-## 4         4   0.489
-## 5         5   0.503</code></pre>
+## 1         1   0.472
+## 2         2   0.512
+## 3         3   0.496
+## 4         4   0.507
+## 5         5   0.498</code></pre>
 </div>
 <div id="apply-solution-to-contamination-mean-problem" class="section level4">
 <h4>apply solution to contamination mean problem</h4>
 <pre class="r"><code>tapply(dat$contamination, list(dat$site, dat$year), mean)</code></pre>
-<pre><code>##         2001        2002        2003       2004      2005       2006
-## 1  0.2510174 -0.01253295 -0.06212903  0.1737673 0.3148324  0.3355472
-## 2  0.2322406 -0.10068937  0.03450063 -0.1711762 0.1242829  0.3039145
-## 3  0.2264537  0.06059308 -0.11229735 -0.2256443 0.2240106  0.4361640
-## 4 -0.4303583  0.14488346  0.05289137  0.1062335 0.2275526 -0.1049148
-## 5  0.1783303  0.01125326  0.22486591  0.1596724 0.2424257  0.1976084
-##           2007         2008      2009       2010
-## 1 -0.001542949  0.062366537 0.2773507  0.2009286
-## 2  0.113279401  0.335266240 0.1025307 -0.2616686
-## 3  0.805275548  0.108883910 0.2142358  0.1840073
-## 4 -0.134152995 -0.177482515 0.0440569  0.1750714
-## 5 -0.395759345 -0.005601081 0.5160531 -0.1195674</code></pre>
+<pre><code>##          2001        2002         2003         2004       2005
+## 1 -0.08365197  0.41700305 -0.006587355  0.376359789 0.07996478
+## 2  0.18241238 -0.05910384  0.318919873 -0.008957588 0.25813072
+## 3  0.26555506  0.07858540  0.138519482 -0.349124555 0.03411858
+## 4  0.28138629  0.26923668 -0.189223216 -0.178297119 0.19611760
+## 5  0.05948346 -0.20515055  0.180633260  0.357916183 0.25185944
+##           2006        2007         2008        2009       2010
+## 1  0.073338244 -0.05286463  0.325921710  0.20189866  0.1618925
+## 2  0.213259614  0.15470285 -0.407495282  0.28264039  0.4256609
+## 3  0.662522323  0.05083815  0.002054906  0.07191836 -0.1401439
+## 4 -0.111218891  0.28434100  0.074106767 -0.07075219  0.2867866
+## 5 -0.007276421  0.10341160 -0.041758044  0.06390606  0.7414647</code></pre>
 </div>
 </div>
 <div id="plyr-solution-to-contamination-problem" class="section level3">
@@ -422,56 +522,56 @@ katz2 %&gt;% summarize(no_tail = no/(no+yes))</code></pre>
 <pre class="r"><code>## mixing plyr (ddply) with dplyr (arrange) functions
 ddply(dat, ~site+year, summarize, mean_contam = mean(contamination)) %&gt;% arrange(year)</code></pre>
 <pre><code>##    site year  mean_contam
-## 1     1 2001  0.251017397
-## 2     2 2001  0.232240596
-## 3     3 2001  0.226453695
-## 4     4 2001 -0.430358339
-## 5     5 2001  0.178330292
-## 6     1 2002 -0.012532955
-## 7     2 2002 -0.100689370
-## 8     3 2002  0.060593080
-## 9     4 2002  0.144883458
-## 10    5 2002  0.011253259
-## 11    1 2003 -0.062129031
-## 12    2 2003  0.034500633
-## 13    3 2003 -0.112297346
-## 14    4 2003  0.052891373
-## 15    5 2003  0.224865909
-## 16    1 2004  0.173767262
-## 17    2 2004 -0.171176246
-## 18    3 2004 -0.225644302
-## 19    4 2004  0.106233541
-## 20    5 2004  0.159672426
-## 21    1 2005  0.314832350
-## 22    2 2005  0.124282871
-## 23    3 2005  0.224010585
-## 24    4 2005  0.227552564
-## 25    5 2005  0.242425654
-## 26    1 2006  0.335547157
-## 27    2 2006  0.303914466
-## 28    3 2006  0.436164046
-## 29    4 2006 -0.104914771
-## 30    5 2006  0.197608361
-## 31    1 2007 -0.001542949
-## 32    2 2007  0.113279401
-## 33    3 2007  0.805275548
-## 34    4 2007 -0.134152995
-## 35    5 2007 -0.395759345
-## 36    1 2008  0.062366537
-## 37    2 2008  0.335266240
-## 38    3 2008  0.108883910
-## 39    4 2008 -0.177482515
-## 40    5 2008 -0.005601081
-## 41    1 2009  0.277350676
-## 42    2 2009  0.102530678
-## 43    3 2009  0.214235846
-## 44    4 2009  0.044056900
-## 45    5 2009  0.516053102
-## 46    1 2010  0.200928633
-## 47    2 2010 -0.261668637
-## 48    3 2010  0.184007291
-## 49    4 2010  0.175071416
-## 50    5 2010 -0.119567439</code></pre>
+## 1     1 2001 -0.083651967
+## 2     2 2001  0.182412379
+## 3     3 2001  0.265555065
+## 4     4 2001  0.281386285
+## 5     5 2001  0.059483461
+## 6     1 2002  0.417003052
+## 7     2 2002 -0.059103836
+## 8     3 2002  0.078585400
+## 9     4 2002  0.269236678
+## 10    5 2002 -0.205150552
+## 11    1 2003 -0.006587355
+## 12    2 2003  0.318919873
+## 13    3 2003  0.138519482
+## 14    4 2003 -0.189223216
+## 15    5 2003  0.180633260
+## 16    1 2004  0.376359789
+## 17    2 2004 -0.008957588
+## 18    3 2004 -0.349124555
+## 19    4 2004 -0.178297119
+## 20    5 2004  0.357916183
+## 21    1 2005  0.079964775
+## 22    2 2005  0.258130722
+## 23    3 2005  0.034118583
+## 24    4 2005  0.196117602
+## 25    5 2005  0.251859442
+## 26    1 2006  0.073338244
+## 27    2 2006  0.213259614
+## 28    3 2006  0.662522323
+## 29    4 2006 -0.111218891
+## 30    5 2006 -0.007276421
+## 31    1 2007 -0.052864632
+## 32    2 2007  0.154702850
+## 33    3 2007  0.050838155
+## 34    4 2007  0.284340995
+## 35    5 2007  0.103411597
+## 36    1 2008  0.325921710
+## 37    2 2008 -0.407495282
+## 38    3 2008  0.002054906
+## 39    4 2008  0.074106767
+## 40    5 2008 -0.041758044
+## 41    1 2009  0.201898657
+## 42    2 2009  0.282640389
+## 43    3 2009  0.071918361
+## 44    4 2009 -0.070752185
+## 45    5 2009  0.063906057
+## 46    1 2010  0.161892473
+## 47    2 2010  0.425660945
+## 48    3 2010 -0.140143914
+## 49    4 2010  0.286786593
+## 50    5 2010  0.741464704</code></pre>
 </div>
 </div>
 <div id="part-4-kristinas-data" class="section level2">
