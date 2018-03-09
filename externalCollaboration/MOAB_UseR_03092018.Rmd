@@ -64,6 +64,9 @@ repeat{
 ```
 
 
+
+
+
 * How would you verbally descibe what each of these loops is doing? 
 
 
@@ -93,6 +96,8 @@ for(ii in 1:length(plots)){                       # tell the for-loop to run the
   }
 }
 print(d)
+
+
 ```
 
 
@@ -272,9 +277,11 @@ katz %>% group_by(sizeclass, tail) %>% summarize(countz = n()) %>% spread(tail, 
 katz2 %>% summarize(no_tail = no/(no+yes))
 ```
 
-####apply solution to contamination mean problem
+#### apply solution to contamination mean problem
 
 ```{r}
+# Generate dummy data
+dat <- data.frame(site = sample(1:5, 1000, replace=TRUE), year = sample(2001:2010, 1000, replace=TRUE), contamination = rnorm(1000, 0.1, 1))
 tapply(dat$contamination, list(dat$site, dat$year), mean)
 ```
 
