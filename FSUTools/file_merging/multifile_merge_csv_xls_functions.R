@@ -7,7 +7,7 @@ library(plyr)
 multiCombine <- function(input, ply = llply){
   ply(input, function(x){
     t <- read.csv(x, header=TRUE, sep=",",stringsAsFactors = FALSE) # read the csv
-    t1 <- rbind(t) # rbind it to a temporary variable
+    t1 <- plyr::rbind.fill(t) # rbind it to a temporary variable
     return(t1) # return the full variable
   }
   )
