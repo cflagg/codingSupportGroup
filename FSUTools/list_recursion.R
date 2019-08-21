@@ -19,8 +19,16 @@ x <- list(a = c(1,2,3), b = c(4,5,6),
           c = list(x = c(9,8,7), y = c("a", "b"), 
                    z = list(zztop = "PlayBoyCarti")))
 
+## add a fourth nested layer WITHOUT HAVING TO MODIFY FUNCTION
+xx <- x <- list(a = c(1,2,3), b = c(4,5,6), 
+                c = list(x = c(9,8,7), y = c("a", "b"), 
+                         z = list(zztop = "PlayBoyCarti", yet_another_list=list(blah= c(7,7,7)))))
+
+
 # try it out
 foo(x)
+
+foo(xx)
 
 
 ## a real example, what if an lapply() or mapply() returns a mix of NULLs, server fail requests (as a vector), and data.frames?
