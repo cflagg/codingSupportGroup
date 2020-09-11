@@ -1,37 +1,14 @@
 ### programming functions with dplyr: bang bang and quosures
+# in particular, examples of how to specify multiple column names when using dplyr functions within a custom function
 #### https://www.r-bloggers.com/bang-bang-how-to-program-with-dplyr/
 #### https://tidyeval.tidyverse.org/dplyr.html using vars(column_names, ...) and !!! 
 ##### using curly braces https://dplyr.tidyverse.org/articles/programming.html
 ##### more bullshit https://stackoverflow.com/questions/57007865/specifying-multiple-variables-to-group-by-via-explicit-argument-with-unquoted-el
 ##### https://stackoverflow.com/questions/52718604/passing-a-list-of-arguments-to-a-function-with-quasiquotation
-
 #### http://rstudio-pubs-static.s3.amazonaws.com/328769_e8a0152e155b4163b4a54473adcea229.html
+
 library(dplyr)
 library(rlang)
-### single parameter
-fildf <- function(df, colname){
-  
-  colname <- enquo(colname)
-  
-  select(df, !! colname)
-  
-}
-
-# test
-fildf(mpg, "trans") %>% head
-fildf(os, trans) %>% head
-
-## pass multiple parameters to same argument
-fildf2 <- function(df, colname, ...){
-  
-  cols <- enquos(colname)
-  
-  select(df, !!! cols)
-  
-}
-
-# test
-fildf2(mtcars, c("gear", 'vs'))
 
 #### First Method ####
 ## practice quosures
@@ -47,7 +24,7 @@ fxq <- function(data, group_var, event_var = NULL){
 ## this requires the user to encapsulate inputs inside `vars()`, which is lame and not intuitive
 fxq(mtcars, group_var = vars(am, hp), event_var = vars(cyl))
 
-#### Second method ####
+#### Second Method - single column specification only ####
 #### try yet another way, using curly braces (doesn't seem to work with more than one column passed to group_var)
 fxq2 <- function(data, group_var, event_var = NULL){
   
