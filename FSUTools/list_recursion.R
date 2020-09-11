@@ -9,6 +9,7 @@ foo <- function(i){
         if (is.list(x)){
             foo(x) # if you hit another list, re-use this function!
         } else {
+            # data.frame(x)
             return(x) # if it's not a list, return the object values
         }
     })
@@ -22,12 +23,14 @@ x <- list(a = c(1,2,3), b = c(4,5,6),
 ## add a fourth nested layer WITHOUT HAVING TO MODIFY FUNCTION
 xx <- x <- list(a = c(1,2,3), b = c(4,5,6), 
                 c = list(x = c(9,8,7), y = c("a", "b"), 
-                         z = list(zztop = "PlayBoyCarti", yet_another_list=list(blah= c(7,7,7)))))
+                         z = list(zztop = "PlayBoyCarti", 
+                                  yet_another_list=list(blah= c(7,7,7)))))
 
 
 # try it out
 foo(x)
 
+## 
 foo(xx)
 
 
